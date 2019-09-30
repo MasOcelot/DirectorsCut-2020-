@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- STATUS -->
+    <LinearLayout
+        android:id="@+id/LL_Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:weightSum="3">
+
+        <Button
+            android:id="@+id/bout_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="@string/bout_reset"
+            android:layout_weight="1"
+            android:background="@color/buttonHighlight1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <Button
+            android:id="@+id/bout_minuteBreak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btnMinuteInactive"
+            android:background="@color/buttonHighlight2"
+            />
+
+        <Button
+            android:id="@+id/bout_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="@string/bout_submit"
+            android:layout_weight="1"
+            android:background="@color/buttonHighlight1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+    </LinearLayout>
+
+    <!-- CLOCK-->
+    <TextView
+        android:id="@+id/clock_timer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/timeInitial"
+        android:gravity="center"
+        android:text="@string/clockTime"
+        android:textSize="144sp"
+        app:layout_constraintBottom_toTopOf="@id/LL_name_bar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/LL_Header" />
+
+
+
+    <!-- NAMES -->
+    <LinearLayout
+        android:id="@+id/LL_name_bar"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        app:layout_constraintBottom_toTopOf="@id/LL_bottom"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clock_timer">
+
+        <Button
+            android:id="@+id/name_FOTL"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorFOTL"
+            android:text="@string/name_FOTL"
+            android:textColor="#000000"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/name_FOTR"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorFOTR"
+            android:text="@string/name_FOTR"
+            android:textColor="#000000"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <!-- CONTROLS -->
+    <LinearLayout
+        android:id="@+id/LL_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="vertical"
+        android:weightSum="4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <!-- TOP -->
+        <LinearLayout
+            android:id="@+id/control_top"
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <Button
+                android:id="@+id/plus_FOTL"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorFOTL"
+                android:text="@string/ScorePlus"
+                android:textColor="#000000" />
+
+            <Button
+                android:id="@+id/double_touch"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="#000000"
+                android:text="@string/ScoreDouble"
+                android:textColor="#FFFFFF"/>
+
+            <Button
+                android:id="@+id/plus_FOTR"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorFOTR"
+                android:text="@string/ScorePlus"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- MID -->
+        <LinearLayout
+            android:id="@+id/control_mid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <TextView
+                android:id="@+id/score_FOTL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/fotl_temp"
+                android:textSize="90sp" />
+
+            <Button
+                android:id="@+id/time_toggle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@color/timeBtnInit"
+                android:text="@string/timerBtnInit"
+                android:textColor="@color/timeBtnText"
+                android:textSize="32sp"
+                app:layout_constraintBottom_toTopOf="@id/radial_card" />
+
+            <TextView
+                android:id="@+id/score_FOTR"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/fotr_temp"
+                android:textSize="90sp" />
+        </LinearLayout>
+
+        <!-- BOT -->
+        <LinearLayout
+            android:id="@+id/control_bot"
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <Button
+                android:id="@+id/minus_FOTL"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorFOTL"
+                android:text="@string/ScoreMinus"
+                android:textColor="#000000" />
+
+            <Button
+                android:id="@+id/radial_card"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="@string/PenaltyFlag"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <Button
+                android:id="@+id/minus_FOTR"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorFOTR"
+                android:text="@string/ScoreMinus"
+                android:textColor="#000000" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

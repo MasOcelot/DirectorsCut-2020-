@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="buttonHighlight1">#FF9800</color>
+    <color name="buttonHighlight2">#BA31D1</color>
+
+    <!--<color name="colorFOTL">#FF00BF</color>-->
+    <!--<color name="colorFOTR">#00EAFF</color>-->
+    <color name="colorFOTL">#E91E63</color>
+    <color name="colorFOTR">#00D4B4</color>
+    4CAF50
+    <color name="timeInitial">#4CAF50</color>
+    <color name="timeResumed">#00FF00</color>
+    <color name="timeStopped">#FFEB3B</color>
+    <color name="timeFinal">#673AB7</color>
+
+    <color name="timeTextInit">#FFFFFF</color>
+    <color name="timeTextRes">#505050</color>
+    <color name="timeTextStop">#505050</color>
+    <color name="timeTextFin">#FFFFFF</color>
+
+    <color name="timeBtnInit">#3F51B5</color>
+    <color name="timeBtnResumed">#00FF00</color>
+    <color name="timeBtnStopped">#FFEB3B</color>
+    <color name="timeBtnResBreak">#FF9800</color>
+    <color name="timeBtnStopBreak">#BA31D1</color>
+    <color name="timeBtnFinal">#2196F3</color>
+    <color name="timeBtnText">#FFFFFF</color>
+
+
+</resources>

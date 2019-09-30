@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">DirectorsCut</string>
+    <string name="fotl_temp">0</string>
+    <string name="fotr_temp">0</string>
+    <string name="name_FOTL">FENCER B</string>
+    <string name="name_FOTR">FENCER A</string>
+    <string name="timerBtnInit">BEGIN</string>
+    <string name="ScorePlus">+</string>
+    <string name="ScoreDouble"><![CDATA[< DOUBLE >]]></string>
+    <string name="ScoreMinus">-</string>
+    <string name="PenaltyFlag">FLAG</string>
+    <string name="clockTime">3:00</string>
+    <string name="bout_reset">Clear</string>
+    <string name="bout_submit">Continue</string>
+    <string name="timeBtnStart">START</string>
+    <string name="timeBtnStop">STOP</string>
+    <string name="timeBtnFinal">HOLD TO RESET</string>
+    <string name="btnMinuteActive">RESUME BOUT</string>
+    <string name="btnMinuteInactive">1:00</string>
+</resources>
