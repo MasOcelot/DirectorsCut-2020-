@@ -1,5 +1,6 @@
 package com.example.android.directorscut;
 
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
+    private static final String FOTL_INTENT = "score_fotl";
     private TextView countdownText;
 
     private Button boutReset;
@@ -21,9 +23,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button doubleTouch;
     private Button countdownButton;
 
-    private int TIME_INTERVAL_MIL = 1;
-    private long TIME_MIN_THREE = 180000;
-    private long TIME_MIN_ONE = 60000;
+    private final int TIME_INTERVAL_MIL = 1;
+    private final long TIME_MIN_THREE = 180000;
+    private final long TIME_MIN_ONE = 60000;
     private long TIME_DURATION = TIME_MIN_THREE;
 
     private CountDownTimer countDownTimer;
@@ -103,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (!timerRunning) {
             switch (view.getId()) {
+                case R.id.bout_submit:
+                    submit();
+                    break;
                 // Minute
                 case R.id.bout_minuteBreak:
                     if (!timerMinute) {
@@ -293,6 +298,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         makeToast("Break is over!");
     }
 
-
+    public void submit() {
+        Intent poolAct = new Intent(this, Pool.class);
+        TextView rightScore = (TextView) findViewById(R.id.score_FOTR);
+        String numFencers = rightScore.getText().toString();
+        int count = Integer.parseInt(numFencers);
+        poolAct.putExtra(FOTL_INTENT, count);
+        startActivity(poolAct);
+    }
 
 }

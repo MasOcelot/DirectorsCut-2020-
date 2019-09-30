@@ -9,19 +9,19 @@ import android.widget.TextView;
 
 public class Pool extends AppCompatActivity {
 
+    private static final String FOTL_INTENT = "score_fotl";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pool);
-        generateGrid(4);
+
+        int count = getIntent().getIntExtra(FOTL_INTENT, 0);
+        generateGrid(count);
     }
 
     public void generateGrid (Integer numFencers) {
         final LinearLayout grid = findViewById(R.id.poolGrid);
-
-        LinearLayout.LayoutParams gridParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT
-        );
 
         for (int i=0; i<numFencers; i++) {
             // Row LinLayout (Horizontal)
@@ -39,6 +39,16 @@ public class Pool extends AppCompatActivity {
             fencerRow.addView(fencerName);
 
             // Button Array
+            LinearLayout fencerScores = new LinearLayout(this);
+            fencerScores.setOrientation(LinearLayout.HORIZONTAL);
+            fencerScores.setWeightSum(numFencers);
+
+            // Add Cells
+            LinearLayout.LayoutParams btnParam = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    1.0f
+            );
             for (int j=0; j<numFencers; j++) {
                 Button opponent = new Button(this);
                 if (i==j) {
@@ -47,8 +57,11 @@ public class Pool extends AppCompatActivity {
                 } else {
                     opponent.setText("-");
                 }
-                fencerRow.addView(opponent);
+                opponent.setLayoutParams(btnParam);
+                fencerScores.addView(opponent);
+
             }
+            fencerRow.addView(fencerScores);
 
             grid.addView(fencerRow);
         }
