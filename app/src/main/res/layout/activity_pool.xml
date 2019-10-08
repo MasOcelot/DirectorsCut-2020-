@@ -6,27 +6,190 @@
     android:layout_height="match_parent"
     tools:context=".Pool">
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="404dp"
-        android:layout_height="378dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginRight="7dp"
+    <!--<LinearLayout-->
+    <!--android:id="@+id/poolGrid"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/ll_label_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
 
-        <LinearLayout
-            android:id="@+id/poolGrid"
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/tv_label_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_weight="1"
+            android:background="#4CAF50"
+            android:gravity="center"
+            android:text="@string/label_name"
+            android:textSize="24sp" />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_label_opNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="#009688"
+            android:gravity="center"
+            android:text="@string/label_opNum"
+            android:textSize="24sp" />
+    </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    <GridView
+        android:id="@+id/gv_main_scores"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        android:gravity="center"
+        android:numColumns="6"
+        android:columnWidth="60dp"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"
+        android:stretchMode="spacingWidthUniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_label_top"/>
+
+    <LinearLayout
+        android:id="@+id/ll_label_mid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gv_main_scores">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="#4CAF50"
+            android:gravity="bottom|center"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="#FFC107"
+            android:gravity="bottom|center"
+            android:text="@string/label_sc_v"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="#FFEB3B"
+            android:gravity="bottom|center"
+            android:text="@string/label_sc_ts"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="#FFC107"
+            android:gravity="bottom|center"
+            android:text="@string/label_sv_tr"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="#FFEB3B"
+            android:gravity="bottom|center"
+            android:text="@string/label_sv_ind"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="#FFC107"
+            android:gravity="bottom|center"
+            android:text="@string/label_sv_pl"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:background="#2196F3"
+            android:gravity="bottom|center"
+            android:text="@string/bout_order"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:weightSum="15"
+        android:baselineAligned="false"
+        app:layout_constraintBottom_toTopOf="@id/ll_label_bot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_label_mid"
+        >
+        <ListView
+            android:id="@+id/lv_fencer_results"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9" />
+
+        <ListView
+            android:id="@+id/lv_bout_list"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_label_bot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_redo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
 
 
 </android.support.constraint.ConstraintLayout>

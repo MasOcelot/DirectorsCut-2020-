@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_fencer_results"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_weight="9">
+
+    <TextView
+        android:id="@+id/tv_result_fencerNum"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:textSize="18sp"
+        android:gravity="end"
+        android:textStyle="italic"
+        android:text="@string/result_num"/>
+
+    <TextView
+        android:id="@+id/tv_result_v"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:text="@string/results_v"/>
+
+    <TextView
+        android:id="@+id/tv_result_ts"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:text="@string/result_ts"/>
+
+    <TextView
+        android:id="@+id/tv_result_tr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:text="@string/result_tr"/>
+
+    <TextView
+        android:id="@+id/tv_result_ind"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:text="@string/result_ind"/>
+
+    <TextView
+        android:id="@+id/tv_result_pl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="@string/result_pl"/>
+
+
+</LinearLayout>

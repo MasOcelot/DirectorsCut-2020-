@@ -17,4 +17,25 @@
     <string name="timeBtnFinal">HOLD TO RESET</string>
     <string name="btnMinuteActive">RESUME BOUT</string>
     <string name="btnMinuteInactive">1:00</string>
+
+    // Pool
+    <string name="label_name">Fencer</string>
+    <string name="label_opNum">Opponent_Number</string>
+    <string name="label_number">No.</string>
+    <string name="label_result">V|TS|TR|Ind|Pl</string>
+    <string name="bout_order">Bout</string>
+    <string name="label_sc_v">V</string>
+    <string name="label_sc_ts">TS</string>
+    <string name="label_sv_tr">TR</string>
+    <string name="label_sv_ind">Ind</string>
+    <string name="label_sv_pl">Pl</string>
+    <string name="boutBox_fullNames">Name_FOTR - Name_FOTL</string>
+    <string name="boutBox_fencerIDs">(idL-idR)</string>
+    <string name="boutBox_scores">L-R</string>
+    <string name="result_num">NUM</string>
+    <string name="results_v">V</string>
+    <string name="result_ts">TS</string>
+    <string name="result_tr">TR</string>
+    <string name="result_ind">IND</string>
+    <string name="result_pl">PL</string>
 </resources>

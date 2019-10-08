@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
-    private static final String FOTL_INTENT = "score_fotl";
+    private static final String INTENT_FOTL_SCORE = "score_fotl";
     private TextView countdownText;
 
     private Button boutReset;
@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView rightScore = (TextView) findViewById(R.id.score_FOTR);
         String numFencers = rightScore.getText().toString();
         int count = Integer.parseInt(numFencers);
-        poolAct.putExtra(FOTL_INTENT, count);
+        poolAct.putExtra(INTENT_FOTL_SCORE, count);
         startActivity(poolAct);
     }
 
