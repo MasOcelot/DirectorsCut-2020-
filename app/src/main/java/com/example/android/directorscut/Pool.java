@@ -13,6 +13,11 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 public class Pool extends AppCompatActivity {
@@ -37,12 +42,14 @@ public class Pool extends AppCompatActivity {
         randomScores();
         initializeScores();
         updateScores();
+        markPlaces();
         ScoresAdapter scoresAdapter = new ScoresAdapter(this, scores);
         scoresGrid.setAdapter(scoresAdapter);
         BoutListAdapter boutsAdapter = new BoutListAdapter(this, bouts);
         boutList.setAdapter(boutsAdapter);
         FencerResultAdapter resultAdapter = new FencerResultAdapter(this, fencers);
         resultList.setAdapter(resultAdapter);
+
     }
 
     public void fillScores(Bout bout, int numFencers) {
@@ -95,13 +102,16 @@ public class Pool extends AppCompatActivity {
             new Fencer("Alpha"),
             new Fencer("Bravo"),
             new Fencer("Charlie"),
-            new Fencer(),
-            new Fencer()
+            new Fencer("Delta"),
+            new Fencer("Echo")
     };
 
     private void updateScores() {
         for (Bout bout : bouts) {
             if (bout.isComplete()) fillScores(bout, NUM_FEN);
+        }
+        for (Fencer fencer : fencers) {
+            System.out.println(fencer);
         }
     }
 
@@ -124,7 +134,7 @@ public class Pool extends AppCompatActivity {
     private void randomScores() {
         for (Bout bout : bouts){
             boolean coinFlip = random.nextBoolean();
-            if (coinFlip) {
+            if (true) {
                 bout.setComplete(true);
             }
             int theirs = 5;
@@ -136,5 +146,37 @@ public class Pool extends AppCompatActivity {
             bout.setOpScore(theirs);
         }
     }
+
+    private void markPlaces() {
+        //sort fencers by indicator, descending
+        //sort fencers by victories, descending
+        Arrays.sort(fencers, Fencer.fencerPlacementComparator);
+        System.out.println("SORTED");
+        for (Fencer fencer : fencers) {
+            System.out.println(fencer);
+        }
+        int place = 0;
+        int prevVic = -1;
+        int prevInd = -1;
+        System.out.println("Placed");
+        for (Fencer fencer : fencers) {
+            if (prevVic != fencer.getVic() || prevInd != fencer.getInd()){
+                place++;
+            }
+            fencer.setPlace(place);
+            prevVic = fencer.getVic();
+            prevInd = fencer.getInd();
+            System.out.println(fencer);
+        }
+
+        Arrays.sort(fencers);
+        System.out.println("ORIGINAL ORDER");
+        for (Fencer fencer : fencers) {
+            System.out.println(fencer);
+        }
+    }
+
+
+
 
 }

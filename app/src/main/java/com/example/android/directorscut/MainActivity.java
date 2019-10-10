@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         countdownText = (TextView) findViewById(R.id.clock_timer);
         countdownButton = (Button) findViewById(R.id.time_toggle);
         doubleTouch = (Button) findViewById(R.id.double_touch);
-        nameFOTL = (Button) findViewById(R.id.name_FOTL);
-        nameFOTR = (Button) findViewById(R.id.name_FOTR);
+        nameFOTL = (Button) findViewById(R.id.btn_name_FOTL);
+        nameFOTR = (Button) findViewById(R.id.btn_name_FOTR);
 
         // BUTTONS
         // Bout Status
@@ -121,11 +121,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     scoreL++;
                     scoreR++;
                     break;
-                case R.id.name_FOTL:
+                case R.id.btn_name_FOTL:
                 case R.id.plus_FOTL:
                     scoreL++;
                     break;
-                case R.id.name_FOTR:
+                case R.id.btn_name_FOTR:
                 case R.id.plus_FOTR:
                     scoreR++;
                     break;

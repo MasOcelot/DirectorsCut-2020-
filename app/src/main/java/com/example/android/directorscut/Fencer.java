@@ -1,9 +1,12 @@
 package com.example.android.directorscut;
 
-public class Fencer {
-    static int numFencers;
-    static int genericFencers = 1;
+import java.util.Comparator;
+
+public class Fencer implements Comparable< Fencer > {
+    private static int numFencers;
+    private static int genericFencers = 1;
     private String lastName;
+    private int localIndex;
     private int vic;
     private int ts;
     private int tr;
@@ -11,14 +14,22 @@ public class Fencer {
     private int place;
     private boolean leftHanded = false;
 
-    public Fencer(String Name) {
+    public Fencer(String name) {
+        this.setLocalIndex(numFencers);
         numFencers++;
-        this.lastName = Name;
+        this.lastName = name;
     }
 
     public Fencer() {
         this("JonDow_" + genericFencers);
         genericFencers++;
+    }
+
+    @Override
+    public String toString() {
+        return "Fencer" + this.getLocalIndex() +
+                "[Name: "  + this.getLastName() + " " +
+                this.getPlace() + "(" + this.getVic() + "," + this.getInd() + ")]";
     }
 
     // Getters
@@ -30,8 +41,12 @@ public class Fencer {
         return numFencers;
     }
 
-    public int getVic() {
+    public Integer getVic() {
         return vic;
+    }
+
+    public int getLocalIndex() {
+        return localIndex;
     }
 
     public int getTS() {
@@ -55,6 +70,10 @@ public class Fencer {
     }
 
     // Setters
+    public void setLocalIndex(int index){
+        this.localIndex = index;
+    }
+
     public void setPlace(int place) {
         this.place = place;
     }
@@ -89,6 +108,34 @@ public class Fencer {
         this.tr += opScore;
         updateInd();
     }
+
+    // Comparators
+    @Override
+    public int compareTo(Fencer fencer){
+        // Sort by original order
+        return localIndex - fencer.getLocalIndex();
+    }
+
+    public static Comparator<Fencer> fencerPlacementComparator = new Comparator<Fencer>() {
+        // Sort by Place, then by Indicator
+        @Override
+        public int compare(Fencer me, Fencer fencer) {
+            int comp = fencer.getVic() - me.vic;
+            if (comp != 0) {
+                return comp;
+            }
+            return fencer.getInd() - me.ind;
+        }
+    };
+
+    public static Comparator<Fencer> fencerIndexComparator = new Comparator<Fencer>() {
+        @Override
+        public int compare(Fencer f0, Fencer f1) {
+            int index0 = f0.getLocalIndex();
+            int index1 = f1.getLocalIndex();
+            return index0 - index1;
+        }
+    };
 
 
 
