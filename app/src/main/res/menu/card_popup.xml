@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/flag_black"
+        android:id="@+id/item_card_black"
+        android:title="@string/card_black"/>
+    <item
+        android:icon="@drawable/flag_red"
+        android:id="@+id/item_card_red"
+        android:title="@string/card_red"/>
+    <item
+        android:icon="@drawable/flag_yellow"
+        android:id="@+id/item_card_yellow"
+        android:title="@string/card_yellow"/>
+</menu>

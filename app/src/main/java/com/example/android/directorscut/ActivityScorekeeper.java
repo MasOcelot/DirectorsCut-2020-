@@ -4,14 +4,36 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
-    private static final String INTENT_FOTL_SCORE = "score_fotl";
+import org.jetbrains.annotations.Nullable;
+
+public class ActivityScorekeeper extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener {
+    // INTENTS
+    // Bout
+    private static final String INTENT_BOUT_INDEX = "bout_index";
+    private static final String INTENT_BOUT = "bout_object";
+    // Card
+    private static final String INTENT_CARD_NAME = "card_name";
+    private static final String INTENT_CARD_SIDE = "card_side";
+    private static final String INTENT_CARD_TYPE = "card_type";
+
+    private String cardName = "";
+    private String cardSide = "";
+
+    private static final int REQCODE_CARD = 1;
+
     private TextView countdownText;
+    private Bout bout;
+    private int activeBout;
 
     private Button boutReset;
     private Button boutMinuteBreak;
@@ -22,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button doubleTouch;
     private Button countdownButton;
+
+    private TextView scoreTextViewL;
+    private TextView scoreTextViewR;
 
     private final int TIME_INTERVAL_MIL = 1;
     private final long TIME_MIN_THREE = 180000;
@@ -39,7 +64,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_scorekeeper);
+        String FOTR = "RIGHT";
+        String FOTL = "LEFT";
+
+        Intent intent = getIntent();
+        if (intent.hasExtra(INTENT_BOUT)) {
+            bout = intent.getParcelableExtra(INTENT_BOUT);
+            FOTR = bout.getMyName();
+            FOTL = bout.getOpName();
+        } else {
+            bout = new Bout(0, 0);
+        }
+        if (intent.hasExtra(INTENT_BOUT_INDEX)) {
+            activeBout = intent.getIntExtra(INTENT_BOUT_INDEX, 0);
+        }
+
+        scoreTextViewL = (TextView) findViewById(R.id.score_FOTL);
+        scoreTextViewR = (TextView) findViewById(R.id.score_FOTR);
 
         boutReset = (Button) findViewById(R.id.bout_reset);
         boutMinuteBreak = (Button) findViewById(R.id.bout_minuteBreak);
@@ -62,7 +104,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         countdownButton.setOnLongClickListener(this);
         // Score
         nameFOTL.setOnClickListener(this);
+        nameFOTL.setText(FOTL);
         nameFOTR.setOnClickListener(this);
+        nameFOTR.setText(FOTR);
         Button plusLeft = (Button) findViewById(R.id.plus_FOTL);
         plusLeft.setOnClickListener(this);
         Button plusRight = (Button) findViewById(R.id.plus_FOTR);
@@ -73,19 +117,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         minusLeft.setOnClickListener(this);
         Button minusRight = (Button) findViewById(R.id.minus_FOTR);
         minusRight.setOnClickListener(this);
+        scoreTextViewL.setText(bout.getOpScore().toString());
+        scoreTextViewR.setText(bout.getMyScore().toString());
     }
 
     @Override
     public void onClick(View view) {
         // Get score from TextView
-        TextView scoreTextViewL = (TextView) findViewById(R.id.score_FOTL);
-        TextView scoreTextViewR = (TextView) findViewById(R.id.score_FOTR);
-        // Score TextView value as String
-        String scoreStringL = scoreTextViewL.getText().toString();
-        String scoreStringR = scoreTextViewR.getText().toString();
-        // intConvert and Increment
-        Integer scoreL = Integer.parseInt(scoreStringL);
-        Integer scoreR = Integer.parseInt(scoreStringR);
         switch(view.getId()) {
             case R.id.clock_timer:
             case R.id.time_toggle:
@@ -118,48 +156,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 // Scores
                 case R.id.double_touch:
-                    scoreL++;
-                    scoreR++;
+                    bout.addDouble();
                     break;
                 case R.id.btn_name_FOTL:
                 case R.id.plus_FOTL:
-                    scoreL++;
+                    bout.addOpScore();
                     break;
                 case R.id.btn_name_FOTR:
                 case R.id.plus_FOTR:
-                    scoreR++;
+                    bout.addMyScore();
                     break;
                 case R.id.minus_FOTL:
-                    if (scoreL > 0) scoreL--;
+                    if (bout.getOpScore() > 0) bout.subOpScore();
                     break;
                 case R.id.minus_FOTR:
-                    if (scoreR > 0) scoreR--;
+                    if (bout.getMyScore() > 0) bout.subMyScore();
                     break;
             }
         }
         // send to TextView
-        scoreTextViewL.setText(scoreL.toString());
-        scoreTextViewR.setText(scoreR.toString());
+        scoreTextViewL.setText(bout.getOpScore().toString());
+        scoreTextViewR.setText(bout.getMyScore().toString());
     }
 
     @Override
     public boolean onLongClick(View view){
         // Get score from TextView
-        TextView scoreTextViewL = (TextView) findViewById(R.id.score_FOTL);
-        TextView scoreTextViewR = (TextView) findViewById(R.id.score_FOTR);
-        // Score TextView value as String
-        String scoreStringL = scoreTextViewL.getText().toString();
-        String scoreStringR = scoreTextViewR.getText().toString();
-        // intConvert and Increment
-        Integer scoreL = Integer.parseInt(scoreStringL);
-        Integer scoreR = Integer.parseInt(scoreStringR);
         switch(view.getId()) {
             case R.id.time_toggle:
                 if (!timerDone) break;
             case R.id.bout_reset:
                 if (!timerRunning) {
-                    scoreL = 0;
-                    scoreR = 0;
+                    bout.setOpScore(0);
+                    bout.setMyScore(0);
                     resetBout();
                     makeToast("Resetting Bout");
                 } else {
@@ -167,15 +196,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.double_touch:
-                if (scoreL > 0) scoreL--;
-                if (scoreR > 0) scoreR--;
+                bout.subDouble();
                 break;
             case R.id.bout_submit:
                 break;
         }
         // send to TextView
-        scoreTextViewL.setText(scoreL.toString());
-        scoreTextViewR.setText(scoreR.toString());
+        scoreTextViewL.setText(bout.getOpScore().toString());
+        scoreTextViewR.setText(bout.getMyScore().toString());
         return true;
     }
 
@@ -231,8 +259,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             countdownButton.setBackgroundColor(getResources().getColor(R.color.timeBtnStopped));
             countdownText.setBackgroundColor(getResources().getColor(R.color.timeStopped));
         }
-
-
         timerRunning = false;
     }
 
@@ -299,12 +325,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void submit() {
-        Intent poolAct = new Intent(this, Pool.class);
-        TextView rightScore = (TextView) findViewById(R.id.score_FOTR);
-        String numFencers = rightScore.getText().toString();
-        int count = Integer.parseInt(numFencers);
-        poolAct.putExtra(INTENT_FOTL_SCORE, count);
-        startActivity(poolAct);
+        if (bout.getMyScore() != bout.getOpScore()) {
+            Intent resultSK = new Intent(this, ActivityPool.class);
+            bout.endBout();
+            System.out.println(bout);
+            resultSK.putExtra(INTENT_BOUT, bout);
+            resultSK.putExtra(INTENT_BOUT_INDEX, activeBout);
+            setResult(RESULT_OK, resultSK);
+            finish();
+        } else {
+            makeToast("Cannot End on a Tie!");
+        }
     }
 
+    public void cardPopup(View v) {
+        PopupMenu cardMenu = new PopupMenu(this, v);
+        switch (v.getId()) {
+            case R.id.radial_card_left:
+                cardName = bout.getOpName();
+                cardSide = "Left";
+                break;
+            case R.id.radial_card_right:
+                cardName = bout.getMyName();
+                cardSide = "Right";
+                break;
+        }
+        cardMenu.setOnMenuItemClickListener(this);
+        cardMenu.inflate(R.menu.card_popup);
+        cardMenu.show();
+    }
+
+    public void createCard(int color) {
+        Intent cardIntent = new Intent(ActivityScorekeeper.this, ActivityCard.class);
+        cardIntent.putExtra(INTENT_CARD_TYPE, color);
+        cardIntent.putExtra(INTENT_CARD_NAME, cardName);
+        cardIntent.putExtra(INTENT_CARD_SIDE, cardSide);
+        startActivityForResult(cardIntent, REQCODE_CARD);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.item_card_yellow:
+                createCard(0);
+                return true;
+            case R.id.item_card_red:
+                createCard(1);
+                return true;
+            case R.id.item_card_black:
+                createCard(2);
+                return true;
+        }
+        return false;
+    }
 }

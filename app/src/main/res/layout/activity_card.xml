@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityCard">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+        <LinearLayout
+            android:id="@+id/LL_card"
+            android:orientation="vertical"
+            android:layout_margin="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2"
+            android:background="@android:color/holo_red_dark">
+
+            <TextView
+                android:id="@+id/tv_card_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center|bottom"
+                android:textSize="76sp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:text="@string/card_fencer_name"/>
+
+            <TextView
+                android:id="@+id/tv_card_side"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center|top"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"
+                android:textStyle="italic"
+                android:text="@string/card_side"/>
+
+        </LinearLayout>
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

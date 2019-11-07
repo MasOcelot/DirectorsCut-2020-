@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView android:id="@+id/ll_boutBox"
+    android:orientation="vertical"
+    android:gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="2dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp">
+        <TextView
+            android:id="@+id/tv_boutBox_IDs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/boutBox_fencerIDs"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tv_boutBox_scores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:gravity="center"
+            android:text="@string/boutBox_scores" />
+
+
+        <TextView
+            android:id="@+id/tv_boutBox_fullNames"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_boutBox_IDs"
+            android:layout_marginTop="2dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:text="@string/boutBox_fullNames" />
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

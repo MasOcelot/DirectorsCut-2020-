@@ -90,6 +90,27 @@ public class Fencer implements Comparable< Fencer > {
         this.ind = ts - tr;
     }
 
+    //Resetters
+    public void reset() {
+        resetVic();
+        resetTR();
+        resetTS();
+        updateInd();
+        setPlace(0);
+    }
+
+    public void resetTS() {
+        ts = 0;
+    }
+
+    public void resetTR() {
+        tr = 0;
+    }
+
+    public void resetVic() {
+        vic = 0;
+    }
+
     // Math
     public void addVictory(int numVics) {
         this.vic += numVics;

@@ -12,9 +12,9 @@
     <color name="colorFOTL">#E91E63</color>
     <color name="colorFOTR">#00D4B4</color>
     4CAF50
-    <color name="timeInitial">#4CAF50</color>
-    <color name="timeResumed">#00FF00</color>
-    <color name="timeStopped">#FFEB3B</color>
+    <color name="timeInitial">#009688</color>
+    <color name="timeResumed">#FFC107</color>
+    <color name="timeStopped">#4CAF50</color>
     <color name="timeFinal">#673AB7</color>
 
     <color name="timeTextInit">#FFFFFF</color>
@@ -23,12 +23,16 @@
     <color name="timeTextFin">#FFFFFF</color>
 
     <color name="timeBtnInit">#3F51B5</color>
-    <color name="timeBtnResumed">#00FF00</color>
-    <color name="timeBtnStopped">#FFEB3B</color>
+    <color name="timeBtnResumed">#FFC107</color>
+    <color name="timeBtnStopped">#4CAF50</color>
     <color name="timeBtnResBreak">#FF9800</color>
     <color name="timeBtnStopBreak">#BA31D1</color>
     <color name="timeBtnFinal">#2196F3</color>
     <color name="timeBtnText">#FFFFFF</color>
+
+    <color name="card_yellow">#FFEB3B</color>
+    <color name="card_red">#FF0000</color>
+    <color name="card_black">#000000</color>
 
 
 </resources>

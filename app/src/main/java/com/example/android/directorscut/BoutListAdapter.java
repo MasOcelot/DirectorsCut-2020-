@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class BoutListAdapter extends BaseAdapter {
 
     private final Context mContext;
@@ -42,7 +40,7 @@ public class BoutListAdapter extends BaseAdapter {
 
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.linearlayout_bout, null);
+            convertView = layoutInflater.inflate(R.layout.cardview_bout, null);
         }
 
         final TextView idTextView =

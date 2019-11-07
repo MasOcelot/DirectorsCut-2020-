@@ -59,6 +59,8 @@ public class ScoresAdapter extends BaseAdapter {
             if (score.isVictory()) {
                 victoryTextView.setText("Victory");
                 finalScore += "V";
+            } else {
+                victoryTextView.setText("");
             }
             if (score.isShow()) {
                 finalScore += Integer.toString(score.getScore());

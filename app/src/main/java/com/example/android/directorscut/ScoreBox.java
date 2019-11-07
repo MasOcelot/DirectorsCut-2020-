@@ -5,6 +5,7 @@ public class ScoreBox {
     private boolean victory = false;
     private boolean black = false;
     private boolean show = false;
+    private boolean tie = false;
 
     public ScoreBox(int score) {
         this.score = score;
@@ -26,8 +27,16 @@ public class ScoreBox {
         return victory;
     }
 
+    public boolean isTie() {
+        return tie;
+    }
+
     public void setVictory(boolean isVictory) {
         this.victory = isVictory;
+    }
+
+    public void setTie(boolean isTie) {
+        this.tie = isTie;
     }
 
     public void toggleVictory() {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pool">
+    tools:context=".ActivityPool">
 
     <!--<LinearLayout-->
     <!--android:id="@+id/poolGrid"-->
@@ -156,11 +156,14 @@
             android:layout_height="match_parent"
             android:layout_weight="9" />
 
-        <ListView
-            android:id="@+id/lv_bout_list"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_bout_list"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="6"/>
+            android:layout_weight="6"
+            android:scrollbars="vertical"
+            android:padding="2dp"
+            android:background="@android:color/darker_gray"/>
 
     </LinearLayout>
 
@@ -175,15 +178,17 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/btn_redo"
+            android:id="@+id/PL_btn_redo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="Redo Bout"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
         <Button
+            android:id="@+id/PL_btn_next_bout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
