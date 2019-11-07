@@ -8,7 +8,8 @@
     <string name="ScorePlus">+</string>
     <string name="ScoreDouble"><![CDATA[< DOUBLE >]]></string>
     <string name="ScoreMinus">-</string>
-    <string name="PenaltyFlag">FLAG</string>
+    <string name="PenaltyFlagL">CARD</string>
+    <string name="PenaltyFlagR">CARD</string>
     <string name="clockTime">3:00</string>
     <string name="bout_reset">Clear</string>
     <string name="bout_submit">Continue</string>
@@ -38,4 +39,13 @@
     <string name="result_tr">TR</string>
     <string name="result_ind">IND</string>
     <string name="result_pl">PL</string>
+    <string name="number_of_fencers">Number of Fencers:</string>
+    <string name="score_limit">Score Limit:</string>
+    <string name="bout_only">Bout Only</string>
+    <string name="create_pool">Create Pool</string>
+    <string name="card_fencer_name">Fencer Name</string>
+    <string name="card_side">Side</string>
+    <string name="card_black">BLACK</string>
+    <string name="card_red">RED</string>
+    <string name="card_yellow">YELLOW</string>
 </resources>
