@@ -49,4 +49,15 @@
     <string name="card_red">RED</string>
     <string name="card_yellow">YELLOW</string>
     <string name="number_picker">Number Picker</string>
+    <string name="fd_name">Name:</string>
+    <string name="fd_rating">Rating:</string>
+    <string name="fd_club">Club:</string>
+    <string name="fd_def_club">Unattached</string>
+    <string name="fd_def_rating">Unrated</string>
+    <string name="fd_def_name">Fencer</string>
+    <string name="fd_btn_save">Save</string>
+    <string name="fd_def_index">Fencer #</string>
+    <string name="ps_add_fencer">Add Fencer</string>
+    <string name="ps_def_scorelimit">5</string>
+    <string name="ps_def_numfencers">5</string>
 </resources>
