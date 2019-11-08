@@ -3,6 +3,8 @@ package com.example.android.directorscut;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,20 +12,25 @@ import android.widget.EditText;
 import java.util.ArrayList;
 
 public class ActivityPoolSetup extends AppCompatActivity implements View.OnClickListener {
+    // INTENTS
     private static final String INTENT_NUM_FENCERS = "number_fencers";
     private static final String INTENT_SCORE_LIMIT = "score_limit";
 
+    // VIEWS
     private Button btnBoutOnly;
     private Button btnStartPool;
-
+    // Upper
     private EditText etNumFencers;
     private EditText etScoreLimit;
-
     private int numFencers = 5;
     private int scoreLimit = 0;
+    // Lower
+    private RecyclerView mRvFencer;
+    private RecyclerView.Adapter mFencerAdapter;
+    private RecyclerView.LayoutManager mLmFencer;
 
     ArrayList<Fencer> psFencers = new ArrayList<Fencer>(){{
-        add(new Fencer("Mas"));
+        add(new Fencer("Mas", 1, 2017));
         add(new Fencer("Sam"));
     }};
 
@@ -34,6 +41,7 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_pool_setup);
         setupButtons();
         setupViews();
+        bindRV();
     }
 
     @Override
@@ -46,6 +54,16 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
                 startActivityPool();
                 break;
         }
+    }
+
+    // 12 & 13 & 14
+    private void bindRV() {
+        mRvFencer = findViewById(R.id.rv_fencer_list);
+        mRvFencer.hasFixedSize();
+        mLmFencer = new LinearLayoutManager(this);
+        mFencerAdapter = new FencerSetupAdapter(psFencers);
+        mRvFencer.setLayoutManager(mLmFencer);
+        mRvFencer.setAdapter(mFencerAdapter);
     }
 
     private void setupViews() {

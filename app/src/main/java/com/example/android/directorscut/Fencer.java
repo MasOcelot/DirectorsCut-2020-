@@ -6,7 +6,9 @@ public class Fencer implements Comparable<Fencer> {
     private static int numFencers;
     private static int genericFencers = 1;
     private String lastName;
+    private String club;
     private int rating = 0;
+    private int ratingYear = 0;
     private int localIndex;
     private int vic;
     private int ts;
@@ -15,10 +17,17 @@ public class Fencer implements Comparable<Fencer> {
     private int place;
     private boolean leftHanded = false;
 
+    public Fencer(String name, int rating, int ratingYear) {
+        this(name);
+        this.setRating(rating);
+        this.setRatingYear(ratingYear);
+    }
+
     public Fencer(String name) {
         this.setLocalIndex(numFencers);
         numFencers++;
-        this.lastName = name;
+        this.setLastName(name);
+        this.setClub("Unattached");
     }
 
     public Fencer() {
@@ -70,6 +79,47 @@ public class Fencer implements Comparable<Fencer> {
         return rating;
     }
 
+    public int getRatingYear() {
+        return ratingYear;
+    }
+
+    public String getRatingString() {
+        String ratingStr = "";
+        String letter = "U";
+        switch (this.getRating()) {
+            case 1:
+                letter = "E";
+                break;
+            case 2:
+                letter = "D";
+                break;
+            case 3:
+                letter = "C";
+                break;
+            case 4:
+                letter = "B";
+                break;
+            case 5:
+                letter = "A";
+                break;
+            default:
+                letter = "U";
+        }
+        String yearString = "";
+        int year = this.getRatingYear();
+        if (year > 0) {
+            yearString = " " + year;
+        }
+        return ratingStr + letter + yearString;
+    }
+
+    public String getClub() {
+        if (this.club != null) {
+            return this.club;
+        }
+        return "";
+    }
+
     public boolean isLeftHanded() {
         return leftHanded;
     }
@@ -93,6 +143,14 @@ public class Fencer implements Comparable<Fencer> {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public void setRatingYear(int year) {
+        this.ratingYear = year;
+    }
+
+    public void setClub(String club) {
+        this.club = club;
     }
 
     public void updateInd() {
