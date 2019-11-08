@@ -20,6 +20,7 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     private Button btnBoutOnly;
     private Button btnStartPool;
     // Upper
+    private ArrayList<Fencer> mPsFencers;
     private EditText etNumFencers;
     private EditText etScoreLimit;
     private int numFencers = 5;
@@ -29,16 +30,14 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     private RecyclerView.Adapter mFencerAdapter;
     private RecyclerView.LayoutManager mLmFencer;
 
-    ArrayList<Fencer> psFencers = new ArrayList<Fencer>(){{
-        add(new Fencer("Mas", 1, 2017));
-        add(new Fencer("Sam"));
-    }};
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pool_setup);
+        createFencerList();
         setupButtons();
         setupViews();
         bindRV();
@@ -56,12 +55,19 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         }
     }
 
+    public void createFencerList() {
+        mPsFencers = new ArrayList<Fencer>(){{
+            add(new Fencer("Mas", 1, 2017));
+            add(new Fencer("Sam"));
+        }};
+    }
+
     // 12 & 13 & 14
     private void bindRV() {
         mRvFencer = findViewById(R.id.rv_fencer_list);
         mRvFencer.hasFixedSize();
         mLmFencer = new LinearLayoutManager(this);
-        mFencerAdapter = new FencerSetupAdapter(psFencers);
+        mFencerAdapter = new FencerSetupAdapter(mPsFencers);
         mRvFencer.setLayoutManager(mLmFencer);
         mRvFencer.setAdapter(mFencerAdapter);
     }

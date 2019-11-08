@@ -69,6 +69,37 @@
         android:gravity="center"
         android:hint="5"/>
 
+    <TextView
+        android:id="@+id/tv_choose_number"
+        app:layout_constraintTop_toBottomOf="@id/tv_score_limit"
+        app:layout_constraintBottom_toBottomOf="@id/np_choose_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tv_score_limit"
+        android:gravity="center_vertical|end"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:textSize="30sp"
+        android:text="@string/number_picker"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <NumberPicker
+        android:id="@+id/np_choose_number"
+        android:layout_width="75sp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/et_score_limit"
+        app:layout_constraintStart_toEndOf="@id/tv_choose_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginEnd="16sp"
+        android:layout_marginRight="16sp"
+        android:textSize="30sp"
+        android:inputType="number"
+        android:gravity="center"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_fencer_list"
         android:layout_width="match_parent"
@@ -77,7 +108,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/ll_buttons"
-        app:layout_constraintTop_toBottomOf="@id/et_score_limit"
+        app:layout_constraintTop_toBottomOf="@id/tv_choose_number"
         android:layout_marginTop="12dp"
         />
 
