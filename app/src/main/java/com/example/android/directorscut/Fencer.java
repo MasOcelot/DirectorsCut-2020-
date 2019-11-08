@@ -2,10 +2,11 @@ package com.example.android.directorscut;
 
 import java.util.Comparator;
 
-public class Fencer implements Comparable< Fencer > {
+public class Fencer implements Comparable<Fencer> {
     private static int numFencers;
     private static int genericFencers = 1;
     private String lastName;
+    private int rating = 0;
     private int localIndex;
     private int vic;
     private int ts;
@@ -65,6 +66,10 @@ public class Fencer implements Comparable< Fencer > {
         return place;
     }
 
+    public int getRating() {
+        return rating;
+    }
+
     public boolean isLeftHanded() {
         return leftHanded;
     }
@@ -84,6 +89,10 @@ public class Fencer implements Comparable< Fencer > {
 
     public void setLeftHanded(boolean leftHanded) {
         this.leftHanded = leftHanded;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public void updateInd() {

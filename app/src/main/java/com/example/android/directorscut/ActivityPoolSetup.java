@@ -7,7 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 public class ActivityPoolSetup extends AppCompatActivity implements View.OnClickListener {
+    private static final String INTENT_NUM_FENCERS = "number_fencers";
+    private static final String INTENT_SCORE_LIMIT = "score_limit";
+
     private Button btnBoutOnly;
     private Button btnStartPool;
 
@@ -17,8 +22,11 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     private int numFencers = 5;
     private int scoreLimit = 0;
 
-    private static final String INTENT_NUM_FENCERS = "number_fencers";
-    private static final String INTENT_SCORE_LIMIT = "score_limit";
+    ArrayList<Fencer> psFencers = new ArrayList<Fencer>(){{
+        add(new Fencer("Mas"));
+        add(new Fencer("Sam"));
+    }};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
