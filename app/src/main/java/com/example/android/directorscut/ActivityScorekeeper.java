@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 public class ActivityScorekeeper extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener {
     // INTENTS
     // Bout
+    private static final String INTENT_SCORE_LIMIT = "score_limit";
     private static final String INTENT_BOUT_INDEX = "bout_index";
     private static final String INTENT_BOUT = "bout_object";
     // Card
@@ -53,6 +55,8 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     private final long TIME_MIN_ONE = 60000;
     private long TIME_DURATION = TIME_MIN_THREE;
 
+    private int scoreLimit = 100;
+
     private CountDownTimer countDownTimer;
     private int timeUpdateInterval = TIME_INTERVAL_MIL;
     private long timeLeftInMilliseconds = TIME_DURATION; //3 mins
@@ -60,25 +64,16 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     private boolean timerDone = false;
     private boolean timerMinute = false;
 
+    private String FOTR = "RIGHT";
+    private String FOTL = "LEFT";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scorekeeper);
-        String FOTR = "RIGHT";
-        String FOTL = "LEFT";
 
-        Intent intent = getIntent();
-        if (intent.hasExtra(INTENT_BOUT)) {
-            bout = intent.getParcelableExtra(INTENT_BOUT);
-            FOTR = bout.getMyName();
-            FOTL = bout.getOpName();
-        } else {
-            bout = new Bout(0, 0);
-        }
-        if (intent.hasExtra(INTENT_BOUT_INDEX)) {
-            activeBout = intent.getIntExtra(INTENT_BOUT_INDEX, 0);
-        }
+        parseIntent();
 
         scoreTextViewL = (TextView) findViewById(R.id.score_FOTL);
         scoreTextViewR = (TextView) findViewById(R.id.score_FOTR);
@@ -127,10 +122,13 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         switch(view.getId()) {
             case R.id.clock_timer:
             case R.id.time_toggle:
+
                 if (timeLeftInMilliseconds > 0) {
                     if (timerRunning) {
+                        countdownButton.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                         stopTimer();
                     } else {
+                        countdownButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_RELEASE);
                         startTimer();
                     }
                 }
@@ -156,15 +154,15 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
                     break;
                 // Scores
                 case R.id.double_touch:
-                    bout.addDouble();
+                    bout.addDouble(scoreLimit);
                     break;
                 case R.id.btn_name_FOTL:
                 case R.id.plus_FOTL:
-                    bout.addOpScore();
+                    bout.addOpScore(scoreLimit);
                     break;
                 case R.id.btn_name_FOTR:
                 case R.id.plus_FOTR:
-                    bout.addMyScore();
+                    bout.addMyScore(scoreLimit);
                     break;
                 case R.id.minus_FOTL:
                     if (bout.getOpScore() > 0) bout.subOpScore();
@@ -177,6 +175,23 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         // send to TextView
         scoreTextViewL.setText(bout.getOpScore().toString());
         scoreTextViewR.setText(bout.getMyScore().toString());
+    }
+
+    private void parseIntent() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(INTENT_BOUT)) {
+            bout = intent.getParcelableExtra(INTENT_BOUT);
+            FOTR = bout.getMyName();
+            FOTL = bout.getOpName();
+        } else {
+            bout = new Bout(0, 0);
+        }
+        if (intent.hasExtra(INTENT_BOUT_INDEX)) {
+            activeBout = intent.getIntExtra(INTENT_BOUT_INDEX, 0);
+        }
+        if (intent.hasExtra(INTENT_SCORE_LIMIT)) {
+            scoreLimit = intent.getIntExtra(INTENT_SCORE_LIMIT, 5);
+        }
     }
 
     @Override
@@ -217,6 +232,7 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onFinish() {
+                countdownButton.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
                 countdownText.setBackgroundColor(getResources().getColor(R.color.timeFinal));
                 countdownButton.setText(R.string.timeBtnFinal);
                 countdownButton.setTextSize(30);

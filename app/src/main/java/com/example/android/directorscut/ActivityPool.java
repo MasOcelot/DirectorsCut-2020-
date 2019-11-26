@@ -21,6 +21,7 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
     private static final String INTENT_NUM_FENCERS = "number_fencers";
     private static final String INTENT_SCORE_LIMIT = "score_limit";
     private static final String INTENT_BOUT = "bout_object";
+    private static final String INTENT_FENCER_ARRAY = "fencer_array";
 
     // ADAPTERS
     private ScoresAdapter scoresAdapter;
@@ -58,7 +59,7 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         new Fencer("Hotel")
     };
 
-    private Fencer[] fencers = null;
+    private Fencer[] fencers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +67,7 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pool);
         parseIntent();
-        fencers = new Fencer[NUM_FEN];
-        System.arraycopy(fencerTemplate, 0, fencers, 0, NUM_FEN);
+//        System.arraycopy(fencerTemplate, 0, fencers, 0, NUM_FEN);
 
         GridView scoresGrid = findViewById(R.id.gv_main_scores);
         buildBoutRV();
@@ -201,6 +201,13 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
                 rebuildArrays();
             }
         }
+
+        if (intent.hasExtra(INTENT_FENCER_ARRAY)) {
+            fencers = new Fencer[NUM_FEN];
+            ArrayList<Fencer> alFencers = intent.getParcelableArrayListExtra(INTENT_FENCER_ARRAY);
+            alFencers.toArray(fencers);
+        }
+
         if (intent.hasExtra(INTENT_SCORE_LIMIT)) {
             int scoreLimitInt = intent.getIntExtra(INTENT_SCORE_LIMIT, 5);
             if (scoreLimitInt > 0) {
@@ -311,9 +318,7 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.PL_btn_redo:
-                if (activeBout > 0) {
-                    prevToScorekeeper();
-                }
+                break;
         }
     }
 
@@ -323,6 +328,7 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(ActivityPool.this, ActivityScorekeeper.class);
         intent.putExtra(INTENT_BOUT, activeBout);
         intent.putExtra(INTENT_BOUT_INDEX, boutNumber);
+        intent.putExtra(INTENT_SCORE_LIMIT, SCORE_LIMIT);
         startActivityForResult(intent, REQCODE_TO_SK);
     }
 

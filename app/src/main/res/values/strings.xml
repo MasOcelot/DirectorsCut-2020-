@@ -58,6 +58,8 @@
     <string name="fd_btn_save">Save</string>
     <string name="fd_def_index">Fencer #</string>
     <string name="ps_add_fencer">Add Fencer</string>
-    <string name="ps_def_scorelimit">5</string>
+    <string name="ps_def_scorelimit">15</string>
     <string name="ps_def_numfencers">5</string>
+    <string name="fd_year">Year</string>
+    <string name="fd_def_year">Year</string>
 </resources>

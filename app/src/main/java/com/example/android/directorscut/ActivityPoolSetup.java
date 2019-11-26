@@ -1,6 +1,7 @@
 package com.example.android.directorscut;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,22 +16,26 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     // INTENTS
     private static final String INTENT_NUM_FENCERS = "number_fencers";
     private static final String INTENT_SCORE_LIMIT = "score_limit";
+    private static final String INTENT_FENCER_EDIT = "fencer_edit";
+    private static final String INTENT_FENCER_INDEX = "fencer_index";
+    private static final String INTENT_FENCER_ARRAY = "fencer_array";
+    private static final int REQ_FENCER_EDIT = 5;
 
     // VIEWS
-    private Button btnBoutOnly;
-    private Button btnStartPool;
     // Upper
     private ArrayList<Fencer> mPsFencers;
-    private EditText etNumFencers;
-    private EditText etScoreLimit;
-    private int numFencers = 5;
-    private int scoreLimit = 0;
-    // Lower
+    private EditText mEtNumFencers;
+    private EditText mEtScoreLimit;
+    private Button mBtnAddFencer;
+    private int mNumFencers = 5;
+    private int mScoreLimit = 15;
+    // RecyclerView
     private RecyclerView mRvFencer;
-    private RecyclerView.Adapter mFencerAdapter;
+    private FencerSetupAdapter mFencerAdapter;
     private RecyclerView.LayoutManager mLmFencer;
-
-
+    // Lower
+    private Button mBtnBoutOnly;
+    private Button mBtnStartPool;
 
 
     @Override
@@ -44,8 +49,29 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_FENCER_EDIT) {
+            if (resultCode == RESULT_OK) {
+                placeFencerInArray(data);
+            }
+        }
+    }
+
+    public void placeFencerInArray(Intent data) {
+        Fencer fencer = data.getParcelableExtra(INTENT_FENCER_EDIT);
+        int fencerIndex = data.getIntExtra(INTENT_FENCER_INDEX, 0);
+        mPsFencers.set(fencerIndex, fencer);
+        mFencerAdapter.notifyItemChanged(fencerIndex);
+
+    }
+
+    @Override
     public void onClick(View view) {
         switch(view.getId()){
+            case R.id.ps_btn_add_fencer:
+                addFencer();
+                break;
             case R.id.btn_bout_only:
                 startActivityBoutOnly();
                 break;
@@ -55,10 +81,19 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         }
     }
 
+    private void addFencer() {
+        if (mPsFencers.size() <= 7){
+            mPsFencers.add(new Fencer());
+            mFencerAdapter.notifyItemInserted(mPsFencers.size());
+        }
+    }
+
     public void createFencerList() {
         mPsFencers = new ArrayList<Fencer>(){{
-            add(new Fencer("Mas", 1, 2017));
-            add(new Fencer("Sam"));
+            add(new Fencer());
+            add(new Fencer());
+            add(new Fencer());
+            add(new Fencer());
         }};
     }
 
@@ -70,60 +105,65 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         mFencerAdapter = new FencerSetupAdapter(mPsFencers);
         mRvFencer.setLayoutManager(mLmFencer);
         mRvFencer.setAdapter(mFencerAdapter);
+
+        mFencerAdapter.setOnItemClickListener(new FencerSetupAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                //open fencer detail edit
+                Intent intent = new Intent(ActivityPoolSetup.this, ActivityFencerDetail.class);
+                intent.putExtra(INTENT_FENCER_EDIT, mPsFencers.get(position));
+                intent.putExtra(INTENT_FENCER_INDEX, position);
+
+                startActivityForResult(intent, REQ_FENCER_EDIT);
+            }
+        });
     }
 
     private void setupViews() {
-        etNumFencers = findViewById(R.id.et_num_fencers);
-        etScoreLimit = findViewById(R.id.et_score_limit);
+        mEtScoreLimit = findViewById(R.id.et_score_limit);
     }
 
     private void setupButtons() {
-        btnBoutOnly = findViewById(R.id.btn_bout_only);
-        btnStartPool = findViewById(R.id.btn_start_pool);
-        btnBoutOnly.setOnClickListener(this);
-        btnStartPool.setOnClickListener(this);
+        mBtnAddFencer = findViewById(R.id.ps_btn_add_fencer);
+        mBtnBoutOnly = findViewById(R.id.btn_bout_only);
+        mBtnStartPool = findViewById(R.id.btn_start_pool);
+        mBtnAddFencer.setOnClickListener(this);
+        mBtnBoutOnly.setOnClickListener(this);
+        mBtnStartPool.setOnClickListener(this);
     }
 
    private void startActivityBoutOnly() {
        Intent skIntent = new Intent(ActivityPoolSetup.this, ActivityScorekeeper.class);
-       String scoreLimitText = etScoreLimit.getText().toString();
+       String scoreLimitText = mEtScoreLimit.getText().toString();
        if (!scoreLimitText.equals("")) {
            int scoreLimitInt = Integer.parseInt(scoreLimitText);
            if (scoreLimitInt > 0) {
-               scoreLimit = scoreLimitInt;
+               mScoreLimit = scoreLimitInt;
            } else {
-               scoreLimit = 0;
+               mScoreLimit = 0;
            }
        }
-       skIntent.putExtra(INTENT_SCORE_LIMIT, scoreLimit);
+       skIntent.putExtra(INTENT_SCORE_LIMIT, mScoreLimit);
 
        startActivity(skIntent);
    }
 
-   private void startActivityPool() {
-        Intent plIntent = new Intent(ActivityPoolSetup.this, ActivityPool.class);
-        String numFencersText = etNumFencers.getText().toString();
-        if (!numFencersText.equals("")) {
-            int numFencersInt = Integer.parseInt(numFencersText);
-            if (numFencersInt > 0) {
-                numFencers = numFencersInt;
-            } else {
-                numFencers = 5;
-            }
-        }
-       String scoreLimitText = etScoreLimit.getText().toString();
+   private void startActivityPool() { Intent plIntent = new Intent(ActivityPoolSetup.this, ActivityPool.class);
+       String scoreLimitText = mEtScoreLimit.getText().toString();
        if (!scoreLimitText.equals("")) {
            int scoreLimitInt = Integer.parseInt(scoreLimitText);
            if (scoreLimitInt > 0) {
-               scoreLimit = scoreLimitInt;
+               mScoreLimit = scoreLimitInt;
            } else {
-               scoreLimit = 5;
+               mScoreLimit = 5;
            }
        } else {
-           scoreLimit = 5;
+           mScoreLimit = 5;
        }
-       plIntent.putExtra(INTENT_NUM_FENCERS, numFencers);
-       plIntent.putExtra(INTENT_SCORE_LIMIT, scoreLimit);
+       plIntent.putExtra(INTENT_NUM_FENCERS, mPsFencers.size());
+       plIntent.putExtra(INTENT_SCORE_LIMIT, mScoreLimit);
+       plIntent.putParcelableArrayListExtra(INTENT_FENCER_ARRAY, mPsFencers);
+       Toaster.makeToast(this, "Starting Pool!");
        startActivity(plIntent);
    }
 }
