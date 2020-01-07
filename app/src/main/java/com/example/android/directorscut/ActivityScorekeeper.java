@@ -4,17 +4,16 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Locale;
 
 public class ActivityScorekeeper extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener {
     // INTENTS
@@ -25,13 +24,25 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     private static final String INTENT_CARD_NAME = "card_name";
     private static final String INTENT_CARD_SIDE = "card_side";
     private static final String INTENT_CARD_TYPE = "card_type";
+    private static final int REQCODE_CARD = 1;
+
+    // CONSTANTS
+    // Time
+    private final int TIME_INTERVAL_MIL = 1;
+    private final long TIME_MIN_THREE = 180000;
+    private final long TIME_MIN_ONE = 60000;
+    private long TIME_DURATION = TIME_MIN_THREE;
+    // Score booleans
+    private boolean scoreFOTR;
+    private boolean scoreFOTL;
 
     private String cardName = "";
     private String cardSide = "";
 
-    private static final int REQCODE_CARD = 1;
-
     private TextView countdownText;
+    private TextView actionTimerText;
+    private TextView actionIndL;
+    private TextView actionIndR;
     private Bout bout;
     private int activeBout;
 
@@ -48,25 +59,25 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     private TextView scoreTextViewL;
     private TextView scoreTextViewR;
 
-    private final int TIME_INTERVAL_MIL = 1;
-    private final long TIME_MIN_THREE = 180000;
-    private final long TIME_MIN_ONE = 60000;
-    private long TIME_DURATION = TIME_MIN_THREE;
-
-    private CountDownTimer countDownTimer;
+    private CountDownTimer mainCDT;
     private int timeUpdateInterval = TIME_INTERVAL_MIL;
     private long timeLeftInMilliseconds = TIME_DURATION; //3 mins
     private boolean timerRunning;
     private boolean timerDone = false;
     private boolean timerMinute = false;
+    // SubTimer
+    private CountDownTimer actionCDT;
+    private ActTimer actionTimer = new ActTimer(TIME_MIN_ONE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getSupportActionBar().hide();
+        if(getSupportActionBar()!= null) getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scorekeeper);
         String FOTR = "RIGHT";
         String FOTL = "LEFT";
+        scoreFOTL = false;
+        scoreFOTR = false;
 
         Intent intent = getIntent();
         if (intent.hasExtra(INTENT_BOUT)) {
@@ -79,46 +90,9 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         if (intent.hasExtra(INTENT_BOUT_INDEX)) {
             activeBout = intent.getIntExtra(INTENT_BOUT_INDEX, 0);
         }
-
-        scoreTextViewL = (TextView) findViewById(R.id.score_FOTL);
-        scoreTextViewR = (TextView) findViewById(R.id.score_FOTR);
-
-        boutReset = (Button) findViewById(R.id.bout_reset);
-        boutMinuteBreak = (Button) findViewById(R.id.bout_minuteBreak);
-        boutSubmit = (Button) findViewById(R.id.bout_submit);
-        countdownText = (TextView) findViewById(R.id.clock_timer);
-        countdownButton = (Button) findViewById(R.id.time_toggle);
-        doubleTouch = (Button) findViewById(R.id.double_touch);
-        nameFOTL = (Button) findViewById(R.id.btn_name_FOTL);
-        nameFOTR = (Button) findViewById(R.id.btn_name_FOTR);
-
-        // BUTTONS
-        // Bout Status
-        boutReset.setOnClickListener(this);
-        boutReset.setOnLongClickListener(this);
-        boutMinuteBreak.setOnClickListener(this);
-        boutSubmit.setOnClickListener(this);
-        // Countdown
-        countdownText.setOnClickListener(this);
-        countdownButton.setOnClickListener(this);
-        countdownButton.setOnLongClickListener(this);
-        // Score
-        nameFOTL.setOnClickListener(this);
+        setupViews();
         nameFOTL.setText(FOTL);
-        nameFOTR.setOnClickListener(this);
         nameFOTR.setText(FOTR);
-        Button plusLeft = (Button) findViewById(R.id.plus_FOTL);
-        plusLeft.setOnClickListener(this);
-        Button plusRight = (Button) findViewById(R.id.plus_FOTR);
-        plusRight.setOnClickListener(this);
-        doubleTouch.setOnClickListener(this);
-        doubleTouch.setOnLongClickListener(this);
-        Button minusLeft = (Button) findViewById(R.id.minus_FOTL);
-        minusLeft.setOnClickListener(this);
-        Button minusRight = (Button) findViewById(R.id.minus_FOTR);
-        minusRight.setOnClickListener(this);
-        scoreTextViewL.setText(bout.getOpScore().toString());
-        scoreTextViewR.setText(bout.getMyScore().toString());
     }
 
     @Override
@@ -127,11 +101,25 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         switch(view.getId()) {
             case R.id.clock_timer:
             case R.id.time_toggle:
+                // Main Timer
                 if (timeLeftInMilliseconds > 0) {
                     if (timerRunning) {
                         stopTimer();
                     } else {
                         startTimer();
+                    }
+                }
+                // Sub Timer
+                if (actionTimer.getTimeLeft() > 0) {
+                    if (actionTimer.getState() == ActTimer.TimeState.ACTIVE) {
+                        // stop subtimer
+                        stopActTimer();
+                    } else if ((actionTimer.getState() == ActTimer.TimeState.PAUSED ||
+                            actionTimer.getState() == ActTimer.TimeState.ENTER) && !timerMinute){
+                        // start subtimer
+                        scoreFOTR = false;
+                        scoreFOTL = false;
+                        startActTimer();
                     }
                 }
                 break;
@@ -142,6 +130,7 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
                 break;
         }
         if (!timerRunning) {
+            boolean checkZeros = false;
             switch (view.getId()) {
                 case R.id.bout_submit:
                     submit();
@@ -157,26 +146,59 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
                 // Scores
                 case R.id.double_touch:
                     bout.addDouble();
+                    if (!scoreFOTL && !scoreFOTR){
+                        scoreFOTR = true;
+                        scoreFOTL = true;
+                    }
+                    resetActTimer();
                     break;
                 case R.id.btn_name_FOTL:
                 case R.id.plus_FOTL:
+                    if (!scoreFOTR) {
+                        scoreFOTL = true;
+                        resetActTimer();
+                    }
                     bout.addOpScore();
                     break;
                 case R.id.btn_name_FOTR:
                 case R.id.plus_FOTR:
+                    if (!scoreFOTL) {
+                        scoreFOTR = true;
+                        resetActTimer();
+                    }
                     bout.addMyScore();
                     break;
                 case R.id.minus_FOTL:
-                    if (bout.getOpScore() > 0) bout.subOpScore();
+                    if (bout.getOpScore() > 0) {
+                        bout.subOpScore();
+                        checkZeros = true;
+                    }
+                    if (scoreFOTL && !scoreFOTR) {
+                        prevActTimer();
+                        scoreFOTL = false;
+                    }
                     break;
                 case R.id.minus_FOTR:
-                    if (bout.getMyScore() > 0) bout.subMyScore();
+                    if (bout.getMyScore() > 0) {
+                        bout.subMyScore();
+                        checkZeros = true;
+                    }
+                    if (!scoreFOTL && scoreFOTR) {
+                        prevActTimer();
+                        scoreFOTR = false;
+                    }
                     break;
+            }
+            if (checkZeros) {
+                if (bout.getMyScore()==0 && bout.getOpScore()==0) {
+                    resetActTimer();
+                }
             }
         }
         // send to TextView
-        scoreTextViewL.setText(bout.getOpScore().toString());
-        scoreTextViewR.setText(bout.getMyScore().toString());
+        scoreTextViewL.setText(String.format(Locale.US, "%d", bout.getOpScore()));
+        scoreTextViewR.setText(String.format(Locale.US, "%d", bout.getMyScore()));
+        updateActTimerView();
     }
 
     @Override
@@ -196,23 +218,87 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.double_touch:
+                if (scoreFOTL && scoreFOTR) {
+                    makeToast("Removed Double!");
+                    scoreFOTR = false;
+                    scoreFOTL = false;
+                    prevActTimer();
+                }
                 bout.subDouble();
                 break;
             case R.id.bout_submit:
                 break;
         }
         // send to TextView
-        scoreTextViewL.setText(bout.getOpScore().toString());
-        scoreTextViewR.setText(bout.getMyScore().toString());
+        scoreTextViewL.setText(String.format(Locale.US, "%d", bout.getOpScore()));
+        scoreTextViewR.setText(String.format(Locale.US, "%d", bout.getMyScore()));
         return true;
     }
 
+    // ACTION TIMER
+
+    public void startActTimer() {
+        actionCDT = new CountDownTimer(actionTimer.getTimeLeft(), timeUpdateInterval) {
+            @Override
+            public void onTick(long l) {
+                actionTimer.setTimeLeft(l);
+                actionTimer.stateActive();
+                updateActTimerView();
+            }
+
+            @Override
+            public void onFinish() {
+                actionTimer.stateEnd();
+                stopTimer();
+                updateActTimerView();
+            }
+        }.start();
+    }
+
+    private void resetActTimer() {
+        actionTimer.resetTimeLeft();
+        updateActTimerView();
+    }
+
+    private void prevActTimer() {
+        actionTimer.prevTimeLeft();
+        updateActTimerView();
+    }
+
+    private void stopActTimer() {
+        actionTimer.statePaused();
+        actionCDT.cancel();
+        updateActTimerView();
+    }
+
+    private void checkActState(){
+        switch (actionTimer.getState()){
+            case END:
+                // flag and reset
+                break;
+            case PAUSED:
+                break;
+        }
+    }
+
+    private void updateActTimerView() {
+        actionTimerText.setText(timeToText(actionTimer.getTimeLeft(), false));
+        int active = getResources().getColor(R.color.cardview_light_background);
+        int inactive = getResources().getColor(R.color.cardview_dark_background);
+        int colorL = scoreFOTL ? active : inactive;
+        int colorR = scoreFOTR ? active : inactive;
+        actionIndL.setBackgroundColor(colorL);
+        actionIndR.setBackgroundColor(colorR);
+    }
+
+    // MAIN TIMER
+
     public void startTimer() {
-        countDownTimer = new CountDownTimer(timeLeftInMilliseconds, timeUpdateInterval) {
+        mainCDT = new CountDownTimer(timeLeftInMilliseconds, timeUpdateInterval) {
             @Override
             public void onTick(long l) {
                 timeLeftInMilliseconds = l;
-                updateTimer();
+                updateTimerView();
             }
 
             @Override
@@ -231,7 +317,7 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
                     timeLeftInMilliseconds = TIME_DURATION;
                     breakExit();
                 }
-                updateTimer();
+                updateTimerView();
             }
         }.start();
         countdownButton.setText(R.string.timeBtnStop);
@@ -249,7 +335,7 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     }
 
     public void stopTimer() {
-        countDownTimer.cancel();
+        mainCDT.cancel();
         countdownButton.setText(R.string.timeBtnStart);
         countdownButton.setTextColor(getResources().getColor(R.color.timeTextStop));
         if (timerMinute){
@@ -270,30 +356,34 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
             countdownButton.setTextSize(32);
             countdownText.setBackgroundColor(getResources().getColor(R.color.timeInitial));
             timerDone = false;
-            updateTimer();
+            updateTimerView();
         }
     }
 
-    public void updateTimer() {
-
+    public void updateTimerView() {
         int minutes = (int) timeLeftInMilliseconds / 60000;
-        int seconds = (int) (timeLeftInMilliseconds % 60000) / 1000;
-        int milsecs = (int) (timeLeftInMilliseconds % 1000) / 10;
+        if (minutes < 1) {
+            countdownText.setTextSize(120);
+        }
+        countdownText.setText(timeToText(timeLeftInMilliseconds, true));
+    }
 
+    private String timeToText(long millisec, boolean plusMils){
         String timeLeftText;
+        int minutes = (int) millisec / 60000;
+        int seconds = (int) (millisec % 60000) / 1000;
+        int milsecs = (int) (millisec % 1000) / 10;
         timeLeftText = "";
         timeLeftText += minutes;
         timeLeftText += ":";
         if (seconds < 10) timeLeftText += '0';
         timeLeftText += seconds;
-        if (minutes <= 0) {
-            countdownText.setTextSize(120);
+        if (minutes <= 0 && plusMils) {
             timeLeftText += ".";
             if (milsecs < 10) timeLeftText += '0';
             timeLeftText += milsecs;
         }
-        countdownText.setText(timeLeftText);
-
+        return timeLeftText;
     }
 
     public void makeToast(String message) {
@@ -306,6 +396,7 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         countdownButton.setBackgroundColor(getResources().getColor(R.color.timeBtnInit));
         breakExit();
         resetTimer();
+        resetActTimer();
     }
 
     public void breakEnter() {
@@ -382,5 +473,49 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
                 return true;
         }
         return false;
+    }
+
+    private void setupViews() {
+        scoreTextViewL = (TextView) findViewById(R.id.score_FOTL);
+        scoreTextViewR = (TextView) findViewById(R.id.score_FOTR);
+
+        boutReset = (Button) findViewById(R.id.bout_reset);
+        boutMinuteBreak = (Button) findViewById(R.id.bout_minuteBreak);
+        boutSubmit = (Button) findViewById(R.id.bout_submit);
+        countdownText = (TextView) findViewById(R.id.clock_timer);
+        actionTimerText = (TextView) findViewById(R.id.tv_subtimer);
+
+        countdownButton = (Button) findViewById(R.id.time_toggle);
+        actionIndL = (TextView) findViewById(R.id.tv_subtimer_left_ind);
+        actionIndR = (TextView) findViewById(R.id.tv_subtimer_right_ind);
+        doubleTouch = (Button) findViewById(R.id.double_touch);
+        nameFOTL = (Button) findViewById(R.id.btn_name_FOTL);
+        nameFOTR = (Button) findViewById(R.id.btn_name_FOTR);
+
+        // BUTTONS
+        // Bout Status
+        boutReset.setOnClickListener(this);
+        boutReset.setOnLongClickListener(this);
+        boutMinuteBreak.setOnClickListener(this);
+        boutSubmit.setOnClickListener(this);
+        // Countdown
+        countdownText.setOnClickListener(this);
+        countdownButton.setOnClickListener(this);
+        countdownButton.setOnLongClickListener(this);
+        // Score
+        nameFOTL.setOnClickListener(this);
+        nameFOTR.setOnClickListener(this);
+        Button plusLeft = (Button) findViewById(R.id.plus_FOTL);
+        plusLeft.setOnClickListener(this);
+        Button plusRight = (Button) findViewById(R.id.plus_FOTR);
+        plusRight.setOnClickListener(this);
+        doubleTouch.setOnClickListener(this);
+        doubleTouch.setOnLongClickListener(this);
+        Button minusLeft = (Button) findViewById(R.id.minus_FOTL);
+        minusLeft.setOnClickListener(this);
+        Button minusRight = (Button) findViewById(R.id.minus_FOTR);
+        minusRight.setOnClickListener(this);
+        scoreTextViewL.setText(bout.getOpScore().toString());
+        scoreTextViewR.setText(bout.getMyScore().toString());
     }
 }
