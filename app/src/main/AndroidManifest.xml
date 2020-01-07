@@ -22,6 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+=======
+        <activity android:name=".ActivityPool"></activity>
+        <activity android:name=".ActivityScorekeeper"></activity>
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
     </application>
 
 </manifest>

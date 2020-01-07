@@ -48,5 +48,8 @@
     <string name="card_black">BLACK</string>
     <string name="card_red">RED</string>
     <string name="card_yellow">YELLOW</string>
+<<<<<<< HEAD
     <string name="subtimer_start">1:00</string>
+=======
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
 </resources>

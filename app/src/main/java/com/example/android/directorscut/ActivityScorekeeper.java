@@ -4,6 +4,11 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+<<<<<<< HEAD
+=======
+import android.view.Gravity;
+import android.view.Menu;
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -59,15 +64,27 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     private TextView scoreTextViewL;
     private TextView scoreTextViewR;
 
+<<<<<<< HEAD
     private CountDownTimer mainCDT;
+=======
+    private final int TIME_INTERVAL_MIL = 1;
+    private final long TIME_MIN_THREE = 180000;
+    private final long TIME_MIN_ONE = 60000;
+    private long TIME_DURATION = TIME_MIN_THREE;
+
+    private CountDownTimer countDownTimer;
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
     private int timeUpdateInterval = TIME_INTERVAL_MIL;
     private long timeLeftInMilliseconds = TIME_DURATION; //3 mins
     private boolean timerRunning;
     private boolean timerDone = false;
     private boolean timerMinute = false;
+<<<<<<< HEAD
     // SubTimer
     private CountDownTimer actionCDT;
     private ActTimer actionTimer = new ActTimer(TIME_MIN_ONE);
+=======
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +93,11 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_scorekeeper);
         String FOTR = "RIGHT";
         String FOTL = "LEFT";
+<<<<<<< HEAD
         scoreFOTL = false;
         scoreFOTR = false;
+=======
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
 
         Intent intent = getIntent();
         if (intent.hasExtra(INTENT_BOUT)) {
@@ -90,7 +110,35 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         if (intent.hasExtra(INTENT_BOUT_INDEX)) {
             activeBout = intent.getIntExtra(INTENT_BOUT_INDEX, 0);
         }
+<<<<<<< HEAD
         setupViews();
+=======
+
+        scoreTextViewL = (TextView) findViewById(R.id.score_FOTL);
+        scoreTextViewR = (TextView) findViewById(R.id.score_FOTR);
+
+        boutReset = (Button) findViewById(R.id.bout_reset);
+        boutMinuteBreak = (Button) findViewById(R.id.bout_minuteBreak);
+        boutSubmit = (Button) findViewById(R.id.bout_submit);
+        countdownText = (TextView) findViewById(R.id.clock_timer);
+        countdownButton = (Button) findViewById(R.id.time_toggle);
+        doubleTouch = (Button) findViewById(R.id.double_touch);
+        nameFOTL = (Button) findViewById(R.id.btn_name_FOTL);
+        nameFOTR = (Button) findViewById(R.id.btn_name_FOTR);
+
+        // BUTTONS
+        // Bout Status
+        boutReset.setOnClickListener(this);
+        boutReset.setOnLongClickListener(this);
+        boutMinuteBreak.setOnClickListener(this);
+        boutSubmit.setOnClickListener(this);
+        // Countdown
+        countdownText.setOnClickListener(this);
+        countdownButton.setOnClickListener(this);
+        countdownButton.setOnLongClickListener(this);
+        // Score
+        nameFOTL.setOnClickListener(this);
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
         nameFOTL.setText(FOTL);
         nameFOTR.setText(FOTR);
     }
@@ -101,7 +149,10 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         switch(view.getId()) {
             case R.id.clock_timer:
             case R.id.time_toggle:
+<<<<<<< HEAD
                 // Main Timer
+=======
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
                 if (timeLeftInMilliseconds > 0) {
                     if (timerRunning) {
                         stopTimer();
@@ -146,6 +197,7 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
                 // Scores
                 case R.id.double_touch:
                     bout.addDouble();
+<<<<<<< HEAD
                     if (!scoreFOTL && !scoreFOTR){
                         scoreFOTR = true;
                         scoreFOTL = true;
@@ -158,14 +210,22 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
                         scoreFOTL = true;
                         resetActTimer();
                     }
+=======
+                    break;
+                case R.id.btn_name_FOTL:
+                case R.id.plus_FOTL:
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
                     bout.addOpScore();
                     break;
                 case R.id.btn_name_FOTR:
                 case R.id.plus_FOTR:
+<<<<<<< HEAD
                     if (!scoreFOTL) {
                         scoreFOTR = true;
                         resetActTimer();
                     }
+=======
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
                     bout.addMyScore();
                     break;
                 case R.id.minus_FOTL:
@@ -196,9 +256,14 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
             }
         }
         // send to TextView
+<<<<<<< HEAD
         scoreTextViewL.setText(String.format(Locale.US, "%d", bout.getOpScore()));
         scoreTextViewR.setText(String.format(Locale.US, "%d", bout.getMyScore()));
         updateActTimerView();
+=======
+        scoreTextViewL.setText(bout.getOpScore().toString());
+        scoreTextViewR.setText(bout.getMyScore().toString());
+>>>>>>> parent of aebc937... Merge branch 'master' of https://github.com/MasOcelot/DirectorsCut
     }
 
     @Override
