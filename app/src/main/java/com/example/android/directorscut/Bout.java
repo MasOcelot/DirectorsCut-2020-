@@ -1,5 +1,6 @@
 package com.example.android.directorscut;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -61,8 +62,20 @@ public class Bout implements Parcelable {
         myScore++;
     }
 
+    public void addMyScore(int limit) {
+        if (this.myScore < limit) {
+            addMyScore();
+        }
+    }
+
     public void addOpScore() {
         opScore++;
+    }
+
+    public void addOpScore(int limit) {
+        if (this.opScore < limit) {
+            addOpScore();
+        }
     }
 
     public void subMyScore() {
@@ -76,6 +89,12 @@ public class Bout implements Parcelable {
     public void addDouble() {
         addMyScore();
         addOpScore();
+    }
+
+    public void addDouble(int limit) {
+        if (this.getMyScore() < limit && this.getOpScore()< limit) {
+            addDouble();
+        }
     }
 
     public void subDouble() {
