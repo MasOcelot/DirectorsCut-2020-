@@ -17,8 +17,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 
-public class ActivityScorekeeper extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener {
-    // INTENTS
+public class ActivityScorekeeper extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener, DialogEditTime.DialogEditTimeListener {
+    // STRING CONSTANTS
     // Bout
     private static final String INTENT_BOUT_INDEX = "bout_index";
     private static final String INTENT_BOUT = "bout_object";
@@ -27,6 +27,8 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     private static final String INTENT_CARD_SIDE = "card_side";
     private static final String INTENT_CARD_TYPE = "card_type";
     private static final int REQCODE_CARD = 1;
+    // Dialog Tags
+    private static final String DIALOG_EDIT_TIME = "edit_time";
 
     // CONSTANTS
     // Time
@@ -38,19 +40,22 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     private boolean scoreFOTR;
     private boolean scoreFOTL;
 
+
     private String cardName = "";
     private String cardSide = "";
+
+    private Bout bout;
+    private int activeBout;
 
     private TextView countdownText;
     private TextView actionTimerText;
     private TextView actionIndL;
     private TextView actionIndR;
-    private Bout bout;
-    private int activeBout;
 
     private Button boutReset;
     private Button boutMinuteBreak;
     private Button boutSubmit;
+    private Button editTimer;
 
     private Button nameFOTL;
     private Button nameFOTR;
@@ -121,6 +126,18 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    public void applyEditTime(String minute, String second) {
+        int min = Integer.valueOf(minute);
+        int sec = Integer.valueOf(second);
+
+        long minMills = min * 60_000;
+        long secMills = sec * 1000;
+
+        timeLeftInMilliseconds = minMills + secMills;
+        updateTimerView();
+    }
+
+    @Override
     public void onClick(View view) {
         // Get score from TextView
         switch(view.getId()) {
@@ -168,6 +185,9 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
                         breakExit();
                     }
                     break;
+                case R.id.bt_edit_time:
+                    openTimeDialog();
+                    break;
                 // Scores
                 case R.id.double_touch:
                     bout.addDouble();
@@ -214,11 +234,11 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
                     }
                     break;
             }
-            if (checkZeros) {
-                if (bout.getMyScore()==0 && bout.getOpScore()==0) {
-                    resetActTimer();
-                }
-            }
+//            if (checkZeros) {
+//                if (bout.getMyScore()==0 && bout.getOpScore()==0) {
+//                    resetActTimer();
+//                }
+//            }
         }
         // send to TextView
         scoreTextViewL.setText(String.format(Locale.US, "%d", bout.getOpScore()));
@@ -309,11 +329,13 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     }
 
     private void updateActTimerView() {
-        actionTimerText.setText(timeToText(actionTimer.getTimeLeft(), false));
+        actionTimerText.setText(timeToText(actionTimer.getTimeLeft(), true));
         int active = getResources().getColor(R.color.cardview_light_background);
         int inactive = getResources().getColor(R.color.cardview_dark_background);
         int colorL = scoreFOTL ? active : inactive;
         int colorR = scoreFOTR ? active : inactive;
+        int editVis = timerRunning ? View.INVISIBLE : View.VISIBLE;
+        editTimer.setVisibility(editVis);
         actionIndL.setBackgroundColor(colorL);
         actionIndR.setBackgroundColor(colorR);
     }
@@ -509,6 +531,8 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         boutReset = (Button) findViewById(R.id.bout_reset);
         boutMinuteBreak = (Button) findViewById(R.id.bout_minuteBreak);
         boutSubmit = (Button) findViewById(R.id.bout_submit);
+        editTimer = (Button) findViewById(R.id.bt_edit_time);
+
         countdownText = (TextView) findViewById(R.id.clock_timer);
         actionTimerText = (TextView) findViewById(R.id.tv_subtimer);
 
@@ -526,6 +550,7 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         boutMinuteBreak.setOnClickListener(this);
         boutSubmit.setOnClickListener(this);
         // Countdown
+        editTimer.setOnClickListener(this);
         countdownText.setOnClickListener(this);
         countdownButton.setOnClickListener(this);
         countdownButton.setOnLongClickListener(this);
@@ -544,5 +569,15 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         minusRight.setOnClickListener(this);
         scoreTextViewL.setText(bout.getOpScore().toString());
         scoreTextViewR.setText(bout.getMyScore().toString());
+    }
+
+    public void openTimeDialog() {
+        DialogEditTime dialogEditTime = new DialogEditTime();
+
+        Bundle args = new Bundle();
+        args.putInt("bMinute", (int) timeLeftInMilliseconds / 60_000);
+        args.putInt("bSecond", (int) timeLeftInMilliseconds / 1000);
+
+        dialogEditTime.show(getSupportFragmentManager(), DIALOG_EDIT_TIME);
     }
 }
