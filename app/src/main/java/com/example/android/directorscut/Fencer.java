@@ -6,7 +6,8 @@ public class Fencer implements Comparable<Fencer> {
     private static int numFencers;
     private static int genericFencers = 1;
     private String lastName;
-    private int rating = 0;
+    private FencerRating rating = new FencerRating(FencerRating.Rating.U, 0);
+    private String club;
     private int localIndex;
     private int vic;
     private int ts;
@@ -17,6 +18,7 @@ public class Fencer implements Comparable<Fencer> {
 
     public Fencer(String name) {
         this.setLocalIndex(numFencers);
+        this.setClub("Unattached");
         numFencers++;
         this.lastName = name;
     }
@@ -28,9 +30,9 @@ public class Fencer implements Comparable<Fencer> {
 
     @Override
     public String toString() {
-        return "Fencer" + this.getLocalIndex() +
-                "[Name: "  + this.getLastName() + " " +
-                this.getPlace() + "(" + this.getVic() + "," + this.getInd() + ")]";
+        return "Fencer " + this.getLocalIndex() +
+                "["  + this.getLastName() + "-" + this.getRatingAsString() + " | "  + this.getClub()
+                + " " + this.getPlace() + "(" + this.getVic() + "," + this.getInd() + ")]";
     }
 
     // Getters
@@ -66,12 +68,20 @@ public class Fencer implements Comparable<Fencer> {
         return place;
     }
 
-    public int getRating() {
+    public FencerRating getRating() {
         return rating;
+    }
+
+    public String getRatingAsString() {
+        return rating.toString();
     }
 
     public boolean isLeftHanded() {
         return leftHanded;
+    }
+
+    public String getClub() {
+        return this.club;
     }
 
     // Setters
@@ -91,8 +101,12 @@ public class Fencer implements Comparable<Fencer> {
         this.leftHanded = leftHanded;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setRating(FencerRating.Rating rating, int year) {
+        this.rating = new FencerRating(rating, year);
+    }
+
+    public void setClub(String club) {
+        this.club = club;
     }
 
     public void updateInd() {

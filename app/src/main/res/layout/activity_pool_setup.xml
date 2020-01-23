@@ -5,80 +5,130 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ActivityPoolSetup">
-    <TextView
-        android:id="@+id/tv_num_fencers"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/et_num_fencers"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/et_num_fencers"
-        android:gravity="center_vertical|end"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:textSize="30sp"
-        android:text="@string/number_of_fencers"
-        android:layout_width="0dp"
-        android:layout_height="0dp" />
-
-    <EditText
-        android:id="@+id/et_num_fencers"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_num_fencers"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginEnd="16sp"
-        android:layout_marginRight="16sp"
-        android:layout_width="75sp"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_header_settings"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:inputType="number"
-        android:hint="1"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cl_mid_buttons"
+        android:background="@android:color/white"
+        >
 
-    <TextView
-        android:id="@+id/tv_score_limit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/et_score_limit"
-        app:layout_constraintTop_toBottomOf="@id/tv_num_fencers"
-        app:layout_constraintBottom_toBottomOf="@id/et_score_limit"
-        android:gravity="center_vertical|end"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:textSize="30sp"
-        android:text="@string/score_limit"
-        android:layout_width="0dp"
-        android:layout_height="0dp" />
+        <TextView
+            android:id="@+id/tv_num_fencers"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/et_num_fencers"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/et_num_fencers"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center_vertical|end"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:textSize="30sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/number_of_fencers"
+             />
 
-    <EditText
-        android:id="@+id/et_score_limit"
-        android:layout_width="75sp"
+        <EditText
+            android:id="@+id/et_num_fencers"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_num_fencers"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginEnd="16sp"
+            android:layout_marginRight="16sp"
+            android:layout_width="75sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textColor="@color/five01"
+            android:inputType="number"
+            android:hint="1"/>
+
+        <TextView
+            android:id="@+id/tv_score_limit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/et_score_limit"
+            app:layout_constraintTop_toBottomOf="@id/tv_num_fencers"
+            app:layout_constraintBottom_toBottomOf="@id/et_score_limit"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center_vertical|end"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:textSize="30sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/score_limit"
+            />
+
+        <EditText
+            android:id="@+id/et_score_limit"
+            android:layout_width="75sp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/et_num_fencers"
+            app:layout_constraintStart_toEndOf="@id/tv_score_limit"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginEnd="16sp"
+            android:layout_marginRight="16sp"
+            android:textSize="30sp"
+            android:textColor="@color/five01"
+            android:inputType="number"
+            android:gravity="center"
+            android:hint="5"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/cl_mid_buttons"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/cl_header_settings"
+        app:layout_constraintBottom_toTopOf="@id/rv_fencer_list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/et_num_fencers"
-        app:layout_constraintStart_toEndOf="@id/tv_score_limit"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginEnd="16sp"
-        android:layout_marginRight="16sp"
-        android:textSize="30sp"
-        android:inputType="number"
-        android:gravity="center"
-        android:hint="5"/>
+        android:weightSum="2"
+        android:background="@android:color/white"
+        >
+        <Button
+            style="@android:style/ButtonBar"
+            android:id="@+id/bt_mid_generate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="@string/ps_mid_generate"
+            android:background="@drawable/background_border_grey"
+            android:textColor="@android:color/white"
+            />
+        <Button
+            style="@android:style/ButtonBar"
+            android:id="@+id/bt_mid_insert"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="@string/ps_mid_insert"
+            android:background="@drawable/background_border_grey"
+            android:textColor="@android:color/white"
+            />
 
-    <view class="android.support.v7.app.AlertController$RecycleListView"
+    </LinearLayout>
+
+    <view class="android.support.v7.widget.RecyclerView"
         android:id="@+id/rv_fencer_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_score_limit"
+        app:layout_constraintTop_toBottomOf="@id/cl_mid_buttons"
         app:layout_constraintBottom_toTopOf="@id/ll_buttons"
-        android:layout_marginTop="12dp"
-        />
+        android:background="@color/colorPrimaryDark"/>
 
     <LinearLayout
         android:id="@+id/ll_buttons"
@@ -87,7 +137,8 @@
         android:layout_height="wrap_content"
         android:weightSum="2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/five01">
         <Button
             android:id="@+id/btn_bout_only"
             android:layout_width="0dp"
@@ -97,6 +148,8 @@
             android:layout_margin="4dp"
             android:textSize="24sp"
             android:text="@string/bout_only"
+            android:textColor="@color/five01"
+            android:background="@android:color/white"
             />
         <Button
             android:id="@+id/btn_start_pool"
@@ -106,6 +159,8 @@
             android:layout_weight="1"
             android:layout_margin="4dp"
             android:textSize="24sp"
+            android:textColor="@color/five01"
+            android:background="@android:color/white"
             android:text="@string/create_pool"/>
     </LinearLayout>
 
