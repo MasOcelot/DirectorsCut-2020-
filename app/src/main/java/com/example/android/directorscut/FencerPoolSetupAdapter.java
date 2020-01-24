@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class FencerPoolSetupAdapter extends RecyclerView.Adapter<FencerPoolSetup
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+        void onRemoveClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -26,6 +28,7 @@ public class FencerPoolSetupAdapter extends RecyclerView.Adapter<FencerPoolSetup
         public TextView tvRating;
         public TextView tvClub;
         public TextView tvIndex;
+        public ImageView imRemove;
 
         public FencerPoolViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -33,6 +36,7 @@ public class FencerPoolSetupAdapter extends RecyclerView.Adapter<FencerPoolSetup
             tvName = itemView.findViewById(R.id.tv_c_fencer_name);
             tvRating = itemView.findViewById(R.id.tv_c_rating);
             tvClub = itemView.findViewById(R.id.tv_c_club);
+            imRemove = itemView.findViewById(R.id.im_c_remove);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -41,6 +45,18 @@ public class FencerPoolSetupAdapter extends RecyclerView.Adapter<FencerPoolSetup
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            imRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onRemoveClick(position);
                         }
                     }
                 }
@@ -68,7 +84,7 @@ public class FencerPoolSetupAdapter extends RecyclerView.Adapter<FencerPoolSetup
     @Override
     public FencerPoolViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.fencer_cardview, viewGroup, false);
+                .inflate(R.layout.cardview_fencer, viewGroup, false);
         return new FencerPoolViewHolder(v, mListener);
     }
 

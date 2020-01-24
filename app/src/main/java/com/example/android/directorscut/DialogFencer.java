@@ -39,7 +39,7 @@ public class DialogFencer extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String name = etName.getText().toString();
                         String club = etClub.getText().toString();
-                        dfListener.applyChanges(name, club);
+                        dfListener.applyFencerChanges(name, club);
                     }
                 });
 
@@ -63,8 +63,8 @@ public class DialogFencer extends AppCompatDialogFragment {
     }
 
     public interface DialogFencerListener {
-        void applyChanges(String name, String club, FencerRating.Rating ratingLet, int ratingYear);
-        void applyChanges(String name, String club);
+        void applyFencerChanges(String name, String club, FencerRating.Rating ratingLet, int ratingYear);
+        void applyFencerChanges(String name, String club);
     }
 
 }

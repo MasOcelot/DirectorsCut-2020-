@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -55,14 +56,12 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         switch(view.getId()){
             case R.id.bt_mid_insert:
                 insertFencer(psFencers.size());
-                updateHintText();
                 break;
             case R.id.bt_mid_generate:
                 int setCount;
                 if (etNumFencers.getText().toString().length() > 0) {
                     setCount = Integer.parseInt(etNumFencers.getText().toString());
                     generateFencers(setCount);
-                    updateHintText();
                 }
                 break;
             case R.id.btn_bout_only:
@@ -87,11 +86,11 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         if (position > psFencers.size()) {
             position = psFencers.size();
         }
-
         if (psFencers.size() < MAX_POOL_SIZE) {
             psFencers.add(position, new Fencer("New Fencer"));
             mFRVAdapter.notifyItemInserted(position);
         }
+        updateHintText();
     }
 
     public void insertFencer() {
@@ -101,6 +100,11 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     public void removeFencer(int position) {
         psFencers.remove(position);
         mFRVAdapter.notifyItemRemoved(position);
+        for (int i = 0; i < psFencers.size(); i++) {
+            psFencers.get(i).setLocalIndex(i);
+            mFRVAdapter.notifyItemChanged(i);
+        }
+        updateHintText();
     }
 
     public void generateFencers(int newCount) {
@@ -144,9 +148,18 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         mFRVAdapter.setOnItemClickListener(new FencerPoolSetupAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                // Send to Dialog for fencer edit prompt
                 mFencerModifyIndex = position;
                 openFencerDialog();
+            }
+
+            @Override
+            public void onRemoveClick(int position) {
+                if(psFencers.size() > 3) {
+                    removeFencer(position);
+                } else {
+                    Toast.makeText(ActivityPoolSetup.this,
+                            "Cannot have less than 3 fencers!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -231,7 +244,7 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
    }
 
     @Override
-    public void applyChanges(String name, String club, FencerRating.Rating ratingLet, int ratingYear) {
+    public void applyFencerChanges(String name, String club, FencerRating.Rating ratingLet, int ratingYear) {
         Fencer modifyFencer = psFencers.get(mFencerModifyIndex);
         if (name.length() > 0) modifyFencer.setLastName(name);
         if (club.length() > 0) modifyFencer.setClub(club);
@@ -239,7 +252,7 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void applyChanges(String name, String club) {
-        applyChanges(name, club, FencerRating.Rating.U, 0);
+    public void applyFencerChanges(String name, String club) {
+        applyFencerChanges(name, club, FencerRating.Rating.U, 0);
     }
 }
