@@ -21,11 +21,12 @@
             android:layout_above="@+id/tv_c_rating"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:gravity="center|right"
+            android:gravity="bottom|end"
             android:layout_margin="4dp"
+            android:textStyle="bold"
             android:text="0."
             android:textSize="20sp"
-            android:textColor="@color/five01"
+            android:textColor="@color/colorPrimaryDark"
             android:background="@android:color/transparent"/>
 
         <TextView
@@ -63,6 +64,7 @@
             android:layout_alignLeft="@+id/tv_c_fencer_name"
             android:textColor="@color/five01"
             android:textSize="14sp"
+            android:textStyle="italic"
             android:text="club name"
             />
 

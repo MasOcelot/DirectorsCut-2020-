@@ -53,4 +53,13 @@
     <string name="sk_time_set"> set</string>
     <string name="ps_mid_generate">Generate Count</string>
     <string name="ps_mid_insert">Insert</string>
+
+    <string-array name="rating_letters">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>U</item>
+    </string-array>
 </resources>

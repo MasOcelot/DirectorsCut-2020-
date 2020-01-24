@@ -52,15 +52,8 @@ public class DialogEditTime extends AppCompatDialogFragment {
                     }
                 });
 
-//        Bundle args = getArguments();
-//        int prevMin = args.getInt("bMinutes", 0);
-//        int prevSec = args.getInt("bSeconds", 0);
-
         editTextMinutes = view.findViewById(R.id.et_time_minute);
         editTextSeconds = view.findViewById(R.id.et_time_second);
-//
-//        editTextMinutes.setText(prevMin);
-//        editTextSeconds.setText(prevSec);
 
         return builderTimer.create();
     }

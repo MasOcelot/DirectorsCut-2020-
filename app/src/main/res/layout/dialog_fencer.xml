@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <TextView
+        android:id="@+id/tv_df_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toLeftOf="@id/et_df_name"
+        app:layout_constraintTop_toTopOf="@id/et_df_name"
+        app:layout_constraintBottom_toBottomOf="@id/et_df_name"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="Last Name:"
+        />
+
+    <TextView
+        android:id="@+id/tv_df_club"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toLeftOf="@id/et_df_club"
+        app:layout_constraintTop_toTopOf="@id/et_df_club"
+        app:layout_constraintBottom_toBottomOf="@id/et_df_club"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="Club:"
+        />
+
+    <TextView
+        android:id="@+id/tv_df_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toLeftOf="@id/sp_df_rating"
+        app:layout_constraintTop_toTopOf="@id/sp_df_rating"
+        app:layout_constraintBottom_toBottomOf="@id/sp_df_rating"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="Rating:"
+        />
+
+
+    <EditText
+        android:id="@+id/et_df_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:textSize="24sp"
+        android:textColor="@color/five01"
+        />
+    <EditText
+        android:id="@+id/et_df_club"
+        app:layout_constraintTop_toBottomOf="@+id/et_df_name"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:textSize="24sp"
+        android:textColor="@color/five01"
+        />
+
+    <Spinner
+        android:id="@+id/sp_df_rating"
+        app:layout_constraintTop_toBottomOf="@id/et_df_club"
+        app:layout_constraintRight_toLeftOf="@+id/sp_df_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:textSize="24sp"
+        android:textColor="@color/five01"
+        />
+
+    <Spinner
+        android:id="@+id/sp_df_year"
+        app:layout_constraintTop_toBottomOf="@id/et_df_club"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:textSize="24sp"
+        android:textColor="@color/five01"
+        />
+
+
+
+</android.support.constraint.ConstraintLayout>
