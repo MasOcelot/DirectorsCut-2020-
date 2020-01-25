@@ -13,22 +13,22 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 public class ActivityPool extends AppCompatActivity implements View.OnClickListener {
     // INTENT STRINGS
     private static final String INTENT_BOUT_INDEX = "bout_index";
     private static final String INTENT_NUM_FENCERS = "number_fencers";
+    private static final String INTENT_FENCER_LIST = "fencer_list";
     private static final String INTENT_SCORE_LIMIT = "score_limit";
     private static final String INTENT_BOUT = "bout_object";
 
     // ADAPTERS
-    private ScoresAdapter scoresAdapter;
-    private FencerResultAdapter resultAdapter;
+    private AdapterScores adapterScores;
+    private AdapterFencerResult resultAdapter;
     // RecyclerView
     public ArrayList<Bout> bouts = new ArrayList<>();
     private RecyclerView mRecyclerView;
-    private BoutRvAdapter mBoutsAdapter;
+    private AdapterBoutRV mBoutsAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     // SETTING VALUES
@@ -58,7 +58,7 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         new Fencer("Hotel")
     };
 
-    private Fencer[] fencers = null;
+    private Fencer[] fencers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +80,9 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         scoresGrid.setNumColumns(NUM_FEN);
         initializeScores();
         assignBouts();
-        scoresAdapter = new ScoresAdapter(this, scores);
-        resultAdapter = new FencerResultAdapter(this, fencers);
-        scoresGrid.setAdapter(scoresAdapter);
+        adapterScores = new AdapterScores(this, scores);
+        resultAdapter = new AdapterFencerResult(this, fencers);
+        scoresGrid.setAdapter(adapterScores);
         resultList.setAdapter(resultAdapter);
     }
 
@@ -122,7 +122,7 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
     }
 
     public void updateAdapters() {
-        scoresAdapter.notifyDataSetChanged();
+        adapterScores.notifyDataSetChanged();
         resultAdapter.notifyDataSetChanged();
     }
 
@@ -192,6 +192,11 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
 
     private void parseIntent() {
         Intent intent = getIntent();
+        if (intent.hasExtra(INTENT_FENCER_LIST)) {
+            ArrayList<Fencer> alFencers = intent.getParcelableArrayListExtra(INTENT_FENCER_LIST);
+            fencers = new Fencer[alFencers.size()];
+            fencers = alFencers.toArray(fencers);
+        }
         if (intent.hasExtra(INTENT_NUM_FENCERS)) {
             int numFencersInt = intent.getIntExtra(INTENT_NUM_FENCERS, 5);
             if (numFencersInt > 0) {
@@ -245,7 +250,7 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
                 list = list6;
                 break;
             case 7:
-                int[] list7 = {14,25,36,71,54,23,67,51,43,62,57,31,48,72,35,16,24,73,65,12,47};
+                int[] list7 = {14,25,36,71,54,23,67,51,43,62,57,31,46,72,35,16,24,73,65,12,47};
                 list = list7;
                 break;
             case 8:
@@ -340,11 +345,11 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         mRecyclerView = findViewById(R.id.rv_bout_list);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mBoutsAdapter = new BoutRvAdapter(bouts);
+        mBoutsAdapter = new AdapterBoutRV(bouts);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mBoutsAdapter);
 
-        mBoutsAdapter.setOnItemClickListener(new BoutRvAdapter.OnItemClickListener() {
+        mBoutsAdapter.setOnItemClickListener(new AdapterBoutRV.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 sendToScorekeeper(position);

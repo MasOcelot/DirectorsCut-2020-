@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class FencerResultAdapter extends BaseAdapter {
+public class AdapterFencerResult extends BaseAdapter {
 
     private final Context mContext;
     private final Fencer[] fencers;
 
-    public FencerResultAdapter(Context context, Fencer[] fencers) {
+    public AdapterFencerResult(Context context, Fencer[] fencers) {
         this.mContext = context;
         this.fencers = fencers;
     }

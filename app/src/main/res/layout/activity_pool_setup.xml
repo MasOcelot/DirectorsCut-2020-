@@ -103,7 +103,7 @@
             android:layout_weight="1"
             android:layout_margin="4dp"
             android:text="@string/ps_mid_generate"
-            android:background="@drawable/background_border_grey"
+            android:background="@drawable/background_border_501"
             android:textColor="@android:color/white"
             />
         <Button
@@ -114,7 +114,7 @@
             android:layout_weight="1"
             android:layout_margin="4dp"
             android:text="@string/ps_mid_insert"
-            android:background="@drawable/background_border_grey"
+            android:background="@drawable/background_border_501"
             android:textColor="@android:color/white"
             />
 

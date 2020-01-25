@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class FencerPoolSetupAdapter extends RecyclerView.Adapter<FencerPoolSetupAdapter.FencerPoolViewHolder> {
+public class AdapterFencerPoolSetup extends RecyclerView.Adapter<AdapterFencerPoolSetup.FencerPoolViewHolder> {
     private ArrayList<Fencer>  mFencerList;
     private OnItemClickListener mListener;
 
@@ -65,7 +65,7 @@ public class FencerPoolSetupAdapter extends RecyclerView.Adapter<FencerPoolSetup
         }
     }
 
-    public FencerPoolSetupAdapter(ArrayList<Fencer> fencerArrayList) {
+    public AdapterFencerPoolSetup(ArrayList<Fencer> fencerArrayList) {
         mFencerList = fencerArrayList;
     }
 

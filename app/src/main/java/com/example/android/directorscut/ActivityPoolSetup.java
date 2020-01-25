@@ -37,7 +37,7 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
 
     //RecyclerView Members
     private RecyclerView mFencerRV;
-    private FencerPoolSetupAdapter mFRVAdapter;
+    private AdapterFencerPoolSetup mFRVAdapter;
     private RecyclerView.LayoutManager mFRVLayoutManager;
 
     @Override
@@ -75,10 +75,6 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onLongClick(View view) {
-        switch(view.getId()) {
-            case R.id.bt_mid_generate:
-                insertFencer(2);
-        }
         return true;
     }
 
@@ -89,6 +85,9 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         if (psFencers.size() < MAX_POOL_SIZE) {
             psFencers.add(position, new Fencer("New Fencer"));
             mFRVAdapter.notifyItemInserted(position);
+        } else {
+            Toast.makeText(ActivityPoolSetup.this,
+                    "Cannot exceed " + MAX_POOL_SIZE + " fencers!", Toast.LENGTH_SHORT);
         }
         updateHintText();
     }
@@ -110,6 +109,8 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     public void generateFencers(int newCount) {
         if (newCount < 2) {
             return;
+        } else if (newCount > MAX_POOL_SIZE) {
+            newCount = MAX_POOL_SIZE;
         }
         int size = psFencers.size();
         int diff = size - newCount;
@@ -140,12 +141,12 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         mFencerRV = findViewById(R.id.rv_fencer_list);
         mFencerRV.setHasFixedSize(true);
         mFRVLayoutManager = new LinearLayoutManager(this);
-        mFRVAdapter = new FencerPoolSetupAdapter(psFencers);
+        mFRVAdapter = new AdapterFencerPoolSetup(psFencers);
 
         mFencerRV.setLayoutManager(mFRVLayoutManager);
         mFencerRV.setAdapter(mFRVAdapter);
 
-        mFRVAdapter.setOnItemClickListener(new FencerPoolSetupAdapter.OnItemClickListener() {
+        mFRVAdapter.setOnItemClickListener(new AdapterFencerPoolSetup.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 mFencerModifyIndex = position;
@@ -189,9 +190,6 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
             add(new Fencer("Gamma"));
         }};
 
-        psFencers.get(1).setRating(FencerRating.Rating.C, 2016);
-        psFencers.get(0).setClub("EO66");
-
         for (Fencer fencer : psFencers) {
             System.out.println(fencer);
         }
@@ -217,15 +215,19 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         Intent plIntent = new Intent(ActivityPoolSetup.this, ActivityPool.class);
         String numFencersText = etNumFencers.getText().toString();
         if (!numFencersText.equals("")) {
-            int numFencersInt = Integer.parseInt(numFencersText);
-            if (numFencersInt > 0) {
-                numFencers = numFencersInt;
-            } else {
-                numFencers = 5;
-            }
-        } else {
-            numFencers = psFencers.size();
+            generateFencers(Integer.valueOf(numFencersText));
         }
+//        if (!numFencersText.equals("")) {
+//            int numFencersInt = Integer.parseInt(numFencersText);
+//            if (numFencersInt > 0) {
+//                numFencers = numFencersInt;
+//            } else {
+//                numFencers = 5;
+//            }
+//        } else {
+//            numFencers = psFencers.size();
+//        }
+       numFencers = psFencers.size();
        String scoreLimitText = etScoreLimit.getText().toString();
        if (!scoreLimitText.equals("")) {
            int scoreLimitInt = Integer.parseInt(scoreLimitText);
@@ -237,7 +239,7 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
        } else {
            scoreLimit = 5;
        }
-//       plIntent.putParcelableArrayListExtra(INTENT_FENCER_LIST, psFencers);
+       plIntent.putParcelableArrayListExtra(INTENT_FENCER_LIST, psFencers);
        plIntent.putExtra(INTENT_NUM_FENCERS, numFencers);
        plIntent.putExtra(INTENT_SCORE_LIMIT, scoreLimit);
        startActivity(plIntent);

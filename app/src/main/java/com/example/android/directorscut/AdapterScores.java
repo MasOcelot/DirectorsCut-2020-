@@ -10,12 +10,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ScoresAdapter extends BaseAdapter {
+public class AdapterScores extends BaseAdapter {
 
     private final Context mContext;
     private final ScoreBox[] scoreArray;
 
-    public ScoresAdapter(Context context, ScoreBox[] scoreArray) {
+    public AdapterScores(Context context, ScoreBox[] scoreArray) {
         this.mContext = context;
         this.scoreArray = scoreArray;
     }

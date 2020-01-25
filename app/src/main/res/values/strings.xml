@@ -53,6 +53,7 @@
     <string name="sk_time_set"> set</string>
     <string name="ps_mid_generate">Generate Count</string>
     <string name="ps_mid_insert">Insert</string>
+    <string name="bout_ind">NUM</string>
 
     <string-array name="rating_letters">
         <item>A</item>
