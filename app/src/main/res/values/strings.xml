@@ -54,6 +54,7 @@
     <string name="ps_mid_generate">Generate Count</string>
     <string name="ps_mid_insert">Insert</string>
     <string name="bout_ind">NUM</string>
+    <string name="pl_name">NAME</string>
 
     <string-array name="rating_letters">
         <item>A</item>
