@@ -105,28 +105,59 @@ public class AdapterScoreRow extends RecyclerView.Adapter<AdapterScoreRow.ScoreR
         scoreRowViewHolder.tvName.setText(cScoreRow.getName());
         switch (mSize) {
             case 8:
-                if(cScoreRow.getBox8().isShow()) scoreRowViewHolder.tvBox8.setText(String.valueOf(cScoreRow.getBox8().getScore()));
+                if(cScoreRow.getBox8().isShow()) {
+                    String victoryText = String.valueOf(cScoreRow.getBox8().getScore());
+                    victoryText = cScoreRow.getBox8().isVictory() ? "V" + victoryText : victoryText;
+                    scoreRowViewHolder.tvBox8.setText(victoryText);
+                }
 //                if(cScoreRow.getBox8().isBlack()) scoreRowViewHolder.tvBox8.setBackgroundColor(Color.parseColor("#000000"));
             case 7:
-                if(cScoreRow.getBox7().isShow()) scoreRowViewHolder.tvBox7.setText(String.valueOf(cScoreRow.getBox7().getScore()));
+                if(cScoreRow.getBox7().isShow()) {
+                    String victoryText = String.valueOf(cScoreRow.getBox7().getScore());
+                    victoryText = cScoreRow.getBox7().isVictory() ? "V" + victoryText : victoryText;
+                    scoreRowViewHolder.tvBox7.setText(victoryText);
+                }
 //                if(cScoreRow.getBox7().isBlack()) scoreRowViewHolder.tvBox7.setBackgroundColor(Color.parseColor("#000000"));
             case 6:
-                if(cScoreRow.getBox6().isShow()) scoreRowViewHolder.tvBox6.setText(String.valueOf(cScoreRow.getBox6().getScore()));
+                if(cScoreRow.getBox6().isShow()) {
+                    String victoryText = String.valueOf(cScoreRow.getBox6().getScore());
+                    victoryText = cScoreRow.getBox6().isVictory() ? "V" + victoryText : victoryText;
+                    scoreRowViewHolder.tvBox6.setText(victoryText);
+                }
 //                if(cScoreRow.getBox6().isBlack()) scoreRowViewHolder.tvBox6.setBackgroundColor(Color.parseColor("#000000"));
             case 5:
-                if(cScoreRow.getBox5().isShow()) scoreRowViewHolder.tvBox5.setText(String.valueOf(cScoreRow.getBox5().getScore()));
+                if(cScoreRow.getBox5().isShow()) {
+                    String victoryText = String.valueOf(cScoreRow.getBox5().getScore());
+                    victoryText = cScoreRow.getBox5().isVictory() ? "V" + victoryText : victoryText;
+                    scoreRowViewHolder.tvBox5.setText(victoryText);
+                }
 //                if(cScoreRow.getBox5().isBlack()) scoreRowViewHolder.tvBox5.setBackgroundColor(Color.parseColor("#000000"));
             case 4:
-                if(cScoreRow.getBox4().isShow()) scoreRowViewHolder.tvBox4.setText(String.valueOf(cScoreRow.getBox4().getScore()));
+                if(cScoreRow.getBox4().isShow()) {
+                    String victoryText = String.valueOf(cScoreRow.getBox4().getScore());
+                    victoryText = cScoreRow.getBox4().isVictory() ? "V" + victoryText : victoryText;
+                    scoreRowViewHolder.tvBox4.setText(victoryText);
+                }
 //                if(cScoreRow.getBox4().isBlack()) scoreRowViewHolder.tvBox4.setBackgroundColor(Color.parseColor("#000000"));
             case 3:
-                if(cScoreRow.getBox3().isShow()) scoreRowViewHolder.tvBox3.setText(String.valueOf(cScoreRow.getBox3().getScore()));
+                if(cScoreRow.getBox3().isShow()) {
+                    String victoryText = String.valueOf(cScoreRow.getBox3().getScore());
+                    victoryText = cScoreRow.getBox3().isVictory() ? "V" + victoryText : victoryText;
+                    scoreRowViewHolder.tvBox3.setText(victoryText);
+                }
 //                if(cScoreRow.getBox3().isBlack()) scoreRowViewHolder.tvBox3.setBackgroundColor(Color.parseColor("#000000"));
             default:
-                if(cScoreRow.getBox2().isShow()) scoreRowViewHolder.tvBox2.setText(String.valueOf(cScoreRow.getBox2().getScore()));
+                if(cScoreRow.getBox2().isShow()) {
+                    String victoryText = String.valueOf(cScoreRow.getBox2().getScore());
+                    victoryText = cScoreRow.getBox2().isVictory() ? "V" + victoryText : victoryText;
+                    scoreRowViewHolder.tvBox2.setText(victoryText);
+                }
 //                if(cScoreRow.getBox2().isBlack()) scoreRowViewHolder.tvBox2.setBackgroundColor(Color.parseColor("#000000"));
-
-                if(cScoreRow.getBox1().isShow()) scoreRowViewHolder.tvBox1.setText(String.valueOf(cScoreRow.getBox1().getScore()));
+                if(cScoreRow.getBox1().isShow()) {
+                    String victoryText = String.valueOf(cScoreRow.getBox1().getScore());
+                    victoryText = cScoreRow.getBox1().isVictory() ? "V" + victoryText : victoryText;
+                    scoreRowViewHolder.tvBox1.setText(victoryText);
+                }
 //                if(cScoreRow.getBox1().isBlack()) scoreRowViewHolder.tvBox1.setBackgroundColor(Color.parseColor("#000000"));
         }
 //        switch (i) {

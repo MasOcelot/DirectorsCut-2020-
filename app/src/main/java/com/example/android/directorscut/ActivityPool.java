@@ -182,10 +182,10 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         scores[opIndex].setScore(opScore);
         scores[myIndex].setShow(true);
         scores[opIndex].setShow(true);
-        scoreRowList.get(myNumber).setScore(opNumber, scores[myIndex]);
-        scoreRowList.get(opNumber).setScore(myNumber, scores[opIndex]);
-        System.out.println("MYNUMBER" + myNumber);
-        System.out.println("OPNUMBER" + opNumber);
+//        scoreRowList.get(myNumber).setScore(opNumber, scores[myIndex]);
+//        scoreRowList.get(opNumber).setScore(myNumber, scores[opIndex]);
+//        System.out.println("MYNUMBER" + myNumber);
+//        System.out.println("OPNUMBER" + opNumber);
     }
 
     private int getIndex(int myNumber, int opNumber) {
