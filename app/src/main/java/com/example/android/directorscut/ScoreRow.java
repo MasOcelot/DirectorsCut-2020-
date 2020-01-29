@@ -4,43 +4,41 @@ import android.widget.TextView;
 
 public class ScoreRow {
     private String mName;
-    private int mBox1;
-    private int mBox2;
-    private int mBox3;
-    private int mBox4;
-    private int mBox5;
-    private int mBox6;
-    private int mBox7;
-    private int mBox8;
+    private ScoreBox mBox1;
+    private ScoreBox mBox2;
+    private ScoreBox mBox3;
+    private ScoreBox mBox4;
+    private ScoreBox mBox5;
+    private ScoreBox mBox6;
+    private ScoreBox mBox7;
+    private ScoreBox mBox8;
 
     public ScoreRow(String name) {
         mName = name;
-        mBox1 = 0;
-        mBox2 = 0;
     }
-
-    public void init3() {
-        mBox3 = 0;
+    public void init1(ScoreBox scoreBox) {
+        mBox1 = scoreBox;
     }
-    public void init4() {
-        mBox4 = 0;
-        init3();
+    public void init2(ScoreBox scoreBox) {
+        mBox2 = scoreBox;
     }
-    public void init5() {
-        mBox5 = 0;
-        init4();
+    public void init3(ScoreBox scoreBox) {
+        mBox3 = scoreBox;
     }
-    public void init6() {
-        mBox6 = 0;
-        init5();
+    public void init4(ScoreBox scoreBox) {
+        mBox4 = scoreBox;
     }
-    public void init7() {
-        mBox7 = 0;
-        init6();
+    public void init5(ScoreBox scoreBox) {
+        mBox5 = scoreBox;
     }
-    public void init8() {
-        mBox8 = 0;
-        init7();
+    public void init6(ScoreBox scoreBox) {
+        mBox6 = scoreBox;
+    }
+    public void init7(ScoreBox scoreBox) {
+        mBox7 = scoreBox;
+    }
+    public void init8(ScoreBox scoreBox) {
+        mBox8 = scoreBox;
     }
 
     public ScoreRow() {
@@ -51,31 +49,85 @@ public class ScoreRow {
         return mName;
     }
 
-    public int getBox1() {
+    public ScoreBox getBox1() {
         return mBox1;
     }
 
-    public int getBox2() {
+    public ScoreBox getBox2() {
         return mBox2;
     }
 
-    public int getBox3() {
+    public ScoreBox getBox3() {
         return mBox3;
     }
-    public int getBox4() {
+    public ScoreBox getBox4() {
         return mBox4;
     }
-    public int getBox5() {
+    public ScoreBox getBox5() {
         return mBox5;
     }
-    public int getBox6() {
+    public ScoreBox getBox6() {
         return mBox6;
     }
-    public int getBox7() {
+    public ScoreBox getBox7() {
         return mBox7;
     }
-    public int getBox8() {
+    public ScoreBox getBox8() {
         return mBox8;
+    }
+
+    public void setScore(int opponent, ScoreBox scoreBox) {
+        switch (opponent) {
+            case 7:
+                setScore8(scoreBox);
+                break;
+            case 6:
+                setScore7(scoreBox);
+                break;
+            case 5:
+                setScore6(scoreBox);
+                break;
+            case 4:
+                setScore5(scoreBox);
+                break;
+            case 3:
+                setScore4(scoreBox);
+                break;
+            case 2:
+                setScore3(scoreBox);
+                break;
+            case 1:
+                setScore2(scoreBox);
+                break;
+            case 0:
+                setScore1(scoreBox);
+                break;
+        }
+    }
+
+    public void setScore1(ScoreBox scoreBox) {
+        mBox1 = scoreBox;
+    }
+    public void setScore2(ScoreBox scoreBox) {
+        mBox2 = scoreBox;
+    }
+    public void setScore3(ScoreBox scoreBox) {
+        mBox3 = scoreBox;
+    }
+    public void setScore4(ScoreBox scoreBox) {
+        mBox4 = scoreBox;
+    }
+    public void setScore5(ScoreBox scoreBox) {
+        mBox5 = scoreBox;
+    }
+    public void setScore6(ScoreBox scoreBox) {
+        mBox6 = scoreBox;
+    }
+    public void setScore7(ScoreBox scoreBox) {
+        mBox7 = scoreBox;
+    }
+    public void setScore8(ScoreBox scoreBox) {
+        mBox8 = scoreBox;
     }
 
 

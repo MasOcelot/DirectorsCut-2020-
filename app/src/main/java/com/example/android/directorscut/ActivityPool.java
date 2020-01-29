@@ -31,7 +31,8 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
     private AdapterScores adapterScores;
     private AdapterFencerResult resultAdapter;
     // RecyclerView
-    public ArrayList<Bout> bouts = new ArrayList<>();
+    private ArrayList<Bout> bouts = new ArrayList<>();
+    private ArrayList<ScoreRow> scoreRowList;
     private RecyclerView mRecyclerView;
     private AdapterBoutRV mBoutsAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -71,42 +72,12 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pool);
         parseIntent();
-        fencers = new Fencer[NUM_FEN];
-        System.arraycopy(fencerTemplate, 0, fencers, 0, NUM_FEN);
-
-//        GridView scoresGrid = findViewById(R.id.gv_main_scores);
+//        fencers = new Fencer[NUM_FEN];
+//        System.arraycopy(fencerTemplate, 0, fencers, 0, NUM_FEN);
         buildBoutRV();
+        initializeScores();
 
-        ArrayList<ScoreRow> scoreRowList = new ArrayList<>();
-        scoreRowList.add(new ScoreRow("Cody"));
-        scoreRowList.add(new ScoreRow("Rex"));
-        scoreRowList.add(new ScoreRow("Fox"));
-        scoreRowList.add(new ScoreRow("Bly"));
-        scoreRowList.add(new ScoreRow("Appo"));
-
-        for (ScoreRow scoreRow: scoreRowList) {
-            switch (scoreRowList.size()) {
-                case 8:
-                    scoreRow.init8();
-                    break;
-                case 7:
-                    scoreRow.init7();
-                    break;
-                case 6:
-                    scoreRow.init6();
-                    break;
-                case 5:
-                    scoreRow.init5();
-                    break;
-                case 4:
-                    scoreRow.init4();
-                    break;
-                case 3:
-                    scoreRow.init3();
-                    break;
-            }
-        }
-
+        initializeScoreRows();
 
         mScoreRowRV = findViewById(R.id.gv_main_scores);
         mScoreRowRV.setHasFixedSize(true);
@@ -121,12 +92,10 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         btnNextBout.setOnClickListener(this);
         Button btnPrevBout = findViewById(R.id.PL_btn_redo);
         btnPrevBout.setOnClickListener(this);
-//        scoresGrid.setNumColumns(NUM_FEN);
-        initializeScores();
+
         assignBouts();
         adapterScores = new AdapterScores(this, scores);
         resultAdapter = new AdapterFencerResult(this, fencers);
-//        scoresGrid.setAdapter(adapterScores);
         resultList.setAdapter(resultAdapter);
     }
 
@@ -140,6 +109,37 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
                 markPlaces();
                 updateAdapters();
             }
+        }
+    }
+
+    private void initializeScoreRows() {
+        scoreRowList = new ArrayList<>();
+        for (Fencer fencer : fencers) {
+            scoreRowList.add(new ScoreRow(fencer.getLastName()));
+        }
+        int sIndex = 0;
+        int rowModifier;
+        for (ScoreRow scoreRow: scoreRowList) {
+            rowModifier = sIndex * scoreRowList.size();
+            switch (scoreRowList.size()) {
+                case 8:
+                    scoreRow.init8(scores[rowModifier + 7]);
+                case 7:
+                    scoreRow.init7(scores[rowModifier + 6]);
+                case 6:
+                    scoreRow.init6(scores[rowModifier + 5]);
+                case 5:
+                    scoreRow.init5(scores[rowModifier + 4]);
+                case 4:
+                    scoreRow.init4(scores[rowModifier + 3]);
+                case 3:
+                    scoreRow.init3(scores[rowModifier + 2]);
+                default:
+                    scoreRow.init2(scores[rowModifier + 1]);
+                    scoreRow.init1(scores[rowModifier]);
+            }
+            sIndex++;
+
         }
     }
 
@@ -182,6 +182,10 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         scores[opIndex].setScore(opScore);
         scores[myIndex].setShow(true);
         scores[opIndex].setShow(true);
+        scoreRowList.get(myNumber).setScore(opNumber, scores[myIndex]);
+        scoreRowList.get(opNumber).setScore(myNumber, scores[opIndex]);
+        System.out.println("MYNUMBER" + myNumber);
+        System.out.println("OPNUMBER" + opNumber);
     }
 
     private int getIndex(int myNumber, int opNumber) {
@@ -222,7 +226,7 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
 
     public void updateScores() {
         if (scoreChanged) {
-            addScores(oldBout, false);
+            addScores(oldBout,false);
             scoreChanged = false;
         }
         addScores(changedBout);

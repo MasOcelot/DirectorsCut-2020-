@@ -103,36 +103,58 @@ public class AdapterScoreRow extends RecyclerView.Adapter<AdapterScoreRow.ScoreR
     public void onBindViewHolder(@NonNull ScoreRowViewHolder scoreRowViewHolder, int i) {
         ScoreRow cScoreRow = mScoreRowList.get(i);
         scoreRowViewHolder.tvName.setText(cScoreRow.getName());
-        scoreRowViewHolder.tvBox1.setText(String.valueOf(cScoreRow.getBox1().getScore()));
-//        scoreRowViewHolder.tvBox2.setText(cScoreRow.getBox2().getScore());
-        switch (i) {
+        switch (mSize) {
+            case 8:
+                if(cScoreRow.getBox8().isShow()) scoreRowViewHolder.tvBox8.setText(String.valueOf(cScoreRow.getBox8().getScore()));
+//                if(cScoreRow.getBox8().isBlack()) scoreRowViewHolder.tvBox8.setBackgroundColor(Color.parseColor("#000000"));
             case 7:
-                scoreRowViewHolder.tvBox8.setBackgroundColor(Color.parseColor("#000000"));
-                break;
+                if(cScoreRow.getBox7().isShow()) scoreRowViewHolder.tvBox7.setText(String.valueOf(cScoreRow.getBox7().getScore()));
+//                if(cScoreRow.getBox7().isBlack()) scoreRowViewHolder.tvBox7.setBackgroundColor(Color.parseColor("#000000"));
             case 6:
-                scoreRowViewHolder.tvBox7.setBackgroundColor(Color.parseColor("#000000"));
-                break;
+                if(cScoreRow.getBox6().isShow()) scoreRowViewHolder.tvBox6.setText(String.valueOf(cScoreRow.getBox6().getScore()));
+//                if(cScoreRow.getBox6().isBlack()) scoreRowViewHolder.tvBox6.setBackgroundColor(Color.parseColor("#000000"));
             case 5:
-                scoreRowViewHolder.tvBox6.setBackgroundColor(Color.parseColor("#000000"));
-                break;
+                if(cScoreRow.getBox5().isShow()) scoreRowViewHolder.tvBox5.setText(String.valueOf(cScoreRow.getBox5().getScore()));
+//                if(cScoreRow.getBox5().isBlack()) scoreRowViewHolder.tvBox5.setBackgroundColor(Color.parseColor("#000000"));
             case 4:
-                scoreRowViewHolder.tvBox5.setBackgroundColor(Color.parseColor("#000000"));
-                break;
+                if(cScoreRow.getBox4().isShow()) scoreRowViewHolder.tvBox4.setText(String.valueOf(cScoreRow.getBox4().getScore()));
+//                if(cScoreRow.getBox4().isBlack()) scoreRowViewHolder.tvBox4.setBackgroundColor(Color.parseColor("#000000"));
             case 3:
-                scoreRowViewHolder.tvBox4.setBackgroundColor(Color.parseColor("#000000"));
-                break;
-            case 2:
-                scoreRowViewHolder.tvBox3.setBackgroundColor(Color.parseColor("#000000"));
-                break;
-            case 1:
-                cScoreRow.getBox2().setBlack();
-                scoreRowViewHolder.tvBox2.setBackgroundColor(Color.parseColor("#000000"));
-                break;
-            case 0:
-                cScoreRow.getBox1().setBlack();
-                scoreRowViewHolder.tvBox1.setBackgroundColor(Color.parseColor("#000000"));
-                break;
+                if(cScoreRow.getBox3().isShow()) scoreRowViewHolder.tvBox3.setText(String.valueOf(cScoreRow.getBox3().getScore()));
+//                if(cScoreRow.getBox3().isBlack()) scoreRowViewHolder.tvBox3.setBackgroundColor(Color.parseColor("#000000"));
+            default:
+                if(cScoreRow.getBox2().isShow()) scoreRowViewHolder.tvBox2.setText(String.valueOf(cScoreRow.getBox2().getScore()));
+//                if(cScoreRow.getBox2().isBlack()) scoreRowViewHolder.tvBox2.setBackgroundColor(Color.parseColor("#000000"));
+
+                if(cScoreRow.getBox1().isShow()) scoreRowViewHolder.tvBox1.setText(String.valueOf(cScoreRow.getBox1().getScore()));
+//                if(cScoreRow.getBox1().isBlack()) scoreRowViewHolder.tvBox1.setBackgroundColor(Color.parseColor("#000000"));
         }
+//        switch (i) {
+//            case 7:
+//
+//                break;
+//            case 6:
+//                scoreRowViewHolder.tvBox7.setBackgroundColor(Color.parseColor("#000000"));
+//                break;
+//            case 5:
+//                scoreRowViewHolder.tvBox6.setBackgroundColor(Color.parseColor("#000000"));
+//                break;
+//            case 4:
+//                scoreRowViewHolder.tvBox5.setBackgroundColor(Color.parseColor("#000000"));
+//                break;
+//            case 3:
+//                scoreRowViewHolder.tvBox4.setBackgroundColor(Color.parseColor("#000000"));
+//                break;
+//            case 2:
+//                scoreRowViewHolder.tvBox3.setBackgroundColor(Color.parseColor("#000000"));
+//                break;
+//            case 1:
+//                scoreRowViewHolder.tvBox2.setBackgroundColor(Color.parseColor("#000000"));
+//                break;
+//            case 0:
+//                scoreRowViewHolder.tvBox1.setBackgroundColor(Color.parseColor("#000000"));
+//                break;
+//        }
     }
 
     @Override

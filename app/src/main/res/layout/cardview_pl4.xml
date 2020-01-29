@@ -24,25 +24,33 @@
             android:id="@+id/gr_1"
             android:layout_weight="1.5"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40sp"
             android:background="@drawable/background_border_square"/>
         <TextView
             android:id="@+id/gr_2"
             android:layout_weight="1.5"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40sp"
             android:background="@drawable/background_border_square"/>
         <TextView
             android:id="@+id/gr_3"
             android:layout_weight="1.5"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40sp"
             android:background="@drawable/background_border_square"/>
         <TextView
             android:id="@+id/gr_4"
             android:layout_weight="1.5"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40sp"
             android:background="@drawable/background_border_square"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>
