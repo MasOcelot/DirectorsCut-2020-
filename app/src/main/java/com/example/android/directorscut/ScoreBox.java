@@ -51,6 +51,10 @@ public class ScoreBox {
         this.black = isBlack;
     }
 
+    public void setBlack() {
+        this.setBlack(true);
+    }
+
     public void toggleBlack() {
         black = !black;
     }
