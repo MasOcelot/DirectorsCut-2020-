@@ -11,14 +11,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class ActivityPoolSetup extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, DialogFencer.DialogFencerListener {
     private static final String INTENT_NUM_FENCERS = "number_fencers";
     private static final String INTENT_SCORE_LIMIT = "score_limit";
     private static final String INTENT_FENCER_LIST = "fencer_list";
     private static final String DIALOG_FENCER = "dialog_fencer";
+    private static final int MAX_GENERATOR_ROLLS = 14;
     private static final int MAX_POOL_SIZE = 8;
+    private static final int INIT_POOL_SIZE = 5;
     private int mFencerModifyIndex = 0;
+
+    private String[] randNames;
+    private Set<String> activeNames = new HashSet<>();
 
     // Buttons
     private Button btnGenerate;
@@ -42,9 +50,11 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("Pool Party - Setup");
+        setTitleColor(R.color.five01);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pool_setup);
-
+        generateNames();
         createFencers();
         setupButtons();
         setupViews();
@@ -78,12 +88,32 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         return true;
     }
 
+    private String getRandomName() {
+        Random cloneIndex = new Random();
+        int index = cloneIndex.nextInt(randNames.length);
+        int rolls = 0;
+        while ((activeNames.contains(randNames[index]))
+                && (rolls <MAX_GENERATOR_ROLLS)) {
+            index = cloneIndex.nextInt(randNames.length);
+            rolls++;
+        }
+        String newName;
+        if (rolls < MAX_GENERATOR_ROLLS )  {
+            newName = randNames[index];
+        } else {
+            newName = "CT-2077";
+        }
+        activeNames.add(newName);
+        return newName;
+    }
+
     public void insertFencer(int position) {
         if (position > psFencers.size()) {
             position = psFencers.size();
         }
         if (psFencers.size() < MAX_POOL_SIZE) {
-            psFencers.add(position, new Fencer("New Fencer"));
+            String name = getRandomName();
+            psFencers.add(position, new Fencer(name));
             mFRVAdapter.notifyItemInserted(position);
         } else {
             Toast.makeText(ActivityPoolSetup.this,
@@ -97,6 +127,8 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     }
 
     public void removeFencer(int position) {
+        String delName = psFencers.get(position).getLastName();
+        activeNames.remove(delName);
         psFencers.remove(position);
         mFRVAdapter.notifyItemRemoved(position);
         for (int i = 0; i < psFencers.size(); i++) {
@@ -155,11 +187,11 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onRemoveClick(int position) {
-                if(psFencers.size() > 3) {
+                if(psFencers.size() > 2) {
                     removeFencer(position);
                 } else {
                     Toast.makeText(ActivityPoolSetup.this,
-                            "Cannot have less than 3 fencers!", Toast.LENGTH_SHORT).show();
+                            "Cannot have less than 2 fencers!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -184,11 +216,10 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     }
 
     private void createFencers() {
-        psFencers = new ArrayList<Fencer>(){{
-            add(new Fencer("Alpha"));
-            add(new Fencer("Beta"));
-            add(new Fencer("Gamma"));
-        }};
+        psFencers = new ArrayList<>();
+        for (int i = 0; i < INIT_POOL_SIZE; i++) {
+            psFencers.add(new Fencer(getRandomName()));
+        }
 
         for (Fencer fencer : psFencers) {
             System.out.println(fencer);
@@ -217,16 +248,6 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         if (!numFencersText.equals("")) {
             generateFencers(Integer.valueOf(numFencersText));
         }
-//        if (!numFencersText.equals("")) {
-//            int numFencersInt = Integer.parseInt(numFencersText);
-//            if (numFencersInt > 0) {
-//                numFencers = numFencersInt;
-//            } else {
-//                numFencers = 5;
-//            }
-//        } else {
-//            numFencers = psFencers.size();
-//        }
        numFencers = psFencers.size();
        String scoreLimitText = etScoreLimit.getText().toString();
        if (!scoreLimitText.equals("")) {
@@ -257,4 +278,40 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     public void applyFencerChanges(String name, String club) {
         applyFencerChanges(name, club, FencerRating.Rating.U, 0);
     }
+
+    private void generateNames() {
+        randNames = new String[] {
+                "Appo",
+                "Bacara",
+                "Blackout",
+                "Blitz",
+                "Bly",
+                "Cody",
+                "Colt",
+                "Davijaan",
+                "Deviss",
+                "Doom",
+                "Fil",
+                "Fox",
+                "Gree",
+                "Gregor",
+                "Havoc",
+                "Jai'galaar",
+                "Jet",
+                "Keeli",
+                "Lock",
+                "Monnk",
+                "Neyo",
+                "Ponds",
+                "Rex",
+                "Silver",
+                "Stone",
+                "Thire",
+                "Thorn",
+                "Trauma",
+                "Wolffe",
+                "Zak"
+        };
+    }
+
 }

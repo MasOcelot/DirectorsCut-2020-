@@ -10,11 +10,12 @@
     <TextView
         android:id="@+id/tv_result_fencerNum"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1.5"
         android:textSize="18sp"
-        android:gravity="end"
+        android:gravity="center_vertical|end"
         android:textStyle="italic"
+        android:textColor="@android:color/black"
         android:text="@string/result_num"/>
 
     <TextView
@@ -24,6 +25,7 @@
         android:layout_weight="1.5"
         android:textSize="24sp"
         android:gravity="center"
+        android:textColor="@android:color/black"
         android:text="@string/results_v"/>
 
     <TextView
@@ -33,6 +35,7 @@
         android:layout_weight="1.5"
         android:textSize="24sp"
         android:gravity="center"
+        android:textColor="@android:color/black"
         android:text="@string/result_ts"/>
 
     <TextView
@@ -42,6 +45,7 @@
         android:layout_weight="1.5"
         android:textSize="24sp"
         android:gravity="center"
+        android:textColor="@android:color/black"
         android:text="@string/result_tr"/>
 
     <TextView
@@ -51,6 +55,7 @@
         android:layout_weight="1.5"
         android:textSize="24sp"
         android:gravity="center"
+        android:textColor="@android:color/black"
         android:text="@string/result_ind"/>
 
     <TextView
@@ -61,6 +66,7 @@
         android:textSize="24sp"
         android:gravity="center"
         android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:text="@string/result_pl"/>
 
 

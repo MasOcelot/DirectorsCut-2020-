@@ -4,6 +4,7 @@ import android.widget.TextView;
 
 public class ScoreRow {
     private String mName;
+    private ScoreBox mBox0;
     private ScoreBox mBox1;
     private ScoreBox mBox2;
     private ScoreBox mBox3;
@@ -11,36 +12,10 @@ public class ScoreRow {
     private ScoreBox mBox5;
     private ScoreBox mBox6;
     private ScoreBox mBox7;
-    private ScoreBox mBox8;
 
     public ScoreRow(String name) {
         mName = name;
     }
-    public void init1(ScoreBox scoreBox) {
-        mBox1 = scoreBox;
-    }
-    public void init2(ScoreBox scoreBox) {
-        mBox2 = scoreBox;
-    }
-    public void init3(ScoreBox scoreBox) {
-        mBox3 = scoreBox;
-    }
-    public void init4(ScoreBox scoreBox) {
-        mBox4 = scoreBox;
-    }
-    public void init5(ScoreBox scoreBox) {
-        mBox5 = scoreBox;
-    }
-    public void init6(ScoreBox scoreBox) {
-        mBox6 = scoreBox;
-    }
-    public void init7(ScoreBox scoreBox) {
-        mBox7 = scoreBox;
-    }
-    public void init8(ScoreBox scoreBox) {
-        mBox8 = scoreBox;
-    }
-
     public ScoreRow() {
         this("Default");
     }
@@ -49,86 +24,179 @@ public class ScoreRow {
         return mName;
     }
 
-    public ScoreBox getBox1() {
-        return mBox1;
-    }
-
-    public ScoreBox getBox2() {
-        return mBox2;
-    }
-
-    public ScoreBox getBox3() {
-        return mBox3;
-    }
-    public ScoreBox getBox4() {
-        return mBox4;
-    }
-    public ScoreBox getBox5() {
-        return mBox5;
-    }
-    public ScoreBox getBox6() {
-        return mBox6;
-    }
-    public ScoreBox getBox7() {
-        return mBox7;
-    }
-    public ScoreBox getBox8() {
-        return mBox8;
-    }
-
-    public void setScore(int opponent, ScoreBox scoreBox) {
-        switch (opponent) {
+    public void initScoreBoxes(int numBoxes) {
+        switch (numBoxes) {
             case 7:
-                setScore8(scoreBox);
-                break;
+                init7();
             case 6:
-                setScore7(scoreBox);
-                break;
+                init6();
             case 5:
-                setScore6(scoreBox);
-                break;
+                init5();
             case 4:
-                setScore5(scoreBox);
-                break;
+                init4();
             case 3:
-                setScore4(scoreBox);
-                break;
+                init3();
             case 2:
-                setScore3(scoreBox);
-                break;
-            case 1:
-                setScore2(scoreBox);
-                break;
-            case 0:
-                setScore1(scoreBox);
-                break;
+                init2();
+            default:
+                init1();
+                init0();
+        }
+    }
+    private void init0() {
+        mBox0 = new ScoreBox();
+    }
+    private void init1() {
+        mBox1 = new ScoreBox();
+    }
+    private void init2() {
+        mBox2 = new ScoreBox();
+    }
+    private void init3() {
+        mBox3 = new ScoreBox();
+    }
+    private void init4() {
+        mBox4 = new ScoreBox();
+    }
+    private void init5() {
+        mBox5 = new ScoreBox();
+    }
+    private void init6() {
+        mBox6 = new ScoreBox();
+    }
+    private void init7() {
+        mBox7 = new ScoreBox();
+    }
+    
+    public void setScore(int box, int value) {
+        try {
+            switch (box) {
+                case 7:
+                    setScore7(value);
+                    break;
+                case 6:
+                    setScore6(value);
+                    break;
+                case 5:
+                    setScore5(value);
+                    break;
+                case 4:
+                    setScore4(value);
+                    break;
+                case 3:
+                    setScore3(value);
+                    break;
+                case 2:
+                    setScore2(value);
+                    break;
+                case 1:
+                    setScore1(value);
+                    break;
+                case 0:
+                    setScore0(value);
+                    break;
+                default:
+                    throw new IndexOutOfBoundsException();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+    private void setScore0(int value) {
+        if (mBox0 != null) {
+            mBox0.setScore(value);
+        }
+    }
+    private void setScore1(int value) {
+        if (mBox1 != null) {
+            mBox1.setScore(value);
+        }
+    }
+    private void setScore2(int value) {
+        if (mBox2 != null) {
+            mBox2.setScore(value);
+        }
+    }
+    private void setScore3(int value) {
+        if (mBox3 != null) {
+            mBox3.setScore(value);
+        }
+    }
+    private void setScore4(int value) {
+        if (mBox4 != null) {
+            mBox4.setScore(value);
+        }
+    }
+    private void setScore5(int value) {
+        if (mBox5 != null) {
+            mBox5.setScore(value);
+        }
+    }
+    private void setScore6(int value) {
+        if (mBox6 != null) {
+            mBox6.setScore(value);
+        }
+    }
+    private void setScore7(int value) {
+        if (mBox7 != null) {
+            mBox7.setScore(value);
         }
     }
 
-    public void setScore1(ScoreBox scoreBox) {
-        mBox1 = scoreBox;
+    public ScoreBox getScoreBox(int box) {
+        try {
+            switch (box) {
+                case 7:
+                    return getBox7();
+                case 6:
+                    return getBox6();
+                case 5:
+                    return getBox5();
+                case 4:
+                    return getBox4();
+                case 3:
+                    return getBox3();
+                case 2:
+                    return getBox2();
+                case 1:
+                    return getBox1();
+                case 0:
+                    return getBox0();
+                default:
+                    throw new IndexOutOfBoundsException();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-    public void setScore2(ScoreBox scoreBox) {
-        mBox2 = scoreBox;
+    private ScoreBox getBox0() {
+        return mBox0;
     }
-    public void setScore3(ScoreBox scoreBox) {
-        mBox3 = scoreBox;
+    private ScoreBox getBox1() {
+        return mBox1;
     }
-    public void setScore4(ScoreBox scoreBox) {
-        mBox4 = scoreBox;
+    private ScoreBox getBox2() {
+        return mBox2;
     }
-    public void setScore5(ScoreBox scoreBox) {
-        mBox5 = scoreBox;
+    private ScoreBox getBox3() {
+        return mBox3;
     }
-    public void setScore6(ScoreBox scoreBox) {
-        mBox6 = scoreBox;
+    private ScoreBox getBox4() {
+        return mBox4;
     }
-    public void setScore7(ScoreBox scoreBox) {
-        mBox7 = scoreBox;
+    private ScoreBox getBox5() {
+        return mBox5;
     }
-    public void setScore8(ScoreBox scoreBox) {
-        mBox8 = scoreBox;
+    private ScoreBox getBox6() {
+        return mBox6;
     }
-
+    private ScoreBox getBox7() {
+        return mBox7;
+    }
 
 }

@@ -63,6 +63,10 @@ public class ScoreBox {
         this.show = show;
     }
 
+    public void setShow(){
+        setShow(true);
+    }
+
     public boolean isShow() {
          return show;
     }

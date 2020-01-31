@@ -1,5 +1,6 @@
 package com.example.android.directorscut;
 
+import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
@@ -69,6 +70,7 @@ public class AdapterBoutRV extends RecyclerView.Adapter<AdapterBoutRV.BoutViewHo
 
     @Override
     public void onBindViewHolder(@NonNull BoutViewHolder boutViewHolder, int i) {
+        Resources reso = boutViewHolder.itemView.getResources();
         Bout bout = mBoutList.get(i);
 
         String idText = "(" + (bout.getMyNumber()+1) + "-" + (bout.getOpNumber()+1) +")";
@@ -77,8 +79,11 @@ public class AdapterBoutRV extends RecyclerView.Adapter<AdapterBoutRV.BoutViewHo
         String namesText = "" + bout.getMyName()+" - " + bout.getOpName();
         boutViewHolder.mNamesTV.setText(namesText);
 
-        boutViewHolder.mIndexTV.setText(String.valueOf(i+1));
+        String indexText = (i+1) + ".";
+        boutViewHolder.mIndexTV.setText(indexText);
         boutViewHolder.mIndexTV.setTypeface(null, Typeface.BOLD);
+
+        int textColor;
 
         if (bout.isComplete()) {
             String scoreText = "" + bout.getMyScore()+ "-" +bout.getOpScore();
@@ -87,13 +92,19 @@ public class AdapterBoutRV extends RecyclerView.Adapter<AdapterBoutRV.BoutViewHo
             boutViewHolder.mScoresTV.setPaintFlags(boutViewHolder.mNamesTV.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             boutViewHolder.mNamesTV.setTypeface(null, Typeface.NORMAL);
             boutViewHolder.mNamesTV.setPaintFlags(boutViewHolder.mNamesTV.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            boutViewHolder.mCard.setBackgroundResource(R.drawable.background_border_grey);
+            boutViewHolder.mCard.setBackgroundResource(R.drawable.background_border_black);
+            textColor = reso.getColor(R.color.corwh);
         } else {
             boutViewHolder.mScoresTV.setText("");
             boutViewHolder.mNamesTV.setTypeface(null, Typeface.BOLD);
             boutViewHolder.mNamesTV.setPaintFlags(boutViewHolder.mNamesTV.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             boutViewHolder.mCard.setBackgroundResource(R.drawable.background_border);
+            textColor = reso.getColor(R.color.grid_ignore);
         }
+        boutViewHolder.mIDsTV.setTextColor(textColor);
+        boutViewHolder.mIndexTV.setTextColor(textColor);
+        boutViewHolder.mNamesTV.setTextColor(textColor);
+        boutViewHolder.mScoresTV.setTextColor(textColor);
     }
 
 

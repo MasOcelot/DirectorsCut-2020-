@@ -1,10 +1,14 @@
 package com.example.android.directorscut;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class AdapterFencerResult extends BaseAdapter {
@@ -32,13 +36,17 @@ public class AdapterFencerResult extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+
         final Fencer fencer = fencers[position];
 
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.linearlayout_results, null);
         }
+        Resources reso = convertView.getResources();
 
+        final LinearLayout llBackGround =
+                (LinearLayout) convertView.findViewById(R.id.ll_fencer_results);
         final TextView numTextView =
                 (TextView) convertView.findViewById(R.id.tv_result_fencerNum);
         final TextView victoriesTextView =
@@ -52,8 +60,24 @@ public class AdapterFencerResult extends BaseAdapter {
         final TextView plTextView =
                 (TextView) convertView.findViewById(R.id.tv_result_pl);
 
+        Drawable bgDrawable;
+        int bgColor;
+        int textColor;
+        if (position % 2 == 1) {
+            bgDrawable = reso.getDrawable(R.drawable.background_border_square_212);
+            bgColor = reso.getColor(R.color.two12);
+            textColor = reso.getColor(R.color.corwh);
+        } else {
+            bgDrawable = reso.getDrawable(R.drawable.background_border_square_white);
+            bgColor = reso.getColor(R.color.corwh);
+            textColor = reso.getColor(R.color.grid_ignore);
+        }
+        llBackGround.setBackgroundColor(bgColor);
+
         String fencerNumber = "" + (position + 1) + ". ";
         numTextView.setText(fencerNumber);
+        numTextView.setTextColor(textColor);
+        numTextView.setBackgroundColor(bgColor);
 
         String fencerV = "" + fencer.getVic();
         String fencerTS = "" + fencer.getTS();
@@ -62,10 +86,20 @@ public class AdapterFencerResult extends BaseAdapter {
         String fencerPl = "" + fencer.getPlace();
 
         victoriesTextView.setText(fencerV);
+        victoriesTextView.setTextColor(textColor);
+        victoriesTextView.setBackgroundColor(bgColor);
         tsTextView.setText(fencerTS);
+        tsTextView.setTextColor(textColor);
+        tsTextView.setBackgroundColor(bgColor);
         trTextView.setText(fencerTR);
+        trTextView.setTextColor(textColor);
+        trTextView.setBackgroundColor(bgColor);
         indTextView.setText(fencerInd);
+        indTextView.setTextColor(textColor);
+        indTextView.setBackgroundColor(bgColor);
         plTextView.setText(fencerPl);
+        plTextView.setTextColor(reso.getColor(R.color.grid_ignore));
+//        plTextView.setBackgroundDrawable(bgDrawable);
 
         return convertView;
     }

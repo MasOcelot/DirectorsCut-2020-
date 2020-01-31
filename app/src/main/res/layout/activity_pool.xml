@@ -18,26 +18,23 @@
     <!--</LinearLayout>-->
 
     <LinearLayout
-        android:id="@+id/ll_label_top"
+        android:id="@+id/ll_pl_label_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tv_label_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#4CAF50"
+            android:background="@color/grid_ignore"
             android:gravity="center"
-            android:text="@string/label_name"
+            android:textColor="@android:color/white"
             android:textSize="24sp" />
 
         <TextView
@@ -45,26 +42,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:background="#009688"
+            android:background="@color/corg2"
             android:gravity="center"
-            android:text="@string/label_opNum"
+            android:textColor="@android:color/black"
             android:textSize="24sp" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gv_main_scores"
         android:layout_width="match_parent"
-        android:layout_height="340dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:numColumns="6"
-        android:columnWidth="60dp"
-        android:verticalSpacing="0dp"
-        android:horizontalSpacing="0dp"
-        android:stretchMode="spacingWidthUniform"
+        android:background="@drawable/background_border_square_white"
+        android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_label_top"/>
+        app:layout_constraintTop_toBottomOf="@+id/ll_pl_label_top"/>
 
     <LinearLayout
         android:id="@+id/ll_label_mid"
@@ -74,22 +68,24 @@
         android:weightSum="15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gv_main_scores">
+        app:layout_constraintTop_toBottomOf="@id/gv_main_scores"
+        android:background="@drawable/background_border_square_white">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="#4CAF50"
             android:gravity="bottom|center"
+            android:background="@color/two12"
             android:textSize="24sp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="#FFC107"
+            android:background="@android:color/white"
             android:gravity="bottom|center"
+            android:textColor="@android:color/black"
             android:text="@string/label_sc_v"
             android:textSize="24sp" />
 
@@ -97,8 +93,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="#FFEB3B"
+            android:background="@color/two12"
             android:gravity="bottom|center"
+            android:textColor="@color/grid_ignore"
             android:text="@string/label_sc_ts"
             android:textSize="24sp" />
 
@@ -106,8 +103,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="#FFC107"
+            android:background="@android:color/white"
             android:gravity="bottom|center"
+            android:textColor="@android:color/black"
             android:text="@string/label_sv_tr"
             android:textSize="24sp" />
 
@@ -115,8 +113,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="#FFEB3B"
+            android:background="@color/two12"
             android:gravity="bottom|center"
+            android:textColor="@color/grid_ignore"
             android:text="@string/label_sv_ind"
             android:textSize="24sp" />
 
@@ -124,19 +123,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="#FFC107"
+            android:background="@android:color/white"
             android:gravity="bottom|center"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
             android:text="@string/label_sv_pl"
             android:textSize="24sp" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="6"
-            android:background="#2196F3"
-            android:gravity="bottom|center"
+            android:background="@color/five01"
+            android:gravity="center"
             android:text="@string/bout_order"
-            android:textSize="24sp" />
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -154,7 +157,8 @@
             android:id="@+id/lv_fencer_results"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="9" />
+            android:layout_weight="9"
+            android:background="@color/grid_ignore"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_bout_list"
@@ -163,7 +167,7 @@
             android:layout_weight="6"
             android:scrollbars="vertical"
             android:padding="2dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="#323232"/>
 
     </LinearLayout>
 
@@ -173,25 +177,43 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="3"
+        android:background="@drawable/background_border_square_501"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/PL_btn_redo"
+            style="@android:style/ButtonBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="Redo Bout"/>
+            android:background="@drawable/background_border_square_white"
+            android:text="Redo Bout"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            style="@android:style/ButtonBar"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:background="@drawable/background_border_square_white"
+            android:visibility="invisible"/>
         <Button
             android:id="@+id/PL_btn_next_bout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@android:style/ButtonBar"
             android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:background="@drawable/background_border_square_white"
             android:text="Next Bout"/>
     </LinearLayout>
 

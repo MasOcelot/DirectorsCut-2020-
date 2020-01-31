@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="2dp"
+    app:cardCornerRadius="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:id="@+id/rl_card"
@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:gravity="center"
+            android:textColor="@color/grid_ignore"
             android:text="@string/boutBox_fencerIDs"
             />
 
@@ -26,6 +27,7 @@
             android:id="@+id/tv_boutBox_IDs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/grid_ignore"
             android:text="@string/bout_ind"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -43,6 +45,7 @@
             android:layout_marginEnd="0dp"
             android:layout_marginRight="0dp"
             android:gravity="center"
+            android:textColor="@color/grid_ignore"
             android:text="@string/boutBox_scores" />
 
 
@@ -55,6 +58,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:gravity="center"
+            android:textColor="@color/grid_ignore"
             android:text="@string/boutBox_fullNames" />
     </RelativeLayout>
 
