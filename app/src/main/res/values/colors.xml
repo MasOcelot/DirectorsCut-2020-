@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="five01">#233D61</color>
-    <color name="two12">#FF7F00</color>
+
+    <color name="five01">#FAC537</color>
+    <color name="five02">#FF6A07</color>
+    <color name="five03">#FF0707</color>
+<!--    <color name="five01">#233D61</color>-->
+    <color name="two12">#949494</color>
     <color name="two13">#FFEB3B</color>
+    <color name="two14">#628AEC</color>
+<!--    <color name="two14">#628AEC</color>-->
 
     <color name="corg3">#A00000</color>
 <!--    <color name="corg2">#4F0000</color>-->

@@ -63,7 +63,7 @@ public class AdapterFencerResult extends BaseAdapter {
         Drawable bgDrawable;
         int bgColor;
         int textColor;
-        if (position % 2 == 1) {
+        if (position % 2 == 0) {
             bgDrawable = reso.getDrawable(R.drawable.background_border_square_212);
             bgColor = reso.getColor(R.color.two12);
             textColor = reso.getColor(R.color.corwh);

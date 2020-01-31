@@ -71,8 +71,10 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(getSupportActionBar()!= null) getSupportActionBar()
-                .setBackgroundDrawable(getResources().getDrawable(R.drawable.background_501));
+        if(getSupportActionBar()!= null) {
+            getSupportActionBar()
+                    .setBackgroundDrawable(getResources().getDrawable(R.drawable.background_501));
+        }
         super.onCreate(savedInstanceState);
         activeBout = 0;
         setContentView(R.layout.activity_pool);

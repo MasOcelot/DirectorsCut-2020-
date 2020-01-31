@@ -104,7 +104,7 @@
             android:layout_margin="4dp"
             android:text="@string/ps_mid_generate"
             android:background="@drawable/background_border_501"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             />
         <Button
             style="@android:style/ButtonBar"
@@ -115,7 +115,7 @@
             android:layout_margin="4dp"
             android:text="@string/ps_mid_insert"
             android:background="@drawable/background_border_501"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             />
 
     </LinearLayout>
