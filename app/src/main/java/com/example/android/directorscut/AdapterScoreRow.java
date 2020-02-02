@@ -140,33 +140,24 @@ public class AdapterScoreRow extends RecyclerView.Adapter<AdapterScoreRow.ScoreR
             scoreRowViewHolder.tvName.setTextSize(18);
         }
         String newName = "" + (i+1) + ". " + name;
-//        Drawable bgColor;
-//        int textColor;
-//        if (i % 2 == 0) {
-//            bgColor = mRes.getDrawable(R.drawable.background_border_square_cor);
-//            textColor = mRes.getColor(R.color.corwh);
-//        } else {
-//            bgColor = mRes.getDrawable(R.drawable.background_border_square_white);
-//            textColor = mRes.getColor(R.color.grid_ignore);
-//        }
-//        scoreRowViewHolder.tvName.setBackgroundDrawable(bgColor);
-//        scoreRowViewHolder.tvName.setTextColor(textColor);
+        scoreRowViewHolder.tvName.setBackgroundColor(mRes.getColor(R.color.corwh));
         scoreRowViewHolder.tvName.setText(newName);
+        scoreRowViewHolder.tvName.setTextColor(mRes.getColor(R.color.grid_ignore));
 
         for (int j = 0; j < mSize; j++) {
             ScoreBox currBox = cScoreRow.getScoreBox(j);
             TextView sbView = scoreRowViewHolder.getSBView(j);
             if (currBox.isBlack()) {
-                sbView.setBackgroundColor(mRes.getColor(R.color.grid_ignore));
+                sbView.setBackgroundDrawable(mRes.getDrawable(R.drawable.background_border_square_tea));
             } else {
-                sbView.setBackgroundDrawable(mRes.getDrawable(R.drawable.background_border_square_white));
+                sbView.setBackgroundDrawable(mRes.getDrawable(R.drawable.background_border_square_tea_empty));
             }
             TextView boxJ = scoreRowViewHolder.getSBView(j);
             if (currBox.isShow()) {
                 String scoreText = String.valueOf(currBox.getScore());
                 if (currBox.isVictory()){
                     scoreText = "V" + scoreText;
-                    boxJ.setTextColor(mRes.getColor(R.color.five01));
+                    boxJ.setTextColor(mRes.getColor(R.color.teaPrimaryDark));
                 } else {
                     boxJ.setTextColor(mRes.getColor(R.color.grid_ignore));
                 }

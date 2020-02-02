@@ -93,7 +93,7 @@ public class AdapterBoutRV extends RecyclerView.Adapter<AdapterBoutRV.BoutViewHo
             boutViewHolder.mNamesTV.setTypeface(null, Typeface.NORMAL);
             boutViewHolder.mNamesTV.setPaintFlags(boutViewHolder.mNamesTV.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             boutViewHolder.mCard.setBackgroundResource(R.drawable.background_border_black);
-            textColor = reso.getColor(R.color.corwh);
+            textColor = reso.getColor(R.color.teaPrimaryDark);
         } else {
             boutViewHolder.mScoresTV.setText("");
             boutViewHolder.mNamesTV.setTypeface(null, Typeface.BOLD);

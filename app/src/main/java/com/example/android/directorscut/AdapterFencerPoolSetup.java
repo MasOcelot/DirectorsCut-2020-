@@ -78,6 +78,9 @@ public class AdapterFencerPoolSetup extends RecyclerView.Adapter<AdapterFencerPo
         fencerPoolViewHolder.tvName.setText(exampleFencer.getLastName());
         fencerPoolViewHolder.tvRating.setText(exampleFencer.getRatingAsString());
         fencerPoolViewHolder.tvClub.setText(exampleFencer.getClub());
+//        if (mFencerList.size() <= 2) {
+//            fencerPoolViewHolder.imRemove.setBackgroundColor();
+//        }
     }
 
     @NonNull

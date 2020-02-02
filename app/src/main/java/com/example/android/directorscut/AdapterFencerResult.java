@@ -65,18 +65,18 @@ public class AdapterFencerResult extends BaseAdapter {
         int textColor;
         if (position % 2 == 0) {
             bgDrawable = reso.getDrawable(R.drawable.background_border_square_212);
-            bgColor = reso.getColor(R.color.two12);
-            textColor = reso.getColor(R.color.corwh);
+            bgColor = reso.getColor(R.color.teaPrimaryLight);
+            textColor = reso.getColor(R.color.grid_ignore);
         } else {
             bgDrawable = reso.getDrawable(R.drawable.background_border_square_white);
-            bgColor = reso.getColor(R.color.corwh);
+            bgColor = reso.getColor(R.color.teaSecondary);
             textColor = reso.getColor(R.color.grid_ignore);
         }
         llBackGround.setBackgroundColor(bgColor);
 
         String fencerNumber = "" + (position + 1) + ". ";
         numTextView.setText(fencerNumber);
-        numTextView.setTextColor(textColor);
+        numTextView.setTextColor(reso.getColor(R.color.grid_ignore));
         numTextView.setBackgroundColor(bgColor);
 
         String fencerV = "" + fencer.getVic();

@@ -50,7 +50,7 @@
             android:layout_toStartOf="@id/tv_c_fencer_name"
             android:layout_toLeftOf="@id/tv_c_fencer_name"
             android:layout_below="@id/tv_c_fencer_name"
-            android:textColor="#233D61"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             android:text="U"
             />
@@ -62,7 +62,7 @@
             android:layout_below="@+id/tv_c_local_num"
             android:layout_alignStart="@+id/tv_c_fencer_name"
             android:layout_alignLeft="@+id/tv_c_fencer_name"
-            android:textColor="#233D61"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             android:textStyle="italic"
             android:text="club name"

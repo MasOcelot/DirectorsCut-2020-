@@ -32,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/grid_ignore"
+            android:background="@color/teaPrimaryDark"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
@@ -42,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:background="@color/two14"
+            android:background="#B05060"
             android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
@@ -53,12 +53,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="@drawable/background_border_square_white"
+        android:background="@android:color/white"
         android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_pl_label_top"/>
+<!--    android:background="@drawable/background_border_square_white"-->
 
     <LinearLayout
         android:id="@+id/ll_label_mid"
@@ -76,16 +77,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:gravity="bottom|center"
-            android:background="@color/two14"
+            android:background="@color/teaPrimaryLight2"
             android:textSize="24sp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="@android:color/white"
+            android:background="@color/teaSecondary"
             android:gravity="bottom|center"
-            android:textColor="@android:color/black"
+            android:textColor="@color/teaPrimaryDark"
             android:text="@string/label_sc_v"
             android:textSize="24sp" />
 
@@ -93,9 +94,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="@color/two14"
+            android:background="@color/teaPrimaryLight2"
             android:gravity="bottom|center"
-            android:textColor="@color/grid_ignore"
+            android:textColor="@color/teaPrimaryDark"
             android:text="@string/label_sc_ts"
             android:textSize="24sp" />
 
@@ -103,9 +104,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="@android:color/white"
+            android:background="@color/teaSecondary"
             android:gravity="bottom|center"
-            android:textColor="@android:color/black"
+            android:textColor="@color/teaPrimaryDark"
             android:text="@string/label_sv_tr"
             android:textSize="24sp" />
 
@@ -113,9 +114,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="@color/two14"
+            android:background="@color/teaPrimaryLight2"
             android:gravity="bottom|center"
-            android:textColor="@color/grid_ignore"
+            android:textColor="@color/teaPrimaryDark"
             android:text="@string/label_sv_ind"
             android:textSize="24sp" />
 
@@ -123,7 +124,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:background="@android:color/white"
+            android:background="@color/teaSecondary"
             android:gravity="bottom|center"
             android:textColor="@android:color/black"
             android:textStyle="bold"
@@ -134,11 +135,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6"
-            android:background="@color/five01"
+            android:background="@drawable/background_border_square_501"
             android:gravity="center"
             android:text="@string/bout_order"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -177,7 +178,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="3"
-        android:background="@drawable/background_border_square_501"
+        android:background="@color/teaSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -189,7 +190,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:background="@drawable/background_border_square_white"
+            android:background="@drawable/background_border_square_tea_light"
             android:text="Redo Bout"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
@@ -202,7 +203,7 @@
             android:layout_margin="4dp"
             android:textSize="18sp"
             android:textColor="@android:color/black"
-            android:background="@drawable/background_border_square_white"
+            android:background="@drawable/background_border_square_tea_light"
             android:visibility="invisible"/>
         <Button
             android:id="@+id/PL_btn_next_bout"
@@ -213,7 +214,7 @@
             android:layout_margin="4dp"
             android:textSize="18sp"
             android:textColor="@android:color/black"
-            android:background="@drawable/background_border_square_white"
+            android:background="@drawable/background_border_square_tea_light"
             android:text="Next Bout"/>
     </LinearLayout>
 
