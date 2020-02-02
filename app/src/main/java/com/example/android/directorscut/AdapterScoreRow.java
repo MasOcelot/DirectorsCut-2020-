@@ -1,10 +1,7 @@
 package com.example.android.directorscut;
 
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -140,7 +137,7 @@ public class AdapterScoreRow extends RecyclerView.Adapter<AdapterScoreRow.ScoreR
             scoreRowViewHolder.tvName.setTextSize(18);
         }
         String newName = "" + (i+1) + ". " + name;
-        scoreRowViewHolder.tvName.setBackgroundColor(mRes.getColor(R.color.corwh));
+        scoreRowViewHolder.tvName.setBackgroundColor(mRes.getColor(R.color.white));
         scoreRowViewHolder.tvName.setText(newName);
         scoreRowViewHolder.tvName.setTextColor(mRes.getColor(R.color.grid_ignore));
 

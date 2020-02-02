@@ -2,7 +2,6 @@ package com.example.android.directorscut;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +68,7 @@ public class AdapterFencerResult extends BaseAdapter {
             textColor = reso.getColor(R.color.grid_ignore);
         } else {
             bgDrawable = reso.getDrawable(R.drawable.background_border_square_white);
-            bgColor = reso.getColor(R.color.teaSecondary);
+            bgColor = reso.getColor(R.color.white);
             textColor = reso.getColor(R.color.grid_ignore);
         }
         llBackGround.setBackgroundColor(bgColor);

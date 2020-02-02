@@ -15,7 +15,7 @@
 <!--    <color name="corwh">#FFFFFF</color>-->
     <color name="corgu">#233D61</color>
     <color name="corg2">#FF7F00</color>
-    <color name="corwh">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
 
     <!-- TEA -->
     <color name="teaPrimary">#48A830</color>
