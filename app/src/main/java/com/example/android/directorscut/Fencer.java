@@ -26,6 +26,11 @@ public class Fencer implements Comparable<Fencer>, Parcelable {
         this.lastName = name;
     }
 
+    public Fencer(String name, String club) {
+        this(name);
+        this.setClub(club);
+    }
+
     public Fencer() {
         this("JonDow_" + genericFencers);
         genericFencers++;
@@ -133,7 +138,11 @@ public class Fencer implements Comparable<Fencer>, Parcelable {
     }
 
     public void setClub(String club) {
-        this.club = club;
+        this.club = club.toUpperCase();
+    }
+
+    public void setClub() {
+        this.setClub("Unattached");
     }
 
     public void updateInd() {

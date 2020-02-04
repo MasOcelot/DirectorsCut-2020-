@@ -158,7 +158,15 @@ public class AdapterScoreRow extends RecyclerView.Adapter<AdapterScoreRow.ScoreR
                 } else {
                     boxJ.setTextColor(mRes.getColor(R.color.grid_ignore));
                 }
+                if (scoreText.length() > 2) {
+                    if (mSize > 7) {
+                        boxJ.setTextSize(14);
+                    } else if (mSize > 6) {
+                        boxJ.setTextSize(16);
+                    }
+                }
                 boxJ.setText(scoreText);
+
             } else {
                 scoreRowViewHolder.getSBView(j).setText("");
             }

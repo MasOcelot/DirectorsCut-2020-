@@ -220,7 +220,6 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         for (int i = 0; i < INIT_POOL_SIZE; i++) {
             psFencers.add(new Fencer(getRandomName()));
         }
-
         for (Fencer fencer : psFencers) {
             System.out.println(fencer);
         }

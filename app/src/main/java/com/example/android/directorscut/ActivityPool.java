@@ -1,22 +1,31 @@
 package com.example.android.directorscut;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class ActivityPool extends AppCompatActivity implements View.OnClickListener {
+    // Team Order
+    enum OrderType {
+        NONE, A, B, C, D, E;
+    }
+    private int[] teamNums = {0, 0 , 0};
+    private static final int TEAM_TWOS = 0;
+    private static final int TEAM_THREES = 1;
+    private static final int TEAM_FOURS = 2;
+    private OrderType mOrderType = OrderType.NONE;
+    private HashMap<String, Integer> mExistingTeamsHash = new HashMap<>();
+
 
     // RecyclerView ScoreRow
     private RecyclerView mScoreRowRV;
@@ -55,17 +64,6 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
     private boolean scoreChanged = false;
     Bout oldBout = null;
     Bout changedBout = null;
-
-    private Fencer[] fencerTemplate = {
-        new Fencer("Alpha"),
-        new Fencer("Bravo"),
-        new Fencer("Charlie"),
-        new Fencer("Delta"),
-        new Fencer("Echo"),
-        new Fencer("Foxtrot"),
-        new Fencer("Golf"),
-        new Fencer("Hotel")
-    };
 
     private Fencer[] fencers;
 
@@ -239,6 +237,91 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         // Sort by default (localIndex)
         Arrays.sort(fencers);
     }
+
+    /**
+     * Assigns enum OrderType (NONE,A,B,...,E) based on duplicate clubs
+     * used as supplementary data for rebuildBouts()
+     */
+    private void buildBoutOrder() {
+        bboClubCount();
+        bboClubSizes();
+        bboOrderType();
+    }
+
+    /**
+     * Counts unique clubs in hashMap mExistingTeamsHash
+     */
+    private void bboClubCount() {
+        for (Fencer fencer : fencers) {
+            String club = fencer.getClub();
+            if (!club.equals("UNATTACHED")) {
+                if (mExistingTeamsHash.containsKey(club)) {
+                    try {
+                        int clubCount = mExistingTeamsHash.get(club);
+                        mExistingTeamsHash.put(club, clubCount+1);
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    mExistingTeamsHash.put(club, 1);
+                }
+            }
+        }
+    }
+
+    private void bboClubSizes() {
+        if (NUM_FEN > 5) {
+            for (String name : mExistingTeamsHash.keySet()) {
+                String value = mExistingTeamsHash.get(name).toString();
+                System.out.println(name + " " + value);
+            }
+            for (int size : mExistingTeamsHash.values()) {
+                if (size > 1) {
+                    System.out.println("size: " + size);
+                    teamNums[size - 2] = teamNums[size - 2] + 1;
+                    System.out.println("size" + size + ": " + teamNums[size - 2]);
+                }
+            }
+        }
+    }
+
+    private void bboOrderType() {
+        OrderType oType = OrderType.NONE;
+        switch (NUM_FEN) {
+            case 8:
+                if (teamNums[TEAM_FOURS] == 2) {
+                    oType = OrderType.E;
+                } else if (teamNums[TEAM_FOURS] == 1 && teamNums[TEAM_THREES] == 1) {
+                    oType = OrderType.D;
+                } else if (teamNums[TEAM_FOURS] == 1) {
+                    oType = OrderType.C;
+                } else if (teamNums[TEAM_THREES] == 2) {
+                    oType = OrderType.B;
+                } else if (teamNums[TEAM_THREES] == 1) {
+                    oType = OrderType.A;
+                }
+                break;
+            case 7:
+            case 6:
+                if (teamNums[TEAM_FOURS] == 1) {
+                    oType = OrderType.C;
+                } else if (teamNums[TEAM_THREES] >= 1) {
+                    oType = OrderType.B;
+                } else if (teamNums[TEAM_TWOS] >= 1) {
+                    oType = OrderType.A;
+                }
+                break;
+            default:
+                oType = OrderType.NONE;
+        }
+        mOrderType = oType;
+        System.out.println(NUM_FEN + "" + mOrderType);
+    }
+
+    /**
+     * Assigns array of two-digit numbers representing bout order
+     * Generates bouts
+     */
     private void rebuildBouts() {
         int[] list = new int[NUM_BOUTS];
         switch (NUM_FEN) {
@@ -255,13 +338,52 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
                 list = new int[]{12,34,51,23,54,13,25,41,35,42};
                 break;
             case 6:
-                list = new int[]{12,45,23,56,31,64,25,14,53,16,42,36,51,34,62};
+                switch (mOrderType) {
+                    case A:
+                        list = new int[]{14,25,36,51,42,31,62,53,64,12,34,56,23,16,45};
+                        break;
+                    case C:
+                        list = new int[]{31,42,14,23,56,12,34,16,25,36,45,62,51,64,53};
+                        break;
+                    case B:
+                    default:
+                        list = new int[]{12,45,23,56,31,64,25,14,53,16,42,36,51,34,62};
+
+                }
                 break;
             case 7:
-                list = new int[]{14,25,36,71,54,23,67,51,43,62,57,31,46,72,35,16,24,73,65,12,47};
+                switch (mOrderType) {
+                    case B:
+                        list = new int[]{12,45,67,31,47,23,51,62,34,75,16,42,73,56,14,27,53,64,71,25,36};
+                        break;
+                    case C:
+                        list = new int[]{12,34,56,41,23,75,13,42,67,51,37,46,52,61,72,35,62,47,36,54,71};
+                        break;
+                    case A:
+                    default:
+                        list = new int[]{14,25,36,71,54,23,67,51,43,62,57,31,46,72,35,16,24,73,65,12,47};
+                }
                 break;
             case 8:
-                list = new int[]{23,15,74,68,12,34,56,87,41,52,83,67,42,81,75,36,28,74,61,37,48,26,35,17,46,85,72,13};
+                switch (mOrderType) {
+                    case A:
+                        list = new int[]{23,74,68,12,75,46,13,85,42,17,36,28,54,61,37,48,26,35,41,87,56,34,81,52,67,83,15,72};
+                        break;
+                    case B:
+                        list = new int[]{12,45,31,64,78,23,56,14,27,58,36,71,84,25,73,86,51,34,82,67,53,18,47,62,38,75,16,42};
+                        break;
+                    case C:
+                        list = new int[]{23,15,74,68,12,35,87,46,13,52,48,67,34,85,61,37,28,54,17,36,42,81,75,26,83,41,72,56};
+                        break;
+                    case D:
+                        list = new int[]{56,12,34,75,31,42,67,58,14,86,23,78,51,64,27,38,16,25,84,73,62,18,53,47,82,36,71,45};
+                        break;
+                    case E:
+                        list = new int[]{58,67,14,23,75,86,31,42,78,56,34,12,38,64,71,25,36,18,45,27,16,53,82,47,51,62,73,84};
+                        break;
+                    default:
+                        list = new int[]{23,15,74,68,12,34,56,87,41,52,83,67,42,81,75,36,28,74,61,37,48,26,35,17,46,85,72,13};
+                }
                 break;
         }
         int myNum;
@@ -318,6 +440,7 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
                 NUM_FEN = numFencersInt;
                 NUM_BOUTS = (NUM_FEN * (NUM_FEN - 1)) / 2;
                 GRID_SIZE = NUM_FEN * NUM_FEN;
+                buildBoutOrder();
                 rebuildBouts();
             }
         }
