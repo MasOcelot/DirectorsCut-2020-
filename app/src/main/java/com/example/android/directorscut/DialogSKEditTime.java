@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-public class DialogEditTime extends AppCompatDialogFragment {
+public class DialogSKEditTime extends AppCompatDialogFragment {
     private EditText editTextMinutes;
     private EditText editTextSeconds;
 

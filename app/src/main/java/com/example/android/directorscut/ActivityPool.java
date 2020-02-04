@@ -168,12 +168,12 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         opSRow.setScore(myNumber, opScore);
         opSRow.getScoreBox(myNumber).setShow();
 
-        if (myScore < opScore) {
-            mySRow.getScoreBox(opNumber).setVictory(false);
-            opSRow.getScoreBox(myNumber).setVictory(true);
-        } else if (myScore > opScore) {
+        if (!bout.isMyVictory()) {
             mySRow.getScoreBox(opNumber).setVictory(true);
             opSRow.getScoreBox(myNumber).setVictory(false);
+        } else {
+            mySRow.getScoreBox(opNumber).setVictory(false);
+            opSRow.getScoreBox(myNumber).setVictory(true);
         }
     }
 
@@ -256,11 +256,9 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
             String club = fencer.getClub();
             if (!club.equals("UNATTACHED")) {
                 if (mExistingTeamsHash.containsKey(club)) {
-                    try {
+                    if (mExistingTeamsHash.get(club) != null) {
                         int clubCount = mExistingTeamsHash.get(club);
                         mExistingTeamsHash.put(club, clubCount+1);
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
                     }
                 } else {
                     mExistingTeamsHash.put(club, 1);
@@ -272,8 +270,10 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
     private void bboClubSizes() {
         if (NUM_FEN > 5) {
             for (String name : mExistingTeamsHash.keySet()) {
-                String value = mExistingTeamsHash.get(name).toString();
-                System.out.println(name + " " + value);
+                if (mExistingTeamsHash.get(name) != null) {
+                    String value = mExistingTeamsHash.get(name).toString();
+                    System.out.println(name + " " + value);
+                }
             }
             for (int size : mExistingTeamsHash.values()) {
                 if (size > 1) {

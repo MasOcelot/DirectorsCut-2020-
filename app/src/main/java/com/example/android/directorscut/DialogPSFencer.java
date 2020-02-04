@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class DialogFencer extends AppCompatDialogFragment {
+public class DialogPSFencer extends AppCompatDialogFragment {
     private EditText etName;
     private EditText etClub;
     private Spinner spRating;

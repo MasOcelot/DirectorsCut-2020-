@@ -54,7 +54,7 @@ public class Bout implements Parcelable {
 
     @Override
     public String toString() {
-        return "Bout[("+myNumber+"-"+opNumber+") "+myScore+":"+opScore+"]";
+        return "Bout[("+myNumber+"-"+opNumber+") "+myScore+":"+opScore+"] MyVic: " + myVictory ;
     }
 
     public void addMyScore() {
@@ -154,16 +154,17 @@ public class Bout implements Parcelable {
         this.setComplete();
     }
 
+    public void endBout(boolean myVic) {
+        this.setIsVictory(myVic);
+        this.setComplete();
+    }
+
     public boolean isComplete() {
         return complete;
     }
 
     public void setIsVictory(boolean isVictory){
         this.myVictory = isVictory;
-    }
-
-    public void toggleVictory(){
-        myVictory = !myVictory;
     }
 
     @Override

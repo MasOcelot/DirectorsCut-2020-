@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +15,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 
-public class ActivityScorekeeper extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener, DialogEditTime.DialogEditTimeListener {
+public class ActivityScorekeeper extends AppCompatActivity
+        implements View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener, DialogSKEditTime.DialogEditTimeListener, DialogSKVictor.DialogSKVictorListener {
     // STRING CONSTANTS
     // Bout
     private static final String INTENT_BOUT_INDEX = "bout_index";
@@ -29,6 +28,7 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     private static final int REQCODE_CARD = 1;
     // Dialog Tags
     private static final String DIALOG_EDIT_TIME = "edit_time";
+    private static final String DIALOG_VICTOR = "set_victor";
 
     // CONSTANTS
     // Time
@@ -39,6 +39,7 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     // Score booleans
     private boolean scoreFOTR;
     private boolean scoreFOTL;
+    private int lastScore;
 
 
     private String cardName = "";
@@ -97,30 +98,6 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
             activeBout = intent.getIntExtra(INTENT_BOUT_INDEX, 0);
         }
         setupViews();
-//        scoreTextViewL = (TextView) findViewById(R.id.score_FOTL);
-//        scoreTextViewR = (TextView) findViewById(R.id.score_FOTR);
-//
-//        boutReset = (Button) findViewById(R.id.bout_reset);
-//        boutMinuteBreak = (Button) findViewById(R.id.bout_minuteBreak);
-//        boutSubmit = (Button) findViewById(R.id.bout_submit);
-//        countdownText = (TextView) findViewById(R.id.clock_timer);
-//        countdownButton = (Button) findViewById(R.id.time_toggle);
-//        doubleTouch = (Button) findViewById(R.id.double_touch);
-//        nameFOTL = (Button) findViewById(R.id.btn_name_FOTL);
-//        nameFOTR = (Button) findViewById(R.id.btn_name_FOTR);
-//
-//        // BUTTONS
-//        // Bout Status
-//        boutReset.setOnClickListener(this);
-//        boutReset.setOnLongClickListener(this);
-//        boutMinuteBreak.setOnClickListener(this);
-//        boutSubmit.setOnClickListener(this);
-//        // Countdown
-//        countdownText.setOnClickListener(this);
-//        countdownButton.setOnClickListener(this);
-//        countdownButton.setOnLongClickListener(this);
-//        // Score
-//        nameFOTL.setOnClickListener(this);
         nameFOTL.setText(FOTL);
         nameFOTR.setText(FOTR);
     }
@@ -281,6 +258,7 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
         scoreTextViewR.setText(String.format(Locale.US, "%d", bout.getMyScore()));
         return true;
     }
+
 
     // ACTION TIMER
 
@@ -465,17 +443,26 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     }
 
     public void submit() {
-        if (bout.getMyScore() != bout.getOpScore()) {
-            Intent resultSK = new Intent(this, ActivityPool.class);
+        if (!bout.getMyScore().equals(bout.getOpScore())) {
             bout.endBout();
-            System.out.println(bout);
-            resultSK.putExtra(INTENT_BOUT, bout);
-            resultSK.putExtra(INTENT_BOUT_INDEX, activeBout);
-            setResult(RESULT_OK, resultSK);
-            finish();
+            terminateActivity();
         } else {
-            makeToast("Cannot End on a Tie!");
+            openDialogVictor();
         }
+    }
+
+    public void terminateActivity() {
+        Intent resultSK = new Intent(this, ActivityPool.class);
+        System.out.println(bout);
+        resultSK.putExtra(INTENT_BOUT, bout);
+        resultSK.putExtra(INTENT_BOUT_INDEX, activeBout);
+        setResult(RESULT_OK, resultSK);
+        finish();
+    }
+
+    public void openDialogVictor() {
+        DialogSKVictor dialogVictor = new DialogSKVictor();
+        dialogVictor.show(getSupportFragmentManager(), DIALOG_VICTOR);
     }
 
     public void cardPopup(View v) {
@@ -572,12 +559,24 @@ public class ActivityScorekeeper extends AppCompatActivity implements View.OnCli
     }
 
     public void openTimeDialog() {
-        DialogEditTime dialogEditTime = new DialogEditTime();
+        DialogSKEditTime dialogSKEditTime = new DialogSKEditTime();
 
         Bundle args = new Bundle();
         args.putInt("bMinute", (int) timeLeftInMilliseconds / 60_000);
         args.putInt("bSecond", (int) timeLeftInMilliseconds / 1000);
 
-        dialogEditTime.show(getSupportFragmentManager(), DIALOG_EDIT_TIME);
+        dialogSKEditTime.show(getSupportFragmentManager(), DIALOG_EDIT_TIME);
+    }
+
+    @Override
+    public void onRightClicked() {
+        bout.endBout(true);
+        terminateActivity();
+    }
+
+    @Override
+    public void onLeftClicked() {
+        bout.endBout(false);
+        terminateActivity();
     }
 }

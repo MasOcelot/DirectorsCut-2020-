@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class ActivityPoolSetup extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, DialogFencer.DialogFencerListener {
+public class ActivityPoolSetup extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, DialogPSFencer.DialogFencerListener {
     private static final String INTENT_NUM_FENCERS = "number_fencers";
     private static final String INTENT_SCORE_LIMIT = "score_limit";
     private static final String INTENT_FENCER_LIST = "fencer_list";
@@ -198,8 +198,8 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     }
 
     public void openFencerDialog() {
-        DialogFencer dialogFencer = new DialogFencer();
-        dialogFencer.show(getSupportFragmentManager(), DIALOG_FENCER);
+        DialogPSFencer dialogPSFencer = new DialogPSFencer();
+        dialogPSFencer.show(getSupportFragmentManager(), DIALOG_FENCER);
     }
 
     private void setupButtons() {
