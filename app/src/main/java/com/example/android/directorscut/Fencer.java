@@ -133,6 +133,10 @@ public class Fencer implements Comparable<Fencer>, Parcelable {
         this.leftHanded = leftHanded;
     }
 
+    public void toggleLeftHanded() {
+        this.leftHanded = !leftHanded;
+    }
+
     public void setRating(FencerRating.Rating rating, int year) {
         this.rating = new FencerRating(rating, year);
     }

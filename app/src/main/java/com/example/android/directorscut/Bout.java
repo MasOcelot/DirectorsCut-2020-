@@ -12,6 +12,7 @@ public class Bout implements Parcelable {
     private Integer opScore;
     private boolean myVictory = false;
     private boolean complete;
+    private boolean mSwap;
 
     public Bout(int myNumber, int opNumber) {
         this.myNumber = myNumber;
@@ -38,6 +39,7 @@ public class Bout implements Parcelable {
         opScore = in.readInt();
         myVictory = in.readByte() != 0;
         complete = in.readByte() != 0;
+        mSwap = in.readByte() != 0;
     }
 
     public static final Creator<Bout> CREATOR = new Creator<Bout>() {
@@ -54,15 +56,32 @@ public class Bout implements Parcelable {
 
     @Override
     public String toString() {
-        return "Bout[("+myNumber+"-"+opNumber+") "+myScore+":"+opScore+"] MyVic: " + myVictory ;
+        return "Bout[("+myNumber+"-"+opNumber+") "+myScore+":"+opScore+
+                "] MyVic: " + myVictory + " Swap? " + mSwap;
     }
 
     public void addMyScore() {
         myScore++;
     }
 
+    public void addMyScore(boolean swap) {
+        if (swap) {
+            addOpScore();
+        } else {
+            addMyScore();
+        }
+    }
+
     public void addOpScore() {
         opScore++;
+    }
+
+    public void addOpScore(boolean swap) {
+        if (swap) {
+            addMyScore();
+        } else {
+            addOpScore();
+        }
     }
 
     public void subMyScore() {
@@ -182,5 +201,14 @@ public class Bout implements Parcelable {
         parcel.writeInt(opScore);
         parcel.writeByte((byte) (myVictory ? 1 : 0));
         parcel.writeByte((byte) (complete ? 1 : 0));
+        parcel.writeByte((byte) (mSwap ? 1 : 0));
+    }
+
+    public boolean isSwap() {
+        return mSwap;
+    }
+
+    public void setSwap(boolean flag) {
+        mSwap = flag;
     }
 }

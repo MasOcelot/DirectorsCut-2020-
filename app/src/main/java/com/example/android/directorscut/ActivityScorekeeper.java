@@ -39,8 +39,6 @@ public class ActivityScorekeeper extends AppCompatActivity
     // Score booleans
     private boolean scoreFOTR;
     private boolean scoreFOTL;
-    private int lastScore;
-
 
     private String cardName = "";
     private String cardSide = "";
@@ -60,6 +58,11 @@ public class ActivityScorekeeper extends AppCompatActivity
 
     private Button nameFOTL;
     private Button nameFOTR;
+
+    Button plusLeft;
+    Button plusRight;
+    Button minusLeft;
+    Button minusRight;
 
     private Button doubleTouch;
     private Button countdownButton;
@@ -89,6 +92,7 @@ public class ActivityScorekeeper extends AppCompatActivity
         Intent intent = getIntent();
         if (intent.hasExtra(INTENT_BOUT)) {
             bout = intent.getParcelableExtra(INTENT_BOUT);
+            System.out.println(bout);
             FOTR = bout.getMyName();
             FOTL = bout.getOpName();
         } else {
@@ -180,7 +184,7 @@ public class ActivityScorekeeper extends AppCompatActivity
                         scoreFOTL = true;
                         resetActTimer();
                     }
-                    bout.addOpScore();
+                    bout.addOpScore(bout.isSwap());
                     break;
                 case R.id.btn_name_FOTR:
                 case R.id.plus_FOTR:
@@ -188,12 +192,17 @@ public class ActivityScorekeeper extends AppCompatActivity
                         scoreFOTR = true;
                         resetActTimer();
                     }
-                    bout.addMyScore();
+                    bout.addMyScore(bout.isSwap());
                     break;
                 case R.id.minus_FOTL:
-                    if (bout.getOpScore() > 0) {
-                        bout.subOpScore();
-                        checkZeros = true;
+                    if (bout.isSwap()) {
+                        if (bout.getMyScore() > 0) {
+                            bout.subMyScore();
+                        }
+                    } else {
+                        if (bout.getOpScore() > 0) {
+                            bout.subOpScore();
+                        }
                     }
                     if (scoreFOTL && !scoreFOTR) {
                         prevActTimer();
@@ -201,28 +210,27 @@ public class ActivityScorekeeper extends AppCompatActivity
                     }
                     break;
                 case R.id.minus_FOTR:
-                    if (bout.getMyScore() > 0) {
-                        bout.subMyScore();
-                        checkZeros = true;
+                    if (bout.isSwap()) {
+                        if (bout.getOpScore() > 0) {
+                            bout.subOpScore();
+                        }
+                    } else {
+                        if (bout.getMyScore() > 0) {
+                            bout.subMyScore();
+                        }
                     }
+
                     if (!scoreFOTL && scoreFOTR) {
                         prevActTimer();
                         scoreFOTR = false;
                     }
                     break;
             }
-//            if (checkZeros) {
-//                if (bout.getMyScore()==0 && bout.getOpScore()==0) {
-//                    resetActTimer();
-//                }
-//            }
         }
         // send to TextView
         scoreTextViewL.setText(String.format(Locale.US, "%d", bout.getOpScore()));
         scoreTextViewR.setText(String.format(Locale.US, "%d", bout.getMyScore()));
         updateActTimerView();
-        scoreTextViewL.setText(bout.getOpScore().toString());
-        scoreTextViewR.setText(bout.getMyScore().toString());
     }
 
     @Override
@@ -421,6 +429,8 @@ public class ActivityScorekeeper extends AppCompatActivity
 
     public void resetBout() {
         countdownButton.setBackgroundColor(getResources().getColor(R.color.timeBtnInit));
+        scoreFOTR = false;
+        scoreFOTL = false;
         breakExit();
         resetTimer();
         resetActTimer();
@@ -512,8 +522,28 @@ public class ActivityScorekeeper extends AppCompatActivity
     }
 
     private void setupViews() {
-        scoreTextViewL = (TextView) findViewById(R.id.score_FOTL);
-        scoreTextViewR = (TextView) findViewById(R.id.score_FOTR);
+//        bout.setSwap(true);
+        if (bout.isSwap()) {
+            scoreTextViewR = (TextView) findViewById(R.id.score_FOTL);
+            plusRight = (Button) findViewById(R.id.plus_FOTL);
+            nameFOTR = (Button) findViewById(R.id.btn_name_FOTL);
+            minusRight = (Button) findViewById(R.id.minus_FOTL);
+
+            scoreTextViewL = (TextView) findViewById(R.id.score_FOTR);
+            plusLeft = (Button) findViewById(R.id.plus_FOTR);
+            nameFOTL = (Button) findViewById(R.id.btn_name_FOTR);
+            minusLeft = (Button) findViewById(R.id.minus_FOTR);
+        } else {
+            scoreTextViewL = (TextView) findViewById(R.id.score_FOTL);
+            plusLeft = (Button) findViewById(R.id.plus_FOTL);
+            nameFOTL = (Button) findViewById(R.id.btn_name_FOTL);
+            minusLeft = (Button) findViewById(R.id.minus_FOTL);
+
+            scoreTextViewR = (TextView) findViewById(R.id.score_FOTR);
+            plusRight = (Button) findViewById(R.id.plus_FOTR);
+            nameFOTR = (Button) findViewById(R.id.btn_name_FOTR);
+            minusRight = (Button) findViewById(R.id.minus_FOTR);
+        }
 
         boutReset = (Button) findViewById(R.id.bout_reset);
         boutMinuteBreak = (Button) findViewById(R.id.bout_minuteBreak);
@@ -527,8 +557,7 @@ public class ActivityScorekeeper extends AppCompatActivity
         actionIndL = (TextView) findViewById(R.id.tv_subtimer_left_ind);
         actionIndR = (TextView) findViewById(R.id.tv_subtimer_right_ind);
         doubleTouch = (Button) findViewById(R.id.double_touch);
-        nameFOTL = (Button) findViewById(R.id.btn_name_FOTL);
-        nameFOTR = (Button) findViewById(R.id.btn_name_FOTR);
+
 
         // BUTTONS
         // Bout Status
@@ -544,15 +573,12 @@ public class ActivityScorekeeper extends AppCompatActivity
         // Score
         nameFOTL.setOnClickListener(this);
         nameFOTR.setOnClickListener(this);
-        Button plusLeft = (Button) findViewById(R.id.plus_FOTL);
+
         plusLeft.setOnClickListener(this);
-        Button plusRight = (Button) findViewById(R.id.plus_FOTR);
         plusRight.setOnClickListener(this);
         doubleTouch.setOnClickListener(this);
         doubleTouch.setOnLongClickListener(this);
-        Button minusLeft = (Button) findViewById(R.id.minus_FOTL);
         minusLeft.setOnClickListener(this);
-        Button minusRight = (Button) findViewById(R.id.minus_FOTR);
         minusRight.setOnClickListener(this);
         scoreTextViewL.setText(bout.getOpScore().toString());
         scoreTextViewR.setText(bout.getMyScore().toString());

@@ -58,7 +58,7 @@
         android:layout_marginRight="12dp"
         android:layout_marginEnd="12dp"
         android:textSize="24sp"
-        android:textColor="@color/five01"
+        android:textColor="@color/grid_ignore"
         />
     <EditText
         android:id="@+id/et_df_club"
@@ -70,7 +70,7 @@
         android:layout_marginRight="12dp"
         android:layout_marginEnd="12dp"
         android:textSize="24sp"
-        android:textColor="@color/five01"
+        android:textColor="@color/grid_ignore"
         />
 
     <Spinner

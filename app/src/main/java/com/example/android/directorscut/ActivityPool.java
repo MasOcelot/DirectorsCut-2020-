@@ -454,13 +454,33 @@ public class ActivityPool extends AppCompatActivity implements View.OnClickListe
         }
     }
     public void sendToScorekeeper(int boutNumber) {
+        bouts.get(boutNumber).setSwap(leftHandedCheck(bouts.get(boutNumber)));
         Bout activeBout = bouts.get(boutNumber);
+        System.out.println(activeBout.isSwap());
         oldBout = activeBout;
+        System.out.println(activeBout);
         Intent intent = new Intent(ActivityPool.this, ActivityScorekeeper.class);
         intent.putExtra(INTENT_BOUT, activeBout);
         intent.putExtra(INTENT_BOUT_INDEX, boutNumber);
         startActivityForResult(intent, REQCODE_TO_SK);
     }
+
+    /**
+     * if Right (my) is left handed: swap, but only if left(op) is not also left handed
+     * @param bout
+     * @return
+     */
+    private boolean leftHandedCheck(Bout bout) {
+        if (fencers[bout.getMyNumber()].isLeftHanded()) {
+            if (!fencers[bout.getOpNumber()].isLeftHanded()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
     public void sendToScorekeeper() {
         sendToScorekeeper(activeBout);
     }

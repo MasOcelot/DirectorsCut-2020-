@@ -1,5 +1,6 @@
 package com.example.android.directorscut;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -17,6 +20,7 @@ public class AdapterFencerPoolSetup extends RecyclerView.Adapter<AdapterFencerPo
     public interface OnItemClickListener {
         void onItemClick(int position);
         void onRemoveClick(int position);
+        void onHandClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -28,6 +32,7 @@ public class AdapterFencerPoolSetup extends RecyclerView.Adapter<AdapterFencerPo
         public TextView tvRating;
         public TextView tvClub;
         public TextView tvIndex;
+        public TextView tvHand;
         public ImageView imRemove;
 
         public FencerPoolViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -36,6 +41,7 @@ public class AdapterFencerPoolSetup extends RecyclerView.Adapter<AdapterFencerPo
             tvName = itemView.findViewById(R.id.tv_c_fencer_name);
             tvRating = itemView.findViewById(R.id.tv_c_rating);
             tvClub = itemView.findViewById(R.id.tv_c_club);
+            tvHand = itemView.findViewById(R.id.tv_c_hand);
             imRemove = itemView.findViewById(R.id.im_c_remove);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +68,18 @@ public class AdapterFencerPoolSetup extends RecyclerView.Adapter<AdapterFencerPo
                 }
             });
 
+            tvHand.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener!= null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onHandClick(position);
+                        }
+                    }
+                }
+            });
+
         }
     }
 
@@ -71,6 +89,7 @@ public class AdapterFencerPoolSetup extends RecyclerView.Adapter<AdapterFencerPo
 
     @Override
     public void onBindViewHolder(@NonNull FencerPoolViewHolder fencerPoolViewHolder, int i) {
+        Resources res = fencerPoolViewHolder.itemView.getResources();
         Fencer exampleFencer = mFencerList.get(i);
 
         String pos = (i + 1) + ".";
@@ -78,9 +97,19 @@ public class AdapterFencerPoolSetup extends RecyclerView.Adapter<AdapterFencerPo
         fencerPoolViewHolder.tvName.setText(exampleFencer.getLastName());
         fencerPoolViewHolder.tvRating.setText(exampleFencer.getRatingAsString());
         fencerPoolViewHolder.tvClub.setText(exampleFencer.getClub());
-//        if (mFencerList.size() <= 2) {
-//            fencerPoolViewHolder.imRemove.setBackgroundColor();
-//        }
+        if (mFencerList.size() <= 2) {
+            fencerPoolViewHolder.imRemove.setVisibility(View.INVISIBLE);
+        } else {
+            fencerPoolViewHolder.imRemove.setVisibility(View.VISIBLE);
+        }
+
+        if (exampleFencer.isLeftHanded()) {
+            fencerPoolViewHolder.tvHand.setText("L");
+            fencerPoolViewHolder.tvHand.setBackgroundDrawable(res.getDrawable(R.drawable.background_border_square_213));
+        } else {
+            fencerPoolViewHolder.tvHand.setText("R");
+            fencerPoolViewHolder.tvHand.setBackgroundDrawable(res.getDrawable(R.drawable.background_border_square_212));
+        }
     }
 
     @NonNull

@@ -55,6 +55,8 @@
     <string name="ps_mid_insert">Insert</string>
     <string name="bout_ind">NUM</string>
     <string name="pl_name">NAME</string>
+    <string name="setup_scorelimit">5</string>
+    <string name="fencer_hand">H</string>
 
     <string-array name="rating_letters">
         <item>A</item>

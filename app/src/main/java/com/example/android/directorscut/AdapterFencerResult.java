@@ -40,7 +40,7 @@ public class AdapterFencerResult extends BaseAdapter {
 
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.linearlayout_results, null);
+            convertView = layoutInflater.inflate(R.layout.listview_fencer, null);
         }
         Resources reso = convertView.getResources();
 
