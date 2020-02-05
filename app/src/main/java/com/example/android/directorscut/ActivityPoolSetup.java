@@ -230,13 +230,6 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         for (int i = 0; i < INIT_POOL_SIZE; i++) {
             psFencers.add(new Fencer(getRandomName()));
         }
-        psFencers.get(1).setLastName("LeftyA");
-        psFencers.get(1).setLeftHanded(true);
-        psFencers.get(2).setLastName("LeftyB");
-        psFencers.get(2).setLeftHanded(true);
-        for (Fencer fencer : psFencers) {
-            System.out.println(fencer);
-        }
     }
 
    private void startActivityBoutOnly() {
