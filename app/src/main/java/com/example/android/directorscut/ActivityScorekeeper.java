@@ -2,7 +2,10 @@ package com.example.android.directorscut;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,6 +40,8 @@ public class ActivityScorekeeper extends AppCompatActivity
     }
 
     private BoutState mBoutState;
+
+    Vibrator vibrator;
 
     // CONSTANTS
     // Time
@@ -117,7 +122,7 @@ public class ActivityScorekeeper extends AppCompatActivity
         if(getSupportActionBar()!= null) getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scorekeeper);
-
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         mBoutState = BoutState.START;
         parseIntents();
         setupViews();
@@ -198,6 +203,7 @@ public class ActivityScorekeeper extends AppCompatActivity
                 case R.id.bout_minuteBreak:
                     if (!timerMinute) {
                         breakEnter();
+                        startTimer();
                     } else {
                         breakExit();
                     }
@@ -376,11 +382,20 @@ public class ActivityScorekeeper extends AppCompatActivity
 
             @Override
             public void onFinish() {
+                evokeVibration(200);
                 actionTimer.stateEnd();
                 stopTimer();
                 updateActTimerView();
             }
         }.start();
+    }
+
+    private void evokeVibration(int mills) {
+        if (Build.VERSION.SDK_INT >= 26) {
+                vibrator.vibrate(VibrationEffect.createOneShot(mills, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            vibrator.vibrate(mills);
+        }
     }
 
     private void resetActTimer() {
@@ -423,11 +438,9 @@ public class ActivityScorekeeper extends AppCompatActivity
 
             @Override
             public void onFinish() {
-                countdownText.setBackgroundColor(getResources().getColor(R.color.timeFinal));
-                countdownButton.setText(R.string.timeBtnFinal);
-                countdownButton.setTextSize(30);
-                countdownButton.setTextColor(getResources().getColor(R.color.timeTextFin));
-                countdownButton.setBackgroundColor(getResources().getColor(R.color.timeBtnFinal));
+                evokeVibration(800);
+                stopActTimer();
+
                 timerRunning = false;
                 timerDone = true;
                 if (!timerMinute) {
@@ -437,21 +450,34 @@ public class ActivityScorekeeper extends AppCompatActivity
                     timeLeftInMilliseconds = TIME_DURATION;
                     breakExit();
                 }
-                if (mBoutState == BoutState.FIRST) mBoutState = BoutState.HALF;
-                if (mBoutState == BoutState.SECOND) mBoutState = BoutState.END;
+                if (mBoutState == BoutState.FIRST) {
+                    breakEnter();
+                }
+                if (mBoutState == BoutState.SECOND) {
+                    mBoutState = BoutState.END;
+                    countdownText.setBackgroundColor(getResources().getColor(R.color.timeFinal));
+                    countdownButton.setText(R.string.timeBtnFinal);
+                    countdownButton.setTextSize(30);
+                    countdownButton.setTextColor(getResources().getColor(R.color.timeTextFin));
+                    countdownButton.setBackgroundColor(getResources().getColor(R.color.timeBtnFinal));
+                }
                 updateTimerView();
+                updateStatusBar();
             }
         }.start();
         countdownButton.setText(R.string.timeBtnStop);
         countdownButton.setTextColor(getResources().getColor(R.color.timeTextRes));
+        int cdbColor;
+        int cdtColor;
         if (timerMinute){
-            countdownButton.setBackgroundColor(getResources().getColor(R.color.timeBtnResBreak));
-            countdownText.setBackgroundColor(getResources().getColor(R.color.timeBtnResBreak));
+            cdbColor = getResources().getColor(R.color.timeBtnResBreak);
+            cdtColor = getResources().getColor(R.color.timeBtnResBreak);
         } else {
-            countdownButton.setBackgroundColor(getResources().getColor(R.color.timeBtnResumed));
-            countdownText.setBackgroundColor(getResources().getColor(R.color.timeResumed));
+            cdbColor = getResources().getColor(R.color.timeBtnResumed);
+            cdtColor = getResources().getColor(R.color.timeResumed);
         }
-
+        countdownButton.setBackgroundColor(cdbColor);
+        countdownText.setBackgroundColor(cdtColor);
         countdownButton.setTextSize(36);
         timerRunning = true;
     }
@@ -543,7 +569,6 @@ public class ActivityScorekeeper extends AppCompatActivity
         timerMinute = true;
         timeLeftInMilliseconds = TIME_MIN_ONE;
         boutMinuteBreak.setText(R.string.btnMinuteActive);
-        startTimer();
         makeToast("One Minute Break");
     }
 
@@ -552,7 +577,6 @@ public class ActivityScorekeeper extends AppCompatActivity
         boutMinuteBreak.setText(R.string.btnMinuteInactive);
         countdownButton.setBackgroundColor(getResources().getColor(R.color.timeBtnInit));
         resetTimer();
-        makeToast("Break is over!");
     }
 
     public void submit() {
