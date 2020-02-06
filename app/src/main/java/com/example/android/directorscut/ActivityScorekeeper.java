@@ -141,6 +141,18 @@ public class ActivityScorekeeper extends AppCompatActivity
     }
 
     @Override
+    public void applyActEditTime(String minute, String second) {
+        int min = Integer.valueOf(minute);
+        int sec = Integer.valueOf(second);
+
+        long minMills = min * 60_000;
+        long secMills = sec * 1000;
+
+        actionTimer.setTimeLeft(minMills + secMills);
+        updateActTimerView();
+    }
+
+    @Override
     public void onClick(View view) {
         // Get score from TextView
         switch(view.getId()) {
@@ -287,8 +299,7 @@ public class ActivityScorekeeper extends AppCompatActivity
                 break;
         }
         // send to TextView
-        scoreTextViewL.setText(String.format(Locale.US, "%d", bout.getOpScore()));
-        scoreTextViewR.setText(String.format(Locale.US, "%d", bout.getMyScore()));
+        updateScores();
         return true;
     }
 
@@ -510,16 +521,21 @@ public class ActivityScorekeeper extends AppCompatActivity
         scoreFOTR = false;
         scoreFOTL = false;
         mBoutState = BoutState.START;
+        clearCards();
+        updateCardInds();
+        breakExit();
+        resetTimer();
+        resetActTimer();
+        updateStatusBar();
+    }
+
+    private void clearCards() {
         myYellow = 0;
         opYellow = 0;
         myRed = 0;
         opRed = 0;
         myBlack = 0;
         opBlack = 0;
-        breakExit();
-        resetTimer();
-        resetActTimer();
-        updateStatusBar();
     }
 
     public void breakEnter() {
@@ -598,15 +614,12 @@ public class ActivityScorekeeper extends AppCompatActivity
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.item_card_yellow:
-                createCard(0);
                 addCard(0, cardSide);
                 return true;
             case R.id.item_card_red:
-                createCard(1);
                 addCard(1, cardSide);
                 return true;
             case R.id.item_card_black:
-                createCard(2);
                 addCard(2, cardSide);
                 return true;
         }
@@ -619,12 +632,24 @@ public class ActivityScorekeeper extends AppCompatActivity
                 switch (color) {
                     case 0:
                         opYellow++;
+                        if (opYellow%2 == 0) {
+                            opRed++;
+                            bout.addMyScore();
+                            createCard(1);
+                        } else {
+                            createCard(0);
+                        }
                         break;
                     case 1:
                         opRed++;
+                        bout.addMyScore();
+                        createCard(1);
                         break;
                     case 2:
                         opBlack++;
+                        createCard(2);
+                        bout.endBout(true);
+                        terminateActivity();
                         break;
                 }
                 break;
@@ -632,22 +657,34 @@ public class ActivityScorekeeper extends AppCompatActivity
                 switch (color) {
                     case 0:
                         myYellow++;
+                        if (myYellow%2 == 0) {
+                            myRed++;
+                            bout.addOpScore();
+                            createCard(1);
+                        } else {
+                            createCard(0);
+                        }
                         break;
                     case 1:
                         myRed++;
+                        bout.addOpScore();
+                        createCard(1);
                         break;
                     case 2:
                         myBlack++;
+                        createCard(2);
+                        bout.endBout(false);
+                        terminateActivity();
                         break;
                 }
                 break;
         }
+        updateScores();
         updateCardInds();
     }
 
 
     private void setupViews() {
-//        bout.setSwap(true);
         if (bout.isSwap()) {
             scoreTextViewR = (TextView) findViewById(R.id.score_FOTL);
             plusRight = (Button) findViewById(R.id.plus_FOTL);
@@ -767,5 +804,10 @@ public class ActivityScorekeeper extends AppCompatActivity
         cardCountMY.setText(String.valueOf(myYellow));
         cardCountOR.setText(String.valueOf(opRed));
         cardCountOY.setText(String.valueOf(opYellow));
+    }
+
+    private void updateScores() {
+        scoreTextViewL.setText(String.format(Locale.US, "%d", bout.getOpScore()));
+        scoreTextViewR.setText(String.format(Locale.US, "%d", bout.getMyScore()));
     }
 }

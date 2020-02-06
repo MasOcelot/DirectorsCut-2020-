@@ -25,13 +25,33 @@ public class DialogSKEditTime extends AppCompatDialogFragment {
 
         builderTimer.setView(view)
                 .setTitle("Set Time")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(DialogInterface dialog, int which) {
 
                     }
                 })
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Action", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String minute = editTextMinutes.getText().toString();
+                        String second = editTextSeconds.getText().toString();
+
+                        if (minute.length() <= 0 && second.length() <= 0) {
+                            return;
+                        }
+
+                        if (second.length() <= 0) {
+                            second = "00";
+                        }
+                        if (minute.length() <= 0) {
+                            minute = "00";
+                        }
+
+                        editTimeListener.applyActEditTime(minute, second);
+                    }
+                })
+                .setPositiveButton("Main", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String minute = editTextMinutes.getText().toString();
@@ -73,5 +93,6 @@ public class DialogSKEditTime extends AppCompatDialogFragment {
     // Interface
     public interface DialogEditTimeListener {
         void applyEditTime(String minute, String second);
+        void applyActEditTime(String minute, String second);
     }
 }

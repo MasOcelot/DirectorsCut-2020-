@@ -23,6 +23,7 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
     private static final int MAX_GENERATOR_ROLLS = 14;
     private static final int MAX_POOL_SIZE = 8;
     private static final int INIT_POOL_SIZE = 5;
+    private boolean showFencerDialog = true;
     private int mFencerModifyIndex = 0;
 
     private String[] randNames;
@@ -114,6 +115,10 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         if (psFencers.size() < MAX_POOL_SIZE) {
             String name = getRandomName();
             psFencers.add(position, new Fencer(name));
+            if (showFencerDialog) {
+                mFencerModifyIndex = position;
+                openFencerDialog();
+            }
             mFRVAdapter.notifyItemInserted(position);
         } else {
             Toast.makeText(ActivityPoolSetup.this,
@@ -152,9 +157,11 @@ public class ActivityPoolSetup extends AppCompatActivity implements View.OnClick
         int size = psFencers.size();
         int diff = size - newCount;
         if (diff < 0) {
+            showFencerDialog = false;
             for (int i = 0; i < Math.abs(diff); i++) {
                 insertFencer();
             }
+            showFencerDialog = true;
         } else if (diff > 0) {
             for (int i = 0; i < diff; i++) {
                 removeFencer(psFencers.size() - 1);
