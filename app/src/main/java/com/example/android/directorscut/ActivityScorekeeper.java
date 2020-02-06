@@ -1,7 +1,9 @@
 package com.example.android.directorscut;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -30,6 +32,12 @@ public class ActivityScorekeeper extends AppCompatActivity
     private static final String DIALOG_EDIT_TIME = "edit_time";
     private static final String DIALOG_VICTOR = "set_victor";
 
+    enum BoutState {
+        START, FIRST, HALF, SECOND, END
+    }
+
+    private BoutState mBoutState;
+
     // CONSTANTS
     // Time
     private final int TIME_INTERVAL_MIL = 1;
@@ -41,10 +49,26 @@ public class ActivityScorekeeper extends AppCompatActivity
     private boolean scoreFOTL;
 
     private String cardName = "";
-    private String cardSide = "";
+    private String cardSideText = "";
+    private int cardSide = -1;
+    private String FOTR = "RIGHT";
+    private String FOTL = "LEFT";
 
     private Bout bout;
     private int activeBout;
+
+    private int myYellow = 0;
+    private int myRed = 0;
+    private int myBlack = 0;
+
+    private int opYellow = 0;
+    private int opRed = 0;
+    private int opBlack = 0;
+
+    private ConstraintLayout statusMain;
+    private TextView statusFirst;
+    private TextView statusHalf;
+    private TextView statusSecond;
 
     private TextView countdownText;
     private TextView actionTimerText;
@@ -59,16 +83,24 @@ public class ActivityScorekeeper extends AppCompatActivity
     private Button nameFOTL;
     private Button nameFOTR;
 
-    Button plusLeft;
-    Button plusRight;
-    Button minusLeft;
-    Button minusRight;
+    private Button plusLeft;
+    private Button plusRight;
+    private Button minusLeft;
+    private Button minusRight;
 
     private Button doubleTouch;
     private Button countdownButton;
 
     private TextView scoreTextViewL;
     private TextView scoreTextViewR;
+
+    private TextView cardCountMY;
+    private TextView cardCountMR;
+    private TextView cardCountMB;
+
+    private TextView cardCountOY;
+    private TextView cardCountOR;
+    private TextView cardCountOB;
 
     private CountDownTimer mainCDT;
     private int timeUpdateInterval = TIME_INTERVAL_MIL;
@@ -85,23 +117,13 @@ public class ActivityScorekeeper extends AppCompatActivity
         if(getSupportActionBar()!= null) getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scorekeeper);
-        String FOTR = "RIGHT";
-        String FOTL = "LEFT";
+
+        mBoutState = BoutState.START;
+        parseIntents();
+        setupViews();
+        updateStatusBar();
         scoreFOTL = false;
         scoreFOTR = false;
-        Intent intent = getIntent();
-        if (intent.hasExtra(INTENT_BOUT)) {
-            bout = intent.getParcelableExtra(INTENT_BOUT);
-            System.out.println(bout);
-            FOTR = bout.getMyName();
-            FOTL = bout.getOpName();
-        } else {
-            bout = new Bout(0, 0);
-        }
-        if (intent.hasExtra(INTENT_BOUT_INDEX)) {
-            activeBout = intent.getIntExtra(INTENT_BOUT_INDEX, 0);
-        }
-        setupViews();
         nameFOTL.setText(FOTL);
         nameFOTR.setText(FOTR);
     }
@@ -129,6 +151,8 @@ public class ActivityScorekeeper extends AppCompatActivity
                     if (timerRunning) {
                         stopTimer();
                     } else {
+                        if (mBoutState == BoutState.START) mBoutState = BoutState.FIRST;
+                        if (mBoutState == BoutState.HALF && !timerMinute) mBoutState = BoutState.SECOND;
                         startTimer();
                     }
                 }
@@ -230,6 +254,7 @@ public class ActivityScorekeeper extends AppCompatActivity
         // send to TextView
         scoreTextViewL.setText(String.format(Locale.US, "%d", bout.getOpScore()));
         scoreTextViewR.setText(String.format(Locale.US, "%d", bout.getMyScore()));
+        updateStatusBar();
         updateActTimerView();
     }
 
@@ -267,6 +292,65 @@ public class ActivityScorekeeper extends AppCompatActivity
         return true;
     }
 
+    private void parseIntents() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(INTENT_BOUT)) {
+            bout = intent.getParcelableExtra(INTENT_BOUT);
+            System.out.println(bout);
+            FOTR = bout.getMyName();
+            FOTL = bout.getOpName();
+        } else {
+            bout = new Bout(0, 0);
+        }
+        if (intent.hasExtra(INTENT_BOUT_INDEX)) {
+            activeBout = intent.getIntExtra(INTENT_BOUT_INDEX, 0);
+        }
+    }
+
+    private void updateStatusBar() {
+        int main;
+        Drawable first;
+        Drawable half;
+        Drawable second;
+        switch (mBoutState) {
+            case FIRST:
+                main = getResources().getColor(R.color.grid_ignore);
+                first = getResources().getDrawable(R.drawable.bg_status_active);
+                half = getResources().getDrawable(R.drawable.bg_status_innate);
+                second = getResources().getDrawable(R.drawable.bg_status_innate);
+                break;
+            case HALF:
+                main = getResources().getColor(R.color.grid_ignore);
+                first = getResources().getDrawable(R.drawable.bg_status_passed);
+                half = getResources().getDrawable(R.drawable.bg_status_active);
+                second = getResources().getDrawable(R.drawable.bg_status_innate);
+                break;
+            case SECOND:
+                main = getResources().getColor(R.color.grid_ignore);
+                first = getResources().getDrawable(R.drawable.bg_status_passed);
+                half = getResources().getDrawable(R.drawable.bg_status_passed);
+                second = getResources().getDrawable(R.drawable.bg_status_active);
+                break;
+            case END:
+                main = getResources().getColor(R.color.card_red);
+                first = getResources().getDrawable(R.drawable.bg_status_passed);
+                half = getResources().getDrawable(R.drawable.bg_status_passed);
+                second = getResources().getDrawable(R.drawable.bg_status_passed);
+                break;
+            case START:
+            default:
+                main = getResources().getColor(R.color.grid_ignore);
+                first = getResources().getDrawable(R.drawable.bg_status_innate);
+                half = getResources().getDrawable(R.drawable.bg_status_innate);
+                second = getResources().getDrawable(R.drawable.bg_status_innate);
+                break;
+        }
+        statusMain.setBackgroundColor(main);
+        statusFirst.setBackgroundDrawable(first);
+        statusHalf.setBackgroundDrawable(half);
+        statusSecond.setBackgroundDrawable(second);
+    }
+
 
     // ACTION TIMER
 
@@ -302,16 +386,6 @@ public class ActivityScorekeeper extends AppCompatActivity
         actionTimer.statePaused();
         actionCDT.cancel();
         updateActTimerView();
-    }
-
-    private void checkActState(){
-        switch (actionTimer.getState()){
-            case END:
-                // flag and reset
-                break;
-            case PAUSED:
-                break;
-        }
     }
 
     private void updateActTimerView() {
@@ -352,6 +426,8 @@ public class ActivityScorekeeper extends AppCompatActivity
                     timeLeftInMilliseconds = TIME_DURATION;
                     breakExit();
                 }
+                if (mBoutState == BoutState.FIRST) mBoutState = BoutState.HALF;
+                if (mBoutState == BoutState.SECOND) mBoutState = BoutState.END;
                 updateTimerView();
             }
         }.start();
@@ -385,6 +461,8 @@ public class ActivityScorekeeper extends AppCompatActivity
 
     public void resetTimer() {
         if (!timerRunning) {
+            if(mBoutState == BoutState.END) mBoutState = BoutState.START;
+            if(mBoutState == BoutState.HALF) mBoutState = BoutState.SECOND;
             timeLeftInMilliseconds = TIME_DURATION;
             countdownButton.setText(R.string.timerBtnInit);
             countdownButton.setTextColor(getResources().getColor(R.color.timeTextInit));
@@ -431,12 +509,21 @@ public class ActivityScorekeeper extends AppCompatActivity
         countdownButton.setBackgroundColor(getResources().getColor(R.color.timeBtnInit));
         scoreFOTR = false;
         scoreFOTL = false;
+        mBoutState = BoutState.START;
+        myYellow = 0;
+        opYellow = 0;
+        myRed = 0;
+        opRed = 0;
+        myBlack = 0;
+        opBlack = 0;
         breakExit();
         resetTimer();
         resetActTimer();
+        updateStatusBar();
     }
 
     public void breakEnter() {
+        mBoutState = BoutState.HALF;
         timerMinute = true;
         timeLeftInMilliseconds = TIME_MIN_ONE;
         boutMinuteBreak.setText(R.string.btnMinuteActive);
@@ -480,11 +567,13 @@ public class ActivityScorekeeper extends AppCompatActivity
         switch (v.getId()) {
             case R.id.radial_card_left:
                 cardName = bout.getOpName();
-                cardSide = "Left";
+                cardSideText = "Left";
+                cardSide = 0;
                 break;
             case R.id.radial_card_right:
                 cardName = bout.getMyName();
-                cardSide = "Right";
+                cardSideText = "Right";
+                cardSide = 1;
                 break;
         }
         cardMenu.setOnMenuItemClickListener(this);
@@ -496,7 +585,7 @@ public class ActivityScorekeeper extends AppCompatActivity
         Intent cardIntent = new Intent(ActivityScorekeeper.this, ActivityCard.class);
         cardIntent.putExtra(INTENT_CARD_TYPE, color);
         cardIntent.putExtra(INTENT_CARD_NAME, cardName);
-        cardIntent.putExtra(INTENT_CARD_SIDE, cardSide);
+        cardIntent.putExtra(INTENT_CARD_SIDE, cardSideText);
         startActivityForResult(cardIntent, REQCODE_CARD);
     }
 
@@ -510,16 +599,52 @@ public class ActivityScorekeeper extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.item_card_yellow:
                 createCard(0);
+                addCard(0, cardSide);
                 return true;
             case R.id.item_card_red:
                 createCard(1);
+                addCard(1, cardSide);
                 return true;
             case R.id.item_card_black:
                 createCard(2);
+                addCard(2, cardSide);
                 return true;
         }
         return false;
     }
+
+    private void addCard(int color, int side) {
+        switch (side) {
+            case 0:
+                switch (color) {
+                    case 0:
+                        opYellow++;
+                        break;
+                    case 1:
+                        opRed++;
+                        break;
+                    case 2:
+                        opBlack++;
+                        break;
+                }
+                break;
+            case 1:
+                switch (color) {
+                    case 0:
+                        myYellow++;
+                        break;
+                    case 1:
+                        myRed++;
+                        break;
+                    case 2:
+                        myBlack++;
+                        break;
+                }
+                break;
+        }
+        updateCardInds();
+    }
+
 
     private void setupViews() {
 //        bout.setSwap(true);
@@ -550,6 +675,11 @@ public class ActivityScorekeeper extends AppCompatActivity
         boutSubmit = (Button) findViewById(R.id.bout_submit);
         editTimer = (Button) findViewById(R.id.bt_edit_time);
 
+        statusMain = findViewById(R.id.LL_bout_status);
+        statusFirst = findViewById(R.id.tv_mid_first);
+        statusHalf = findViewById(R.id.tv_mid_break);
+        statusSecond = findViewById(R.id.tv_mid_second);
+
         countdownText = (TextView) findViewById(R.id.clock_timer);
         actionTimerText = (TextView) findViewById(R.id.tv_subtimer);
 
@@ -558,9 +688,16 @@ public class ActivityScorekeeper extends AppCompatActivity
         actionIndR = (TextView) findViewById(R.id.tv_subtimer_right_ind);
         doubleTouch = (Button) findViewById(R.id.double_touch);
 
+        cardCountMY = findViewById(R.id.tv_my_yellow);
+        cardCountMR = findViewById(R.id.tv_my_red);
+        cardCountMB = findViewById(R.id.tv_my_black);
+        cardCountOY = findViewById(R.id.tv_op_yellow);
+        cardCountOR = findViewById(R.id.tv_op_red);
+        cardCountOB = findViewById(R.id.tv_op_black);
+
 
         // BUTTONS
-        // Bout Status
+        // Bout Control
         boutReset.setOnClickListener(this);
         boutReset.setOnLongClickListener(this);
         boutMinuteBreak.setOnClickListener(this);
@@ -573,7 +710,6 @@ public class ActivityScorekeeper extends AppCompatActivity
         // Score
         nameFOTL.setOnClickListener(this);
         nameFOTR.setOnClickListener(this);
-
         plusLeft.setOnClickListener(this);
         plusRight.setOnClickListener(this);
         doubleTouch.setOnClickListener(this);
@@ -604,5 +740,32 @@ public class ActivityScorekeeper extends AppCompatActivity
     public void onLeftClicked() {
         bout.endBout(false);
         terminateActivity();
+    }
+
+    private void updateCardInds() {
+        if (myRed > 0) {
+            cardCountMR.setBackgroundColor(getResources().getColor(R.color.card_red));
+        } else {
+            cardCountMR.setBackgroundColor(getResources().getColor(R.color.grid_ignore));
+        }
+        if (myYellow > 0) {
+            cardCountMY.setBackgroundColor(getResources().getColor(R.color.card_yellow));
+        } else {
+            cardCountMY.setBackgroundColor(getResources().getColor(R.color.grid_ignore));
+        }
+        if (opRed > 0) {
+            cardCountOR.setBackgroundColor(getResources().getColor(R.color.card_red));
+        } else {
+            cardCountOR.setBackgroundColor(getResources().getColor(R.color.grid_ignore));
+        }
+        if (opYellow > 0) {
+            cardCountOY.setBackgroundColor(getResources().getColor(R.color.card_yellow));
+        } else {
+            cardCountOY.setBackgroundColor(getResources().getColor(R.color.grid_ignore));
+        }
+        cardCountMR.setText(String.valueOf(myRed));
+        cardCountMY.setText(String.valueOf(myYellow));
+        cardCountOR.setText(String.valueOf(opRed));
+        cardCountOY.setText(String.valueOf(opYellow));
     }
 }

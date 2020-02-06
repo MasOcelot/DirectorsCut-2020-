@@ -26,7 +26,9 @@
     <color name="teaSecondary">#F1E0D4</color>
     <color name="teaSecondaryDark">#F8C890</color>
 
-
+    <color name="statusInnate">#505050</color>
+    <color name="statusActive">#03A9F4</color>
+    <color name="statusPassed">#FFFFFF</color>
 
     <color name="grid_ignore">#000000</color>
     <color name="frame_dark">#405818</color>
