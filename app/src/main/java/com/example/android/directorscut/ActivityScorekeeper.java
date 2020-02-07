@@ -655,12 +655,12 @@ public class ActivityScorekeeper extends AppCompatActivity
             case 0:
                 switch (color) {
                     case 0:
-                        opYellow++;
-                        if (opYellow%2 == 0) {
+                        if (opYellow>0) {
                             opRed++;
                             bout.addMyScore();
                             createCard(1);
                         } else {
+                            opYellow++;
                             createCard(0);
                         }
                         break;
@@ -680,12 +680,12 @@ public class ActivityScorekeeper extends AppCompatActivity
             case 1:
                 switch (color) {
                     case 0:
-                        myYellow++;
-                        if (myYellow%2 == 0) {
+                        if (myYellow>0) {
                             myRed++;
                             bout.addOpScore();
                             createCard(1);
                         } else {
+                            myYellow++;
                             createCard(0);
                         }
                         break;
