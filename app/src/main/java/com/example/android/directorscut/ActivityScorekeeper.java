@@ -454,7 +454,7 @@ public class ActivityScorekeeper extends AppCompatActivity
                     breakEnter();
                 }
                 if (mBoutState == BoutState.SECOND) {
-                    mBoutState = BoutState.END;
+//                    mBoutState = BoutState.END;
                     countdownText.setBackgroundColor(getResources().getColor(R.color.timeFinal));
                     countdownButton.setText(R.string.timeBtnFinal);
                     countdownButton.setTextSize(30);
