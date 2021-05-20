@@ -16,7 +16,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jetbrains.annotations.Nullable;
+
+import android.support.annotation.Nullable;
 
 import java.util.Locale;
 
